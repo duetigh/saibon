@@ -8,10 +8,16 @@
 		"Saibon contributors"
 	],
 	"contact": {
-		"sources": "https://github.com/saibon-mod/saibon"
+		"sources": "https://github.com/JamesWLyon/saibon"
 	},
 	"license": "MIT",
 	"environment": "client",
+	"mixins": [
+		{
+			"config": "saibon.client.mixins.json",
+			"environment": "client"
+		}
+	],
 	"entrypoints": {
 		"main": [
 			{

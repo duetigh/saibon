@@ -15,6 +15,45 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.2.0 - 2026-07-15
+
+### Added
+- Inventory search overlay: a small "Search" tab docked below your inventory,
+  storage, Auction House, and Bazaar screens on Hypixel — double-click to
+  expand into a query box that live-highlights matching item slots (green
+  outline) and dims non-matches as you type.
+- Search query syntax: bare substring terms, `field:value` filters
+  (`enchant`/`ench`, `rarity`, `reforge`, `type`, `stars`/`star`, `name`),
+  boolean `&` (implicit between adjacent terms), `|`, `!`, parentheses, and
+  quoted `"multi word"` values; invalid input gracefully falls back to a
+  plain substring search.
+- New "Search & Highlight" settings section (toggle overlay on/off, pick
+  match-highlight and non-match-dim colors).
+- Self-update system: on game start (if auto-check is enabled), Saibon
+  fetches the latest release's version manifest from GitHub and, if a newer
+  version is found, posts a one-time chat message with clickable "View
+  Changelog" and "Update Now" links (silenced per-version once
+  dismissed/updated).
+- "View Changelog" opens an in-game changelog screen showing the release
+  notes; "Update Now" downloads the release jar, verifies its SHA-256, and
+  stages it — a detached helper process swaps it into place after Minecraft
+  fully closes, so nothing installs without the user clicking Update.
+- New "Updates" settings section (toggle auto-check for updates).
+- Generic settings-widget framework backing both new sections: toggle,
+  dropdown, slider, text field, keybind capture, and a color-picker swatch
+  that opens a dedicated RGBA slider + hex-field popup screen.
+- The mod settings menu now renders registered settings sections per
+  category instead of a placeholder, and its search box filters both
+  sidebar categories and individual setting labels.
+- Release workflow now also builds and publishes a `version.json` manifest
+  (version, min game version, download URL, SHA-256, changelog) alongside
+  the jar, consumed by the new self-update system.
+
+### Changed
+- Config schema bumped to v2, adding nested `update` and `search`
+  sub-configs (old config files load fine via per-field defaults, no
+  migration needed); removed the placeholder `exampleValue` field.
+
 ## v0.1.2 - 2026-07-14
 
 ### Fixed

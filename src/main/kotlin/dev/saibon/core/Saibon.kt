@@ -19,9 +19,8 @@ object Saibon : ModInitializer {
         config.load()
 
         logger.info(
-            "Saibon core initialized (config schema v{}, example value = \"{}\")",
-            config.data.schemaVersion,
-            config.data.exampleValue
+            "Saibon core initialized (config schema v{})",
+            config.data.schemaVersion
         )
     }
 }

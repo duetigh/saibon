@@ -46,8 +46,25 @@ jobs:
             exit 1
           fi
 
+      - name: Build version manifest
+        run: |
+          version="${GITHUB_REF_NAME#v}"
+          jar="${{ steps.jar.outputs.path }}"
+          jarname=$(basename "$jar")
+          sha=$(sha256sum "$jar" | cut -d' ' -f1)
+          min_version=$(grep -oP '"minecraft":\s*">=\K[0-9.]+' src/main/resources/fabric.mod.json)
+          jq -n --arg v "$version" --arg min "$min_version" \
+            --arg url "https://github.com/${{ github.repository }}/releases/download/${GITHUB_REF_NAME}/$jarname" \
+            --arg sha "$sha" \
+            --arg changelogUrl "https://github.com/${{ github.repository }}/releases/tag/${GITHUB_REF_NAME}" \
+            --rawfile changelog release-notes.md \
+            '{latestVersion:$v,minGameVersion:$min,downloadUrl:$url,sha256:$sha,changelogUrl:$changelogUrl,changelog:$changelog}' \
+            > version.json
+
       - name: Create release
         uses: softprops/action-gh-release@v2
         with:
-          files: ${{ steps.jar.outputs.path }}
+          files: |
+            ${{ steps.jar.outputs.path }}
+            version.json
           body_path: release-notes.md
