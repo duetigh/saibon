@@ -9,6 +9,7 @@ import dev.saibon.ui.widget.TextFieldWidget
 import dev.saibon.ui.widget.ToggleWidget
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.components.AbstractWidget
+import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 
@@ -63,6 +64,12 @@ class SettingsSectionBuilder(private val category: SaibonCategory, private val t
     fun colorPicker(label: String, initial: Int, onChange: (Int) -> Unit) {
         entries += SettingEntry(label) { screen, x, y, w, h ->
             ColorPickerWidget(x, y, w, h, Component.literal(label), initial, screen, onChange)
+        }
+    }
+
+    fun button(label: String, onClick: () -> Unit) {
+        entries += SettingEntry(label) { _, x, y, w, h ->
+            Button.builder(Component.literal(label)) { onClick() }.bounds(x, y, w, h).build()
         }
     }
 

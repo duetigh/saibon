@@ -2,6 +2,8 @@ package dev.saibon.client
 
 import dev.saibon.core.Saibon
 import dev.saibon.core.command.CommandRegistry
+import dev.saibon.data.DataRepository
+import dev.saibon.data.DataSettings
 import dev.saibon.search.SearchSettings
 import dev.saibon.ui.overlay.InventorySearchOverlay
 import dev.saibon.ui.screen.ChangelogScreen
@@ -34,6 +36,8 @@ object SaibonClient : ClientModInitializer {
         UpdateSettings.register()
         InventorySearchOverlay.init()
         SearchSettings.register()
+        DataRepository.init()
+        DataSettings.register()
 
         Saibon.logger.info("Saibon client initialized")
     }

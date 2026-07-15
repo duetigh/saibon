@@ -15,6 +15,27 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.3.0 - 2026-07-15
+
+### Added
+- Data repository (`DataRepository`, PLAN.md `saibon-data`, Stage 4): fetches
+  a versioned JSON manifest (`data/index.json`) from the Saibon GitHub repo
+  and downloads/caches per-dataset files (currently `items`, `recipes`),
+  verifying each against its manifest sha256 before applying it. Cached data
+  loads from disk on startup and refreshes on a timer, decoupled from the
+  jar-update cycle so game data can update without a mod restart.
+- New "Data Repository" settings section: toggle auto-refresh, pick the
+  refresh interval, and a "Refresh data now" button to force an immediate
+  fetch.
+- Generic settings-widget framework gained a `button()` entry type, backing
+  the new "Refresh data now" control.
+
+### Changed
+- Inventory search overlay's collapsed tab now expands into the query box on
+  a single click instead of requiring a double-click.
+- Config schema bumped to v3, adding a nested `dataRepo` sub-config (old
+  config files load fine via per-field defaults, no migration needed).
+
 ## v0.2.1 - 2026-07-15
 
 ### Added

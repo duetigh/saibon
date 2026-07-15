@@ -9,19 +9,17 @@ import net.minecraft.client.input.MouseButtonEvent
 import net.minecraft.network.chat.Component
 
 /**
- * Small collapsed tab docked under a Skyblock inventory screen; double-click
- * reveals the full search [net.minecraft.client.gui.components.EditBox]
- * ([InventorySearchOverlay] swaps this widget out for one). Double-click
- * detection reuses the `doubled` flag the vanilla widget click pipeline
- * already computes, rather than hand-rolled timing.
+ * Small collapsed tab docked under a Skyblock inventory screen; a single
+ * click reveals the full search [net.minecraft.client.gui.components.EditBox]
+ * ([InventorySearchOverlay] swaps this widget out for one).
  */
 class SearchToggleWidget(
     x: Int, y: Int, width: Int, height: Int,
     private val onExpand: () -> Unit
-) : AbstractWidget(x, y, width, height, Component.literal("🔍 Search (double-click)")) {
+) : AbstractWidget(x, y, width, height, Component.literal("🔍 Search (click to filter)")) {
 
     override fun onClick(event: MouseButtonEvent, doubled: Boolean) {
-        if (doubled) onExpand()
+        onExpand()
     }
 
     override fun extractWidgetRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {

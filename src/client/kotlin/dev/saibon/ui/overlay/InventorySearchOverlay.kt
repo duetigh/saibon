@@ -20,7 +20,7 @@ import java.util.IdentityHashMap
  * NEU-style search/highlight overlay: a collapsed tab docked under any
  * Skyblock inventory (own inventory, storage, Auction House, Bazaar — all
  * are ordinary [AbstractContainerScreen]s server-side, so no per-screen-type
- * special-casing is needed) that expands into a query box on double-click.
+ * special-casing is needed) that expands into a query box on a single click.
  * A non-blank query highlights matching slots and dims the rest — this only
  * ever reads what's already rendered, per the information-only rule in
  * `docs/planning/PLAN.md`; it never clicks or moves anything.
@@ -55,7 +55,10 @@ object InventorySearchOverlay {
         val barY = accessor.getTopPos() + accessor.getImageHeight() + 4
         val barWidth = accessor.getImageWidth()
 
-        val toggle = SearchToggleWidget(barX, barY, barWidth, BAR_HEIGHT) {
+        lateinit var toggle: SearchToggleWidget
+        toggle = SearchToggleWidget(barX, barY, barWidth, BAR_HEIGHT) {
+            toggle.visible = false
+            toggle.active = false
             expand(screen, state, barX, barY, barWidth)
         }
         Screens.getWidgets(screen).add(toggle)
