@@ -15,6 +15,45 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.4.0 - 2026-07-15
+
+### Added
+- Item List GUI (`NEU_FEATURE_PARITY.md` #1): `/saibonitems` (`/sbi`) and a new
+  "Items" button injected above the SkyBlock hotbar-menu chest GUI open a
+  searchable, filterable grid of every data-repo item. Search reuses the
+  existing query parser (bare terms plus `rarity:`/`category:`/`name:`/`id:`
+  fields); selecting an item shows NPC sell price, live Bazaar buy/sell +
+  flip margin, AH lowest-BIN, a wiki link, a recipe panel (cycling through
+  multiple recipes per item, e.g. forge stages), an ingredient grid, a
+  reverse "used in" lookup, and back/forward navigation history.
+- Market Prices (`NEU_FEATURE_PARITY.md` #2): a Bazaar price poller and an
+  opt-in (off by default) Auction House sweeper track Bazaar buy/sell and AH
+  lowest-BIN per item. `/saibonah` and `/saibonbz` open read-only
+  price-browser grids (same tile/detail layout as the Item List) with sort
+  orders and `minprice:`/`minmargin:` query fields. A render-only overlay on
+  the real Hypixel AH/Bazaar screens dims non-matching slots, outlines
+  matches/the cheapest match, and flags AH listings priced above a
+  configurable multiple of the known lowest BIN.
+- New "Item List" and "Market Prices" / "Auction House Prices" settings
+  sections (refresh toggles/intervals, flip-margin slider, overpay-warning
+  threshold slider, overlay toggle, SkyBlock-menu button toggle).
+- `SkyblockItem` gained a `material` field (vanilla `namespace:path` icon id)
+  so item tiles render a real `ItemStack` icon tinted/outlined by rarity;
+  `data/items.json` seed entries and the `items` dataset manifest
+  (`data/index.json`) were updated accordingly.
+- `DataRepository.recipeFor(id): Recipe?` replaced with
+  `recipesFor(id): List<Recipe>` (grouped instead of 1:1) plus a new
+  `allRecipes()`, so items with multiple recipes (e.g. forge stages) can be
+  cycled through instead of only ever showing one.
+
+### Changed
+- Chat messages now go through a shared `SaibonChat` helper for the
+  `[Saibon] ` prefix (with a per-letter red gradient on "Saibon") instead of
+  each caller building its own `Component.literal("[Saibon] ...")`.
+- Config schema bumped to v5, adding nested `itemList` and `market`
+  sub-configs (old config files load fine via per-field defaults, no
+  migration needed).
+
 ## v0.3.0 - 2026-07-15
 
 ### Added

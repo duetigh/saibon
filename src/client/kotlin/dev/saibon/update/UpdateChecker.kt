@@ -1,11 +1,11 @@
 package dev.saibon.update
 
 import com.google.gson.Gson
+import dev.saibon.client.chat.SaibonChat
 import dev.saibon.core.Saibon
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.Component
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -33,7 +33,7 @@ object UpdateChecker {
 
     fun init() {
         ClientPlayConnectionEvents.JOIN.register { _, _, _ ->
-            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("[Saibon] Mod loaded."))
+            Minecraft.getInstance().player?.sendSystemMessage(SaibonChat.message("Mod loaded."))
             checkNow()
         }
     }

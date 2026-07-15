@@ -1,6 +1,8 @@
 package dev.saibon.core.config
 
 import dev.saibon.data.DataConfig
+import dev.saibon.itemlist.ItemListConfig
+import dev.saibon.market.MarketConfig
 import dev.saibon.search.SearchConfig
 import dev.saibon.update.UpdateConfig
 
@@ -16,9 +18,11 @@ data class SaibonConfig(
     var schemaVersion: Int = CURRENT_SCHEMA_VERSION,
     var update: UpdateConfig = UpdateConfig(),
     var search: SearchConfig = SearchConfig(),
-    var dataRepo: DataConfig = DataConfig()
+    var dataRepo: DataConfig = DataConfig(),
+    var itemList: ItemListConfig = ItemListConfig(),
+    var market: MarketConfig = MarketConfig()
 ) {
     companion object {
-        const val CURRENT_SCHEMA_VERSION = 3
+        const val CURRENT_SCHEMA_VERSION = 5
     }
 }

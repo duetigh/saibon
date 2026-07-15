@@ -52,7 +52,7 @@ object DataRepository {
     private val initialized = AtomicBoolean(false)
     private var cachedVersions: Map<String, Int> = emptyMap()
     private var items: Map<String, SkyblockItem> = emptyMap()
-    private var recipes: Map<String, Recipe> = emptyMap()
+    private var recipes: Map<String, List<Recipe>> = emptyMap()
 
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
@@ -75,7 +75,11 @@ object DataRepository {
 
     fun allItems(): Collection<SkyblockItem> = items.values
 
-    fun recipeFor(id: String): Recipe? = recipes[id.uppercase()]
+    /** Every recipe that crafts [id] — some items (e.g. multiple forge stages) have more than one. */
+    fun recipesFor(id: String): List<Recipe> = recipes[id.uppercase()] ?: emptyList()
+
+    /** Every recipe in the repo, for "used in" reverse lookups. */
+    fun allRecipes(): Collection<Recipe> = recipes.values.flatten()
 
     fun refreshNow() {
         if (!Saibon.config.data.dataRepo.autoRefresh) return
@@ -126,7 +130,7 @@ object DataRepository {
     private fun applyDataset(name: String, body: String) {
         when (name) {
             "items" -> items = gson.fromJson(body, Array<SkyblockItem>::class.java).associateBy { it.id.uppercase() }
-            "recipes" -> recipes = gson.fromJson(body, Array<Recipe>::class.java).associateBy { it.itemId.uppercase() }
+            "recipes" -> recipes = gson.fromJson(body, Array<Recipe>::class.java).groupBy { it.itemId.uppercase() }
             else -> Saibon.logger.warn("Saibon data manifest referenced unknown dataset '{}', ignoring", name)
         }
     }

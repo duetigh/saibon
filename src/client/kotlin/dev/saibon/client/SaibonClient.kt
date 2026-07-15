@@ -1,9 +1,19 @@
 package dev.saibon.client
 
+import dev.saibon.client.chat.SaibonChat
 import dev.saibon.core.Saibon
 import dev.saibon.core.command.CommandRegistry
 import dev.saibon.data.DataRepository
 import dev.saibon.data.DataSettings
+import dev.saibon.itemlist.ItemListMenuButton
+import dev.saibon.itemlist.ItemListScreen
+import dev.saibon.itemlist.ItemListSettings
+import dev.saibon.market.AuctionPriceRepository
+import dev.saibon.market.MarketPriceRepository
+import dev.saibon.market.MarketSettings
+import dev.saibon.market.ui.AuctionSearchScreen
+import dev.saibon.market.ui.BazaarSearchScreen
+import dev.saibon.market.ui.MarketMenuOverlay
 import dev.saibon.search.SearchSettings
 import dev.saibon.ui.overlay.InventorySearchOverlay
 import dev.saibon.ui.screen.ChangelogScreen
@@ -14,7 +24,6 @@ import dev.saibon.update.installer.UpdateInstaller
 import net.fabricmc.api.ClientModInitializer
 import net.fabricmc.fabric.api.client.command.v2.ClientCommands.literal
 import net.minecraft.client.Minecraft
-import net.minecraft.network.chat.Component
 
 object SaibonClient : ClientModInitializer {
     override fun onInitializeClient() {
@@ -31,6 +40,14 @@ object SaibonClient : ClientModInitializer {
             )
             dispatcher.register(literal("sb").executes { openSettings() })
         }
+        CommandRegistry.register { dispatcher ->
+            dispatcher.register(literal("saibonitems").executes { openItemList() })
+            dispatcher.register(literal("sbi").executes { openItemList() })
+        }
+        CommandRegistry.register { dispatcher ->
+            dispatcher.register(literal("saibonah").executes { openAuctionSearch() })
+            dispatcher.register(literal("saibonbz").executes { openBazaarSearch() })
+        }
 
         UpdateChecker.init()
         UpdateSettings.register()
@@ -38,6 +55,12 @@ object SaibonClient : ClientModInitializer {
         SearchSettings.register()
         DataRepository.init()
         DataSettings.register()
+        ItemListSettings.register()
+        ItemListMenuButton.init()
+        MarketPriceRepository.init()
+        AuctionPriceRepository.init()
+        MarketMenuOverlay.init()
+        MarketSettings.register()
 
         Saibon.logger.info("Saibon client initialized")
     }
@@ -46,10 +69,22 @@ object SaibonClient : ClientModInitializer {
         Minecraft.getInstance().setScreenAndShow(SaibonScreen())
     }
 
+    private fun openItemList(): Int = guardedScreen("open the item list") {
+        Minecraft.getInstance().setScreenAndShow(ItemListScreen())
+    }
+
+    private fun openAuctionSearch(): Int = guardedScreen("open the auction house price browser") {
+        Minecraft.getInstance().setScreenAndShow(AuctionSearchScreen())
+    }
+
+    private fun openBazaarSearch(): Int = guardedScreen("open the bazaar price browser") {
+        Minecraft.getInstance().setScreenAndShow(BazaarSearchScreen())
+    }
+
     private fun openChangelog(): Int = guardedScreen("open the changelog") {
         val manifest = UpdateChecker.latestManifest
         if (manifest == null) {
-            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("No update info yet — try again in a moment."))
+            Minecraft.getInstance().player?.sendSystemMessage(SaibonChat.message("No update info yet — try again in a moment."))
             return@guardedScreen
         }
         Minecraft.getInstance().setScreenAndShow(ChangelogScreen(manifest))
@@ -76,7 +111,7 @@ object SaibonClient : ClientModInitializer {
             } catch (t: Throwable) {
                 Saibon.logger.error("Failed to $action", t)
                 Minecraft.getInstance().player?.sendSystemMessage(
-                    Component.literal("[Saibon] Couldn't $action — see log for details: ${t.message}")
+                    SaibonChat.message("Couldn't $action — see log for details: ${t.message}")
                 )
             }
         }
@@ -97,7 +132,7 @@ object SaibonClient : ClientModInitializer {
         } catch (t: Throwable) {
             Saibon.logger.error("Failed to $action", t)
             Minecraft.getInstance().player?.sendSystemMessage(
-                Component.literal("[Saibon] Couldn't $action — see log for details: ${t.message}")
+                SaibonChat.message("Couldn't $action — see log for details: ${t.message}")
             )
             0
         }

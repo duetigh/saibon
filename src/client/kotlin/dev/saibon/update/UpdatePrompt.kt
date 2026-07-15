@@ -1,5 +1,6 @@
 package dev.saibon.update
 
+import dev.saibon.client.chat.SaibonChat
 import net.minecraft.ChatFormatting
 import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.ClickEvent
@@ -18,10 +19,10 @@ object UpdatePrompt {
         val player = Minecraft.getInstance().player ?: return
 
         player.sendSystemMessage(
-            Component.literal("[Saibon] New version found! (${UpdateChecker.currentVersion()} → ${manifest.latestVersion})")
+            SaibonChat.message("New version found! (${UpdateChecker.currentVersion()} → ${manifest.latestVersion})")
         )
         player.sendSystemMessage(
-            Component.literal("[Saibon] ")
+            SaibonChat.prefix()
                 .append(link("Click to download.", "/saibon updatecheck install", "Download and install the update"))
         )
     }

@@ -7,5 +7,7 @@ data class SkyblockItem(
     val tier: String = "",
     val category: String = "",
     val npcSellPrice: Double = 0.0,
-    val wikiUrl: String? = null
+    val wikiUrl: String? = null,
+    /** `namespace:path` vanilla item id used to render this item's icon, e.g. `"minecraft:wheat"`. */
+    val material: String = "minecraft:paper"
 )
