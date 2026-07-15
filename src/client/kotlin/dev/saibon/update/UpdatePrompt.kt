@@ -8,21 +8,22 @@ import net.minecraft.network.chat.HoverEvent
 
 /**
  * Builds and sends the local, client-authored chat prompt for a newer
- * release. Both links run Saibon's own registered `/saibon updatecheck ...`
- * subcommands via [ClickEvent.RunCommand] rather than opening anything or
- * installing anything directly from chat, per the "explicit chat prompt +
- * click" consent requirement.
+ * release. The download line runs Saibon's own registered
+ * `/saibon updatecheck install` subcommand via [ClickEvent.RunCommand] rather
+ * than opening anything or installing anything directly from chat, per the
+ * "explicit chat prompt + click" consent requirement.
  */
 object UpdatePrompt {
     fun send(manifest: VersionManifest) {
         val player = Minecraft.getInstance().player ?: return
 
-        val message = Component.literal("Saibon v${manifest.latestVersion} is available → ")
-            .append(link("[View Changelog]", "/saibon updatecheck changelog", "Open the changelog"))
-            .append(Component.literal(" "))
-            .append(link("[Update Now]", "/saibon updatecheck install", "Download and install the update"))
-
-        player.sendSystemMessage(message)
+        player.sendSystemMessage(
+            Component.literal("[Saibon] New version found! (${UpdateChecker.currentVersion()} → ${manifest.latestVersion})")
+        )
+        player.sendSystemMessage(
+            Component.literal("[Saibon] ")
+                .append(link("Click to download.", "/saibon updatecheck install", "Download and install the update"))
+        )
     }
 
     private fun link(text: String, command: String, hover: String): Component =

@@ -1,6 +1,7 @@
 package dev.saibon.ui.widget
 
 import com.mojang.blaze3d.platform.InputConstants
+import dev.saibon.ui.style.Panel
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
@@ -44,9 +45,8 @@ class KeybindWidget(
     }
 
     override fun extractWidgetRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
-        val background = if (listening) 0xFF553333.toInt() else if (isHovered) 0xFF4A4A4A.toInt() else 0xFF2A2A2A.toInt()
-        extractor.fill(x, y, x + width, y + height, background)
-        extractor.outline(x, y, width, height, 0xFF8A8A8A.toInt())
+        val background = if (listening) Panel.SELECTED_BACKGROUND else if (isHovered) Panel.HOVER_BACKGROUND else Panel.BACKGROUND
+        Panel.draw(extractor, x, y, width, height, background)
         extractor.text(Minecraft.getInstance().font, message, x + 4, y + (height - 8) / 2, 0xFFFFFFFF.toInt())
     }
 

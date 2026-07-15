@@ -80,7 +80,6 @@ class ColorPickerScreen(
     }
 
     override fun extractRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
-        extractBackground(extractor, mouseX, mouseY, delta)
         super.extractRenderState(extractor, mouseX, mouseY, delta)
         extractor.outline(MARGIN, MARGIN, SWATCH_SIZE, SWATCH_SIZE, 0xFFFFFFFF.toInt())
         extractor.fill(MARGIN + 1, MARGIN + 1, MARGIN + SWATCH_SIZE - 1, MARGIN + SWATCH_SIZE - 1, argb)

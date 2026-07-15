@@ -2,18 +2,23 @@ package dev.saibon.ui.screen
 
 import dev.saibon.ui.SaibonCategory
 import dev.saibon.ui.settings.SettingsRegistry
+import dev.saibon.ui.style.Panel
+import dev.saibon.ui.widget.CategoryTileWidget
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
+import net.minecraft.world.item.Item
+import net.minecraft.world.item.ItemStack
+import net.minecraft.world.item.Items
 
 /**
  * Categorized, searchable settings screen. The sidebar lists [SaibonCategory]
- * entries; the content pane lays out whatever [SettingsRegistry] sections
- * feature modules have registered for the selected category. The search box
- * filters both sidebar categories and setting labels within the selected one.
+ * entries as item-icon tiles (NEU-style); the content pane lays out whatever
+ * [SettingsRegistry] sections feature modules have registered for the
+ * selected category. The search box filters both sidebar categories and
+ * setting labels within the selected one.
  */
 class SaibonScreen : Screen(Component.literal("Saibon")) {
 
@@ -25,13 +30,20 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
         private const val ROW_HEIGHT = 20
         private const val ROW_GAP = 4
         private const val WIDGET_WIDTH = 150
-        private const val SIDEBAR_BACKGROUND = 0x88101010.toInt()
-        private const val CONTENT_BACKGROUND = 0x44101010.toInt()
         private const val PLACEHOLDER_TEXT_COLOR = 0xA0A0A0
         private const val TITLE_TEXT_COLOR = 0xFFD700
+
+        private fun iconFor(category: SaibonCategory): Item = when (category) {
+            SaibonCategory.GENERAL -> Items.COMPASS
+            SaibonCategory.HUD -> Items.PAINTING
+            SaibonCategory.FEATURES -> Items.REDSTONE_TORCH
+            SaibonCategory.DATA -> Items.CHEST
+            SaibonCategory.UPDATES -> Items.EXPERIENCE_BOTTLE
+            SaibonCategory.ABOUT -> Items.BOOK
+        }
     }
 
-    private val categoryButtons = mutableListOf<Button>()
+    private val categoryTiles = mutableListOf<CategoryTileWidget>()
     private val contentWidgets = mutableListOf<AbstractWidget>()
     private val contentLabels = mutableListOf<ContentLabel>()
     private var filter: String = ""
@@ -52,20 +64,27 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
     }
 
     private fun rebuildSidebar() {
-        categoryButtons.forEach { removeWidget(it) }
-        categoryButtons.clear()
+        categoryTiles.forEach { removeWidget(it) }
+        categoryTiles.clear()
 
         var y = MARGIN * 2 + ROW_HEIGHT
         SaibonCategory.entries
             .filter { it.displayName.contains(filter, ignoreCase = true) }
             .forEach { category ->
-                val button = Button.builder(Component.literal(category.displayName)) {
-                    selected = category
+                val tile = CategoryTileWidget(
+                    MARGIN, y, SIDEBAR_WIDTH - MARGIN * 2, ROW_HEIGHT,
+                    Component.literal(category.displayName),
+                    category,
+                    ItemStack(iconFor(category)),
+                    category == selected
+                ) { picked ->
+                    selected = picked
+                    categoryTiles.forEach { it.setSelected(it.category == selected) }
                     rebuildContent()
-                }.bounds(MARGIN, y, SIDEBAR_WIDTH - MARGIN * 2, ROW_HEIGHT).build()
-                categoryButtons += button
-                addRenderableWidget(button)
-                y += ROW_HEIGHT + 4
+                }
+                categoryTiles += tile
+                addRenderableWidget(tile)
+                y += ROW_HEIGHT + ROW_GAP
             }
     }
 
@@ -74,7 +93,7 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
         contentWidgets.clear()
         contentLabels.clear()
 
-        val labelX = SIDEBAR_WIDTH + MARGIN
+        val labelX = SIDEBAR_WIDTH + MARGIN * 2
         val widgetX = width - MARGIN - WIDGET_WIDTH
         var y = MARGIN
 
@@ -108,10 +127,8 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
     }
 
     override fun extractRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
-        extractBackground(extractor, mouseX, mouseY, delta)
-
-        extractor.fill(0, 0, SIDEBAR_WIDTH, height, SIDEBAR_BACKGROUND)
-        extractor.fill(SIDEBAR_WIDTH, 0, width, height, CONTENT_BACKGROUND)
+        Panel.draw(extractor, 0, 0, SIDEBAR_WIDTH, height)
+        Panel.draw(extractor, SIDEBAR_WIDTH + MARGIN, 0, width - SIDEBAR_WIDTH - MARGIN, height)
 
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 

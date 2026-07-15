@@ -23,7 +23,6 @@ class ChangelogScreen(private val manifest: VersionManifest) :
     }
 
     override fun extractRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {
-        extractBackground(extractor, mouseX, mouseY, delta)
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 
         extractor.text(font, title, MARGIN, MARGIN, 0xFFFFD700.toInt())

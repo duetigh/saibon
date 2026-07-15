@@ -15,6 +15,37 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.2.1 - 2026-07-15
+
+### Added
+- Shared beveled-panel style (`Panel`) giving custom screens and widgets a
+  consistent NEU/inventory-GUI look, replacing the flat single-color
+  fills/outlines each one drew separately.
+- Settings sidebar now shows item-icon tiles per category
+  (`CategoryTileWidget`: compass/painting/redstone torch/chest/potion/book)
+  instead of plain text buttons.
+- `/saibon` and `/sb` subcommands now catch and log exceptions instead of
+  letting them leak a raw crash-report fragment into chat; the player sees a
+  plain "[Saibon] Couldn't ... — see log for details" message instead.
+
+### Changed
+- Toggle settings render as a custom green/red ON/OFF widget instead of
+  vanilla's on/off `CycleButton`.
+- Update checker now runs off world/server join
+  (`ClientPlayConnectionEvents.JOIN`) instead of the client-started lifecycle
+  event, since the latter fired before a player existed to receive the
+  "Mod loaded" / update chat messages.
+- Update-available chat prompt is now two plain lines ("New version found!
+  (x → y)" plus a single "Click to download." link) instead of one line with
+  separate View Changelog / Update Now links.
+- Opening the settings screen or changelog from `/saibon` is now deferred to
+  the next client tick, since `ChatScreen`'s Enter-key handler was closing
+  the screen the same tick it opened, causing a visible flash.
+
+### Fixed
+- Removed a redundant background draw in `ChangelogScreen` and
+  `ColorPickerScreen` that was rendering the screen background twice.
+
 ## v0.2.0 - 2026-07-15
 
 ### Added

@@ -2,9 +2,10 @@ package dev.saibon.update
 
 import com.google.gson.Gson
 import dev.saibon.core.Saibon
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientLifecycleEvents
+import net.fabricmc.fabric.api.client.networking.v1.ClientPlayConnectionEvents
 import net.fabricmc.loader.api.FabricLoader
 import net.minecraft.client.Minecraft
+import net.minecraft.network.chat.Component
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -15,8 +16,9 @@ import java.util.concurrent.Executors
  * Fetches `version.json` off-thread and, if it names a newer release than
  * what's running, hops back to the main thread (per [PLAN.md]'s "no blocking
  * I/O on render/tick thread" rule) to post the update chat prompt. Triggered
- * off [ClientLifecycleEvents.CLIENT_STARTED] rather than mod init so it
- * happens after the main menu has already rendered.
+ * off [ClientPlayConnectionEvents.JOIN] (world/server join) rather than mod
+ * init or the title screen, so a [net.minecraft.client.player.LocalPlayer]
+ * always exists to receive the "Mod loaded" / update chat lines.
  */
 object UpdateChecker {
     private const val MANIFEST_URL = "https://github.com/JamesWLyon/saibon/releases/latest/download/version.json"
@@ -30,7 +32,10 @@ object UpdateChecker {
         private set
 
     fun init() {
-        ClientLifecycleEvents.CLIENT_STARTED.register { checkNow() }
+        ClientPlayConnectionEvents.JOIN.register { _, _, _ ->
+            Minecraft.getInstance().player?.sendSystemMessage(Component.literal("[Saibon] Mod loaded."))
+            checkNow()
+        }
     }
 
     fun checkNow() {
