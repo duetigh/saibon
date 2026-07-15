@@ -17,8 +17,19 @@ registry, and an empty settings GUI shell.
 ./gradlew build
 ```
 
-Requires a Java 25 toolchain (Gradle will provision one automatically if
-`org.gradle.java.installations.auto-download` is not disabled).
+Requires a JDK 25 to run Gradle itself (Minecraft 26.2 ships unobfuscated, so
+no mappings download is needed, but Loom requires the Gradle daemon to run on
+Java 25, not just a toolchain).
+
+## Releasing
+
+Push a tag matching `v*.*.*` (e.g. `v0.1.0`) and CI builds the jar and
+publishes it to the repo's Releases page with auto-generated notes:
+
+```
+git tag v0.1.0
+git push origin v0.1.0
+```
 
 ## License
 
