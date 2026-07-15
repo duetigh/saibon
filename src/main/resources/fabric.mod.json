@@ -1,0 +1,30 @@
+{
+	"schemaVersion": 1,
+	"id": "saibon",
+	"version": "${version}",
+	"name": "Saibon",
+	"description": "An information/QoL mod for Hypixel SkyBlock. Information-only, zero telemetry.",
+	"authors": [
+		"Saibon contributors"
+	],
+	"contact": {
+		"sources": "https://github.com/saibon-mod/saibon"
+	},
+	"license": "MIT",
+	"environment": "client",
+	"entrypoints": {
+		"main": [
+			"dev.saibon.core.Saibon"
+		],
+		"client": [
+			"dev.saibon.client.SaibonClient"
+		]
+	},
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.2",
+		"java": ">=25",
+		"fabric-api": "*",
+		"fabric-language-kotlin": "*"
+	}
+}
