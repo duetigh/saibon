@@ -14,10 +14,16 @@
 	"environment": "client",
 	"entrypoints": {
 		"main": [
-			"dev.saibon.core.Saibon"
+			{
+				"adapter": "kotlin",
+				"value": "dev.saibon.core.Saibon"
+			}
 		],
 		"client": [
-			"dev.saibon.client.SaibonClient"
+			{
+				"adapter": "kotlin",
+				"value": "dev.saibon.client.SaibonClient"
+			}
 		]
 	},
 	"depends": {

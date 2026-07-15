@@ -15,6 +15,15 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.1.2 - 2026-07-14
+
+### Fixed
+- Fixed a crash on launch (`IllegalAccessException` on Saibon's private
+  constructor). Saibon's entrypoints are Kotlin `object` singletons, which
+  compile to a private constructor; `fabric.mod.json` now declares them with
+  `"adapter": "kotlin"` so Fabric Loader uses the Kotlin language adapter
+  instead of defaulting to the Java one.
+
 ## v0.1.1 - 2026-07-14
 
 ### Changed
