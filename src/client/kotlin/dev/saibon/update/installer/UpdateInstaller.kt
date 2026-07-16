@@ -28,7 +28,10 @@ import kotlin.io.path.name
  */
 object UpdateInstaller {
     private val executor = Executors.newSingleThreadExecutor { r -> Thread(r, "Saibon-Updater").apply { isDaemon = true } }
-    private val httpClient: HttpClient = HttpClient.newBuilder().executor(executor).build()
+    private val httpClient: HttpClient = HttpClient.newBuilder()
+        .executor(executor)
+        .followRedirects(HttpClient.Redirect.NORMAL)
+        .build()
 
     fun install(manifest: VersionManifest) {
         val request = HttpRequest.newBuilder(URI.create(manifest.downloadUrl)).GET().build()

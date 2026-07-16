@@ -15,6 +15,14 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.7.1 - 2026-07-16
+
+### Fixed
+- `UpdateInstaller`'s `HttpClient` now follows redirects (`Redirect.NORMAL`);
+  GitHub release asset downloads redirect through S3, and the update jar
+  previously failed to download since the client wasn't configured to follow
+  that redirect.
+
 ## v0.7.0 - 2026-07-15
 
 ### Added
