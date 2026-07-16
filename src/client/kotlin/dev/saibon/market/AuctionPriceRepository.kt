@@ -40,6 +40,9 @@ object AuctionPriceRepository {
     private var scheduledRefresh: java.util.concurrent.ScheduledFuture<*>? = null
     private var lowestBins: Map<String, AuctionPrice> = emptyMap()
 
+    /** `"<itemId>|<modifierSignature>"` -> cheapest currently-active listing of that exact modifier combo — only populated for listings that carry a non-empty signature, same shape as `AuctionSalesHistoryRepository`'s signature bucket. */
+    private var signatureLowestBins: Map<String, AuctionPrice> = emptyMap()
+
     var lastRefreshed: Instant? = null
         private set
     val isRefreshing: Boolean get() = refreshing.get()
@@ -47,6 +50,7 @@ object AuctionPriceRepository {
     private class Accumulator {
         var lowestBin: Long = Long.MAX_VALUE
         var count: Int = 0
+        var lowestBinUuid: String = ""
     }
 
     fun init() {
@@ -67,21 +71,25 @@ object AuctionPriceRepository {
 
     fun lowestBin(itemId: String): AuctionPrice? = lowestBins[itemId.uppercase()]
 
+    /** Every observed `"<itemId>|<modifierSignature>"` bucket's cheapest active listing — for [dev.saibon.market.flip.AuctionFlipFinder] to cross-reference against `AuctionSalesHistoryRepository`'s signature sale history. */
+    fun allSignatureLowestBins(): Map<String, AuctionPrice> = signatureLowestBins
+
     fun refreshNow() {
         if (!Saibon.config.data.market.ahAutoRefresh) return
         if (!refreshing.compareAndSet(false, true)) return
 
         val accumulated = ConcurrentHashMap<String, Accumulator>()
+        val signatureAccumulated = ConcurrentHashMap<String, Accumulator>()
         fetchPage(0)
             .thenCompose { first ->
-                applyPage(first, accumulated)
+                applyPage(first, accumulated, signatureAccumulated)
                 if (first.totalPages <= 1) {
                     CompletableFuture.completedFuture(Unit)
                 } else {
-                    fetchRemainingPages(first.totalPages, accumulated)
+                    fetchRemainingPages(first.totalPages, accumulated, signatureAccumulated)
                 }
             }
-            .thenAccept { publish(accumulated) }
+            .thenAccept { publish(accumulated, signatureAccumulated) }
             .exceptionally { throwable ->
                 Saibon.logger.warn("Saibon auction price sweep failed", throwable)
                 refreshing.set(false)
@@ -89,13 +97,17 @@ object AuctionPriceRepository {
             }
     }
 
-    private fun fetchRemainingPages(totalPages: Int, accumulated: ConcurrentHashMap<String, Accumulator>): CompletableFuture<Unit> {
+    private fun fetchRemainingPages(
+        totalPages: Int,
+        accumulated: ConcurrentHashMap<String, Accumulator>,
+        signatureAccumulated: ConcurrentHashMap<String, Accumulator>
+    ): CompletableFuture<Unit> {
         var chain = CompletableFuture.completedFuture(Unit)
         for (batch in (1 until totalPages).chunked(PAGE_BATCH_SIZE)) {
             chain = chain.thenCompose {
                 val futures = batch.map { page ->
                     fetchPage(page)
-                        .thenAccept { applyPage(it, accumulated) }
+                        .thenAccept { applyPage(it, accumulated, signatureAccumulated) }
                         .exceptionally { throwable ->
                             Saibon.logger.warn("Saibon auction page {} fetch failed, skipping", page, throwable)
                             null
@@ -113,22 +125,38 @@ object AuctionPriceRepository {
             .thenApply { response -> gson.fromJson(response.body(), AuctionsPageResponse::class.java) }
     }
 
-    private fun applyPage(page: AuctionsPageResponse, accumulated: ConcurrentHashMap<String, Accumulator>) {
+    private fun applyPage(
+        page: AuctionsPageResponse,
+        accumulated: ConcurrentHashMap<String, Accumulator>,
+        signatureAccumulated: ConcurrentHashMap<String, Accumulator>
+    ) {
         for (auction in page.auctions) {
             if (!auction.bin || auction.claimed) continue
-            val itemId = AuctionItemDecoder.extraAttributesId(auction.item_bytes)?.uppercase() ?: continue
-            val acc = accumulated.computeIfAbsent(itemId) { Accumulator() }
-            synchronized(acc) {
-                acc.count++
-                if (auction.starting_bid < acc.lowestBin) acc.lowestBin = auction.starting_bid
+            val decoded = AuctionItemDecoder.decode(auction.item_bytes) ?: continue
+            val itemId = decoded.itemId.uppercase()
+            accumulate(accumulated, itemId, auction.starting_bid, auction.uuid)
+            if (decoded.modifierSignature.isNotEmpty()) {
+                accumulate(signatureAccumulated, "$itemId|${decoded.modifierSignature}", auction.starting_bid, auction.uuid)
             }
         }
     }
 
-    private fun publish(accumulated: ConcurrentHashMap<String, Accumulator>) {
-        lowestBins = accumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count) }
+    private fun accumulate(map: ConcurrentHashMap<String, Accumulator>, key: String, price: Long, uuid: String) {
+        val acc = map.computeIfAbsent(key) { Accumulator() }
+        synchronized(acc) {
+            acc.count++
+            if (price < acc.lowestBin) {
+                acc.lowestBin = price
+                acc.lowestBinUuid = uuid
+            }
+        }
+    }
+
+    private fun publish(accumulated: ConcurrentHashMap<String, Accumulator>, signatureAccumulated: ConcurrentHashMap<String, Accumulator>) {
+        lowestBins = accumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid) }
+        signatureLowestBins = signatureAccumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid) }
         lastRefreshed = Instant.now()
         refreshing.set(false)
-        Saibon.logger.info("Saibon auction price sweep complete: {} items", lowestBins.size)
+        Saibon.logger.info("Saibon auction price sweep complete: {} items, {} modifier signatures", lowestBins.size, signatureLowestBins.size)
     }
 }

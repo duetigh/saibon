@@ -15,6 +15,50 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.8.0 - 2026-07-16
+
+### Added
+- HUD engine (`HudEngine`/`HudModule`/`HudEditScreen`, `PLAN.md` Stage 2's "GUI
+  Locations" screen): a shared, positionable/scalable in-world overlay
+  system — every module registers once and gets a 9-point anchor, drag-to-
+  reposition, scale, and enable/disable from one edit screen, instead of
+  hand-rolling its own Fabric HUD-layer hook and position math. New "HUD
+  Locations" settings section (per-module toggles, "Edit HUD positions"
+  button).
+- Flip Alert Toast (`FlipAlertHudModule`), the first HUD module: a read-only
+  toast shown for a few seconds when a new high-confidence flip crosses
+  configurable profit/margin thresholds — never buys, bids, or lists
+  anything itself.
+- Unified Flip Finder (`/saibonflips`, `FlipEngine`/`FlipScreen`): a single
+  background-scanned, multi-strategy flip table combining Auction House,
+  Bazaar margin, NPC, and Craft flips (each independently toggleable) behind
+  one shared scan interval; `/saibonah` remains as the narrower AH-only
+  browser. New "Flip Finder" settings section (per-strategy toggles, scan
+  interval, alert thresholds).
+- Modifier-aware Auction House flip matching: `AuctionItemDecoder` now
+  extracts a stable signature (reforge, hot-potato count, recombobulated,
+  dungeon stars, enchants) from each listing's NBT, and
+  `AuctionPriceRepository`/`AuctionSalesHistoryRepository` track a parallel
+  per-signature price/sales bucket alongside their existing item-id-only
+  one — so, once enough matching-modifier sales exist, a Sharpness 7 sword's
+  flip price is no longer blended with a bare one (falls back to the
+  item-id bucket otherwise).
+- Flip candidates backed by a real AH listing now carry that listing's
+  auction UUID; `FlipScreen`'s detail panel shows a "Copy /viewauction
+  command" button for those instead of requiring the player to find the
+  listing manually.
+- Chat/scoreboard/tab-list read hooks (`ChatEvents`/`ChatPatternRegistry`,
+  `ScoreboardReader`, `TabListReader`): shared, read-only feeds that future
+  chat- or HUD-driven features (farming counters, dungeon parsers, key/door
+  counters, calendar announcements) can register against instead of each
+  hooking its own listener. No consumers yet beyond the flip-alert toast;
+  the scoreboard/tab-list line-text parsing is unverified against a live
+  Hypixel session.
+
+### Changed
+- Config schema bumped to v6, adding nested `hud` and `flip` sub-configs
+  (old config files load fine via per-field defaults, no migration needed).
+
 ## v0.7.3 - 2026-07-16
 
 ### Fixed

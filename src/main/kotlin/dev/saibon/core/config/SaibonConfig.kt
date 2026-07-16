@@ -1,8 +1,10 @@
 package dev.saibon.core.config
 
 import dev.saibon.data.DataConfig
+import dev.saibon.hud.HudConfig
 import dev.saibon.itemlist.ItemListConfig
 import dev.saibon.market.MarketConfig
+import dev.saibon.market.flip.FlipConfig
 import dev.saibon.search.SearchConfig
 import dev.saibon.update.UpdateConfig
 
@@ -20,9 +22,11 @@ data class SaibonConfig(
     var search: SearchConfig = SearchConfig(),
     var dataRepo: DataConfig = DataConfig(),
     var itemList: ItemListConfig = ItemListConfig(),
-    var market: MarketConfig = MarketConfig()
+    var market: MarketConfig = MarketConfig(),
+    var hud: HudConfig = HudConfig(),
+    var flip: FlipConfig = FlipConfig()
 ) {
     companion object {
-        const val CURRENT_SCHEMA_VERSION = 5
+        const val CURRENT_SCHEMA_VERSION = 6
     }
 }

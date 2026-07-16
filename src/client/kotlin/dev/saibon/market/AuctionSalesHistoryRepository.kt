@@ -54,7 +54,11 @@ object AuctionSalesHistoryRepository {
         val prices = ArrayDeque<Long>()
     }
 
+    /** Item-id-only bucket — always populated, the pre-existing behavior every caller that omits a modifier signature still gets. */
     private val history = ConcurrentHashMap<String, SaleHistory>()
+
+    /** `"<itemId>|<modifierSignature>"` bucket — only populated for sales that actually carry a non-empty signature (enchants/hot-potato/recomb/stars/reforge). Lets [saleReference] give a modifier-aware price for common upgraded gear while item-id-only items keep working exactly as before. */
+    private val signatureHistory = ConcurrentHashMap<String, SaleHistory>()
 
     var lastRefreshed: Instant? = null
         private set
@@ -92,9 +96,29 @@ object AuctionSalesHistoryRepository {
             }
     }
 
-    /** Rolling median + sample count for [itemId], or null if no recent sale has been observed. */
-    fun saleReference(itemId: String): SaleReference? {
-        val prices = history[itemId.uppercase()]?.prices ?: return null
+    /**
+     * Rolling median + sample count for [itemId], or null if no recent sale
+     * has been observed. When [modifierSignature] is non-empty, prefers the
+     * exact item+modifier bucket once it has at least
+     * `FlipConfig.modifierMatchMinSamples` sales (the spec's "fast dictionary
+     * lookup" strategy) and falls back to the item-id-only bucket otherwise —
+     * so a rare enchant combo still gets *a* reference price instead of none.
+     */
+    fun saleReference(itemId: String, modifierSignature: String = ""): SaleReference? {
+        if (modifierSignature.isNotEmpty()) {
+            val exact = medianOf(signatureHistory["${itemId.uppercase()}|$modifierSignature"])
+            val minSamples = Saibon.config.data.flip.modifierMatchMinSamples
+            if (exact != null && exact.sampleCount >= minSamples) return exact
+        }
+        return medianOf(history[itemId.uppercase()])
+    }
+
+    /** Every observed `"<itemId>|<modifierSignature>"` bucket's current median + sample count, for [dev.saibon.market.flip.AuctionFlipFinder] to cross-reference against `AuctionPriceRepository`'s signature lowest-bin buckets. */
+    fun allSignatureReferences(): Map<String, SaleReference> =
+        signatureHistory.keys.mapNotNull { key -> medianOf(signatureHistory[key])?.let { key to it } }.toMap()
+
+    private fun medianOf(sales: SaleHistory?): SaleReference? {
+        val prices = sales?.prices ?: return null
         val snapshot = synchronized(prices) { prices.sorted() }
         if (snapshot.isEmpty()) return null
         val mid = snapshot.size / 2
@@ -121,16 +145,24 @@ object AuctionSalesHistoryRepository {
             synchronized(seenAuctionIds) {
                 if (!seenAuctionIds.add(sale.auction_id)) return@synchronized
             }
-            val itemId = AuctionItemDecoder.extraAttributesId(sale.item_bytes)?.uppercase() ?: continue
+            val decoded = AuctionItemDecoder.decode(sale.item_bytes) ?: continue
             if (sale.price <= 0) continue
+            val itemId = decoded.itemId.uppercase()
 
-            val entry = history.computeIfAbsent(itemId) { SaleHistory() }
-            synchronized(entry.prices) {
-                entry.prices.addLast(sale.price)
-                while (entry.prices.size > maxSamples) entry.prices.removeFirst()
+            record(history, itemId, sale.price, maxSamples)
+            if (decoded.modifierSignature.isNotEmpty()) {
+                record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, maxSamples)
             }
             newSamples++
         }
         Saibon.logger.info("Saibon sales-history poll: {} new sales, {} items tracked", newSamples, history.size)
+    }
+
+    private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, maxSamples: Int) {
+        val entry = bucket.computeIfAbsent(key) { SaleHistory() }
+        synchronized(entry.prices) {
+            entry.prices.addLast(price)
+            while (entry.prices.size > maxSamples) entry.prices.removeFirst()
+        }
     }
 }

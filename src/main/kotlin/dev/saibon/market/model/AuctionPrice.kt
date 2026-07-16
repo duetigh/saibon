@@ -1,9 +1,10 @@
 package dev.saibon.market.model
 
-/** Lowest active BIN listing price for one Skyblock item id, aggregated from a full auction sweep. */
+/** Lowest active BIN listing price for one Skyblock item id, aggregated from a full auction sweep. [lowestBinUuid] is that specific listing's auction id, e.g. for a `/viewauction` copy-command button — empty if no listing has been seen yet. */
 data class AuctionPrice(
     val lowestBin: Long = 0,
-    val activeBinCount: Int = 0
+    val activeBinCount: Int = 0,
+    val lowestBinUuid: String = ""
 )
 
 /** Wire format of one page of `https://api.hypixel.net/v2/skyblock/auctions` — public, keyless. */
