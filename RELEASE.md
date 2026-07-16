@@ -15,6 +15,20 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.7.3 - 2026-07-16
+
+### Fixed
+- `data/index.json`'s `items` dataset manifest version/sha256 was never
+  bumped when v0.7.0 fixed `data/items.json`, so clients with an
+  already-cached copy never re-fetched the fix (`DataRepository` only
+  re-downloads when the manifest version is higher than what's cached);
+  bumped to v4 with the current file's checksum.
+
+### Changed
+- `menuOverlayEnabled` (the AH/Bazaar menu search/highlight overlay) is now
+  off by default, matching `ahOverlayPanelEnabled`/`ahRelayoutEnabled` — the
+  real AH menu gets no Saibon overlay at all out of the box now.
+
 ## v0.7.1 - 2026-07-16
 
 ### Fixed
