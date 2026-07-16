@@ -15,6 +15,56 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.7.0 - 2026-07-15
+
+### Added
+- Real dropdown widget (`DropdownWidget`) replacing the vanilla `CycleButton`
+  wrapper: clicking it opens a popup list of every option (below the button,
+  or above it if there isn't room) instead of cycling one value at a time;
+  used by every Category/Rarity/View/Sort dropdown across the Item List,
+  Auction, and Bazaar screens/overlays.
+- Item names carrying Hypixel's `%%color%%` placeholder tokens (seen on some
+  data-repo items, e.g. `"%%green%%Ballista Fuel Cell"`) now render as
+  actually-colored text instead of the literal token text, via a new
+  `ColorCodes` helper.
+- `SkyblockItem` gained `soulbound` and `color` fields: items with no
+  Bazaar/AH price because they're Soulbound now show "Soulbound (not
+  tradeable)" instead of a blank price block, and dungeon leather armor
+  (e.g. Necron's set) renders dyed instead of plain brown leather.
+- New "Flips: Insta-buy -> NPC" Bazaar ranking (`instaBuyNpcFlips`) alongside
+  the existing buy-order variant, exposed as a new view in
+  `BazaarMenuOverlay`; new `instaBuyToNpcMinMarginPercent` setting.
+- Settings screen (`/saibon`) content area now scrolls with the mouse wheel
+  instead of overflowing off-screen when a category has more entries than
+  fit in the window.
+
+### Changed
+- Bazaar price displays across the Item List, `BazaarSearchScreen`, and
+  `BazaarMenuOverlay` now distinguish all four Bazaar actions (insta-buy, buy
+  order, insta-sell, sell offer) instead of a mislabeled buy/sell pair, and
+  show "N/A" for a missing price instead of silently treating it as zero.
+- Grid layouts (Item List, Auction Flip Finder, AH/Bazaar overlay panels) now
+  fit one more column where it belongs — the column-count formula was
+  discounting a trailing gap that isn't actually needed after the last
+  column.
+- Inventory search overlay's typed query no longer filters/highlights slots
+  by default (`filterEnabled` starts off); double-click still toggles it on.
+- Auction House browse/flip panel (`ahOverlayPanelEnabled`) is now off by
+  default, matching the AH relayout panel's opt-in default — the real AH menu
+  keeps just the plain highlight/dim overlay unless explicitly enabled.
+
+### Fixed
+- `BazaarFlipRanking`'s buy-order/sell-offer margin was computed backwards
+  (bid minus ask), which is never profitable since the ask always sits above
+  the bid; it's now ask minus bid, matching the actual spread.
+- Settings screen title/placeholder text colors were missing their alpha
+  channel, rendering them nearly transparent; both now draw fully opaque.
+- `data/items.json`: Necron's Boots/Chestplate/Leggings/Helmet now carry a
+  `color` so they render dyed instead of plain leather; Necron's Helmet's
+  `material` was `minecraft:paper` (the wrong item entirely) and is now
+  `minecraft:leather_helmet`; Toxic Arrow Poison's `material` corrected from
+  `minecraft:ink_sac` to `minecraft:green_dye`.
+
 ## v0.6.0 - 2026-07-15
 
 ### Added

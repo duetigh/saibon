@@ -9,12 +9,12 @@ data class MarketConfig(
     var ahRefreshIntervalSeconds: Int = 600,
     /** Multiplier over the known lowest-BIN price above which a real AH listing is flagged as overpriced. */
     var overpayWarningThreshold: Double = 1.5,
-    /** Minimum Bazaar sell-buy spread, as a percent of buy price, to surface as a flip suggestion. */
+    /** Minimum buy-order/sell-offer margin (ask minus bid), as a percent of the bid, to surface as a flip suggestion. */
     var flipMinMarginPercent: Double = 10.0,
     /** Render-only search/highlight overlay on the real Hypixel AH/Bazaar menus — see MarketMenuOverlay. */
     var menuOverlayEnabled: Boolean = true,
-    /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. */
-    var ahOverlayPanelEnabled: Boolean = true,
+    /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. Off by default — the real AH menu stays a plain highlight/dim overlay unless explicitly opted into. */
+    var ahOverlayPanelEnabled: Boolean = false,
     /** Powers the `/saibonah` flip finder's reference-sale-price engine — see AuctionSalesHistoryRepository. Off by default, same rationale as [ahAutoRefresh]: not everyone wants the extra polling. */
     var salesHistoryAutoRefresh: Boolean = false,
     var salesHistoryRefreshIntervalSeconds: Int = 300,
@@ -26,7 +26,9 @@ data class MarketConfig(
     var ahTaxRatePercent: Double = 1.5,
     /** The category-tabbed browse/flip panel drawn beside the real Bazaar menu — see BazaarMenuOverlay. */
     var bazaarOverlayEnabled: Boolean = true,
-    /** Minimum profit percent (vs. Bazaar buy price) for the "buy on Bazaar, sell to an NPC" flip ranking. */
+    /** Minimum profit percent (vs. cost) for the "instant-buy on the Bazaar, sell to an NPC" flip ranking. */
+    var instaBuyToNpcMinMarginPercent: Double = 5.0,
+    /** Minimum profit percent (vs. cost) for the "place a buy order, sell to an NPC" flip ranking. */
     var buyOrderToNpcMinMarginPercent: Double = 5.0,
     /** Minimum profit percent (vs. craft cost) for the craft-flip ranking. */
     var craftFlipMinMarginPercent: Double = 10.0,

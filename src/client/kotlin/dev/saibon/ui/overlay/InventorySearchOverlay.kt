@@ -36,7 +36,7 @@ object InventorySearchOverlay {
 
     private class State {
         var query: SearchQuery = SearchQuery.Bare("")
-        var filterEnabled: Boolean = true
+        var filterEnabled: Boolean = false
     }
 
     /**

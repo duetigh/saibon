@@ -12,6 +12,7 @@ import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
@@ -65,7 +66,7 @@ class AuctionHouseListingPanel(private val screen: AbstractContainerScreen<*>) {
     private val accessor get() = screen as AbstractContainerScreenAccessor
     private val originX get() = accessor.getLeftPos() + accessor.getImageWidth() + MARGIN * 2
     private val originY get() = accessor.getTopPos()
-    private val gridColumns get() = max(1, (PANEL_WIDTH - MARGIN * 2) / (TILE_SIZE + TILE_GAP))
+    private val gridColumns get() = max(1, (PANEL_WIDTH - MARGIN * 2 + TILE_GAP) / (TILE_SIZE + TILE_GAP))
     private val gridRows get() = 5
     private val panelHeight get() = MARGIN + ROW_HEIGHT * 2 + MARGIN + gridRows * (TILE_SIZE + TILE_GAP) + ROW_HEIGHT + MARGIN
 
@@ -86,13 +87,13 @@ class AuctionHouseListingPanel(private val screen: AbstractContainerScreen<*>) {
         val halfWidth = (PANEL_WIDTH - MARGIN * 3) / 2
         addManaged(
             DropdownWidget.create(
-                originX, originY + MARGIN * 2 + ROW_HEIGHT, halfWidth, ROW_HEIGHT,
+                screen, originX, originY + MARGIN * 2 + ROW_HEIGHT, halfWidth, ROW_HEIGHT,
                 Component.literal("Category"), categories, category, { Component.literal(it) }
             ) { category = it; page = 0; rebuildGrid() }
         )
         addManaged(
             DropdownWidget.create(
-                originX + halfWidth + MARGIN, originY + MARGIN * 2 + ROW_HEIGHT, halfWidth, ROW_HEIGHT,
+                screen, originX + halfWidth + MARGIN, originY + MARGIN * 2 + ROW_HEIGHT, halfWidth, ROW_HEIGHT,
                 Component.literal("Sort"), SortOrder.entries.toList(), sortOrder, { Component.literal(it.label) }
             ) { sortOrder = it; rebuildGrid() }
         )
@@ -189,7 +190,7 @@ class AuctionHouseListingPanel(private val screen: AbstractContainerScreen<*>) {
                 add("${auction.activeBinCount} active BIN listings" to MUTED_TEXT_COLOR)
             }
         }
-        val boxWidth = lines.maxOf { font.width(it.first) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX + 12
         var boxY = mouseY - 4
@@ -198,7 +199,7 @@ class AuctionHouseListingPanel(private val screen: AbstractContainerScreen<*>) {
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, (text, color) ->
-            extractor.text(font, text, boxX + 4, boxY + 3 + index * 10, color, false)
+            ColorCodes.drawText(extractor, font, text, boxX + 4, boxY + 3 + index * 10, color, false)
         }
     }
 }

@@ -15,6 +15,7 @@ import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
@@ -75,7 +76,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
     private val gridAreaHeight get() = height - gridAreaY - MARGIN - ROW_HEIGHT
     private val detailX get() = gridAreaX + gridAreaWidth + MARGIN
 
-    private fun gridColumns(): Int = max(1, gridAreaWidth / (TILE_SIZE + TILE_GAP))
+    private fun gridColumns(): Int = max(1, (gridAreaWidth + TILE_GAP) / (TILE_SIZE + TILE_GAP))
     private fun gridVisibleRows(): Int = max(1, gridAreaHeight / (TILE_SIZE + TILE_GAP))
 
     override fun init() {
@@ -90,7 +91,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
 
         addRenderableWidget(
             DropdownWidget.create(
-                gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
+                this, gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
                 Component.literal("Sort"), SortOrder.entries.toList(), sortOrder, { Component.literal(it.label) }
             ) { sortOrder = it; rebuildGrid() }
         )
@@ -201,7 +202,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
 
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 
-        detailLabels.forEach { extractor.text(font, it.text, it.x, it.y, it.color, false) }
+        detailLabels.forEach { ColorCodes.drawText(extractor, font, it.text, it.x, it.y, it.color, false) }
         extractor.textWithWordWrap(font, Component.literal(DISCLAIMER), gridAreaX, height - ROW_HEIGHT, gridAreaWidth, DISCLAIMER_COLOR)
 
         if (filteredItems.isEmpty()) {
@@ -227,7 +228,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
                 add("Est. profit: ${formatPrice(flip.estimatedProfit)} coins" to if (flip.estimatedProfit > 0) PROFIT_COLOR else LOSS_COLOR)
             }
         }
-        val boxWidth = lines.maxOf { font.width(it.first) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX + 12
         var boxY = mouseY - 4
@@ -236,7 +237,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, (text, color) ->
-            extractor.text(font, text, boxX + 4, boxY + 3 + index * 10, color, false)
+            ColorCodes.drawText(extractor, font, text, boxX + 4, boxY + 3 + index * 10, color, false)
         }
     }
 

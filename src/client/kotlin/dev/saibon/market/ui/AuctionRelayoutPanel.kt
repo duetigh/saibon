@@ -95,12 +95,12 @@ class AuctionRelayoutPanel(private val screen: AbstractContainerScreen<*>) {
     private val footerHeight get() = ROW_HEIGHT + MARGIN
     private val gridY get() = gridAreaY + controlsHeight
     private val gridBottom get() = gridAreaY + gridAreaHeight - footerHeight
-    private val gridColumns get() = max(1, gridAreaWidth / (TILE_SIZE + TILE_GAP))
+    private val gridColumns get() = max(1, (gridAreaWidth + TILE_GAP) / (TILE_SIZE + TILE_GAP))
 
     fun attach() {
         addManaged(
             DropdownWidget.create(
-                gridAreaX, gridAreaY, gridAreaWidth, ROW_HEIGHT,
+                screen, gridAreaX, gridAreaY, gridAreaWidth, ROW_HEIGHT,
                 Component.literal("Sort"), SortOrder.entries.toList(), sortOrder, { Component.literal(it.label) }
             ) { sortOrder = it; rebuildGrid() }
         )

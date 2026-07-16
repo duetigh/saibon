@@ -11,6 +11,7 @@ import dev.saibon.search.query.SkyblockItemMatcher
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.Font
@@ -61,7 +62,7 @@ class ItemListSidebarPanel(private val screen: Screen) {
     private val panelHeight get() = screen.height - MARGIN * 2
     private val headerHeight get() = ROW_HEIGHT * 2 + MARGIN * 2
     private val gridY get() = originY + headerHeight + MARGIN
-    private val gridColumns get() = max(1, (panelWidth - MARGIN * 2) / (TILE_SIZE + TILE_GAP))
+    private val gridColumns get() = max(1, (panelWidth - MARGIN * 2 + TILE_GAP) / (TILE_SIZE + TILE_GAP))
     private val gridAreaHeight get() = panelHeight - headerHeight - ROW_HEIGHT - MARGIN * 3
     private val gridRows get() = max(1, gridAreaHeight / (TILE_SIZE + TILE_GAP))
     private val pageRowY get() = originY + panelHeight - ROW_HEIGHT - MARGIN
@@ -88,13 +89,13 @@ class ItemListSidebarPanel(private val screen: Screen) {
         val halfWidth = (panelWidth - MARGIN) / 2
         addManaged(
             DropdownWidget.create(
-                originX, originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
+                screen, originX, originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
                 Component.literal("Category"), categories, categoryFilter, { Component.literal(it) }
             ) { categoryFilter = it; page = 0; rebuildGrid() }
         )
         addManaged(
             DropdownWidget.create(
-                originX + halfWidth + MARGIN, originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
+                screen, originX + halfWidth + MARGIN, originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
                 Component.literal("Rarity"), tiers, tierFilter, { Component.literal(it) }
             ) { tierFilter = it; page = 0; rebuildGrid() }
         )
@@ -175,14 +176,20 @@ class ItemListSidebarPanel(private val screen: Screen) {
         val lines = buildList {
             add(item.name to RarityColors.of(item.tier))
             add("${item.tier} ${item.category}".trim() to MUTED_TEXT_COLOR)
-            MarketPriceRepository.bazaarPrice(item.id)?.let { bazaar ->
-                add("Bazaar buy: %,.1f coins".format(bazaar.buyPrice) to PRICE_COLOR)
+            val bazaar = MarketPriceRepository.bazaarPrice(item.id)
+            if (bazaar != null) {
+                val buy = bazaar.buyPrice.takeIf { it > 0 }
+                val sell = bazaar.sellPrice.takeIf { it > 0 }
+                add("Bazaar insta-buy: ${buy?.let { "%,.1f coins".format(it) } ?: "N/A"}" to PRICE_COLOR)
+                add("Bazaar buy order: ${sell?.let { "%,.1f coins".format(it) } ?: "N/A"}" to PRICE_COLOR)
+            } else if (item.soulbound) {
+                add("Soulbound (not tradeable)" to MUTED_TEXT_COLOR)
             }
             AuctionPriceRepository.lowestBin(item.id)?.let { auction ->
                 add("AH lowest BIN: %,.1f coins".format(auction.lowestBin.toDouble()) to PRICE_COLOR)
             }
         }
-        val boxWidth = lines.maxOf { font.width(it.first) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX - boxWidth - 12
         var boxY = mouseY - 4
@@ -191,7 +198,7 @@ class ItemListSidebarPanel(private val screen: Screen) {
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, (text, color) ->
-            extractor.text(font, text, boxX + 4, boxY + 3 + index * 10, color, false)
+            ColorCodes.drawText(extractor, font, text, boxX + 4, boxY + 3 + index * 10, color, false)
         }
     }
 }

@@ -4,6 +4,7 @@ import dev.saibon.data.DataRepository
 import dev.saibon.data.model.SkyblockItem
 import dev.saibon.itemlist.ItemTileWidget
 import dev.saibon.itemlist.RarityColors
+import dev.saibon.market.BazaarFlipRanking
 import dev.saibon.market.MarketItemMatcher
 import dev.saibon.market.MarketPriceRepository
 import dev.saibon.search.query.SearchParser
@@ -11,6 +12,7 @@ import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
@@ -65,7 +67,7 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
     private val gridAreaHeight get() = height - gridAreaY - MARGIN
     private val detailX get() = gridAreaX + gridAreaWidth + MARGIN
 
-    private fun gridColumns(): Int = max(1, gridAreaWidth / (TILE_SIZE + TILE_GAP))
+    private fun gridColumns(): Int = max(1, (gridAreaWidth + TILE_GAP) / (TILE_SIZE + TILE_GAP))
     private fun gridVisibleRows(): Int = max(1, gridAreaHeight / (TILE_SIZE + TILE_GAP))
 
     override fun init() {
@@ -80,7 +82,7 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
 
         addRenderableWidget(
             DropdownWidget.create(
-                gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
+                this, gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
                 Component.literal("Sort"), SortOrder.entries.toList(), sortOrder, { Component.literal(it.label) }
             ) { sortOrder = it; rebuildGrid() }
         )
@@ -89,20 +91,18 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
         rebuildDetail()
     }
 
-    private fun buyPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice
-    private fun margin(item: SkyblockItem): Double? {
-        val bazaar = MarketPriceRepository.bazaarPrice(item.id) ?: return null
-        return bazaar.sellPrice - bazaar.buyPrice
-    }
+    private fun buyPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice?.takeIf { it > 0 }
+    private fun sellPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.sellPrice?.takeIf { it > 0 }
+    private fun margin(item: SkyblockItem): Double? = BazaarFlipRanking.margin(buyPrice(item), sellPrice(item))
 
     private fun computeFilteredItems(): List<SkyblockItem> {
         val matching = DataRepository.allItems()
             .filter { MarketPriceRepository.bazaarPrice(it.id) != null }
             .filter { MarketItemMatcher.matches(it, query, ::buyPrice, ::margin) }
         return when (sortOrder) {
-            SortOrder.BUY_ASC -> matching.sortedBy { buyPrice(it) ?: Double.MAX_VALUE }
-            SortOrder.SELL_DESC -> matching.sortedByDescending { MarketPriceRepository.bazaarPrice(it.id)?.sellPrice ?: 0.0 }
-            SortOrder.MARGIN_DESC -> matching.sortedByDescending { margin(it) ?: 0.0 }
+            SortOrder.BUY_ASC -> matching.sortedWith(compareBy<SkyblockItem> { buyPrice(it) == null }.thenBy { buyPrice(it) })
+            SortOrder.SELL_DESC -> matching.sortedWith(compareBy<SkyblockItem> { sellPrice(it) == null }.thenByDescending { sellPrice(it) })
+            SortOrder.MARGIN_DESC -> matching.sortedWith(compareBy<SkyblockItem> { margin(it) == null }.thenByDescending { margin(it) })
             SortOrder.NAME -> matching.sortedBy { it.name }
         }
     }
@@ -155,16 +155,21 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
         detailLabels += DetailLabel(detailX, y, "${item.tier} ${item.category}".trim(), MUTED_TEXT_COLOR)
         y += ROW_HEIGHT + MARGIN
 
-        val bazaar = MarketPriceRepository.bazaarPrice(item.id)
-        if (bazaar != null) {
-            detailLabels += DetailLabel(detailX, y, "Buy: ${formatPrice(bazaar.buyPrice)} coins", PRICE_COLOR)
+        val buy = buyPrice(item)
+        val sell = sellPrice(item)
+        if (buy != null || sell != null) {
+            detailLabels += DetailLabel(detailX, y, "Insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Sell: ${formatPrice(bazaar.sellPrice)} coins", PRICE_COLOR)
+            detailLabels += DetailLabel(detailX, y, "Buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
-            val margin = bazaar.sellPrice - bazaar.buyPrice
+            detailLabels += DetailLabel(detailX, y, "Insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            y += ROW_HEIGHT
+            detailLabels += DetailLabel(detailX, y, "Sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            y += ROW_HEIGHT
+            val margin = margin(item)
             detailLabels += DetailLabel(
-                detailX, y, "Flip margin: ${formatPrice(margin)} coins",
-                if (margin > 0) FLIP_COLOR else MUTED_TEXT_COLOR
+                detailX, y, "Flip margin: ${margin?.let { "${formatPrice(it)} coins" } ?: "N/A"}",
+                if (margin != null && margin > 0) FLIP_COLOR else MUTED_TEXT_COLOR
             )
         }
     }
@@ -186,7 +191,7 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
 
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 
-        detailLabels.forEach { extractor.text(font, it.text, it.x, it.y, it.color, false) }
+        detailLabels.forEach { ColorCodes.drawText(extractor, font, it.text, it.x, it.y, it.color, false) }
 
         if (filteredItems.isEmpty()) {
             extractor.text(font, "No items match your filters", gridAreaX, gridAreaY, MUTED_TEXT_COLOR, false)
@@ -196,15 +201,19 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
     }
 
     private fun drawTooltip(extractor: GuiGraphicsExtractor, item: SkyblockItem, mouseX: Int, mouseY: Int) {
+        val buy = buyPrice(item)
+        val sell = sellPrice(item)
         val lines = buildList {
             add(item.name to RarityColors.of(item.tier))
             add("${item.tier} ${item.category}".trim() to MUTED_TEXT_COLOR)
-            MarketPriceRepository.bazaarPrice(item.id)?.let { bazaar ->
-                add("Buy: ${formatPrice(bazaar.buyPrice)} coins" to PRICE_COLOR)
-                add("Sell: ${formatPrice(bazaar.sellPrice)} coins" to PRICE_COLOR)
+            if (buy != null || sell != null) {
+                add("Insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
             }
         }
-        val boxWidth = lines.maxOf { font.width(it.first) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX + 12
         var boxY = mouseY - 4
@@ -213,7 +222,7 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, (text, color) ->
-            extractor.text(font, text, boxX + 4, boxY + 3 + index * 10, color, false)
+            ColorCodes.drawText(extractor, font, text, boxX + 4, boxY + 3 + index * 10, color, false)
         }
     }
 

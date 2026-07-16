@@ -44,8 +44,8 @@ class SettingsSectionBuilder(private val category: SaibonCategory, private val t
     }
 
     fun <T : Any> dropdown(label: String, options: List<T>, initial: T, stringify: (T) -> String, onChange: (T) -> Unit) {
-        entries += SettingEntry(label) { _, x, y, w, h ->
-            DropdownWidget.create(x, y, w, h, Component.literal(label), options, initial, { Component.literal(stringify(it)) }, onChange)
+        entries += SettingEntry(label) { screen, x, y, w, h ->
+            DropdownWidget.create(screen, x, y, w, h, Component.literal(label), options, initial, { Component.literal(stringify(it)) }, onChange)
         }
     }
 

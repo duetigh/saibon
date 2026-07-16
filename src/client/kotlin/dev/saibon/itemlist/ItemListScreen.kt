@@ -6,6 +6,7 @@ import dev.saibon.data.model.Recipe
 import dev.saibon.data.model.RecipeType
 import dev.saibon.data.model.SkyblockItem
 import dev.saibon.market.AuctionPriceRepository
+import dev.saibon.market.BazaarFlipRanking
 import dev.saibon.market.MarketPriceRepository
 import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
@@ -13,6 +14,7 @@ import dev.saibon.search.query.SkyblockItemMatcher
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Button
@@ -81,7 +83,7 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
     private val gridAreaHeight get() = height - gridAreaY - MARGIN
     private val detailX get() = gridAreaX + gridAreaWidth + MARGIN
 
-    private fun gridColumns(): Int = max(1, gridAreaWidth / (TILE_SIZE + TILE_GAP))
+    private fun gridColumns(): Int = max(1, (gridAreaWidth + TILE_GAP) / (TILE_SIZE + TILE_GAP))
     private fun gridVisibleRows(): Int = max(1, gridAreaHeight / (TILE_SIZE + TILE_GAP))
 
     override fun init() {
@@ -99,13 +101,13 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
 
         addRenderableWidget(
             DropdownWidget.create(
-                gridAreaX + gridAreaWidth - dropdownWidth * 2 - MARGIN, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
+                this, gridAreaX + gridAreaWidth - dropdownWidth * 2 - MARGIN, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
                 Component.literal("Category"), categories, categoryFilter, { Component.literal(it) }
             ) { categoryFilter = it; rebuildGrid() }
         )
         addRenderableWidget(
             DropdownWidget.create(
-                gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
+                this, gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
                 Component.literal("Rarity"), tiers, tierFilter, { Component.literal(it) }
             ) { tierFilter = it; rebuildGrid() }
         )
@@ -230,14 +232,20 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
 
         val bazaar = MarketPriceRepository.bazaarPrice(item.id)
         if (bazaar != null) {
-            detailLabels += DetailLabel(detailX, y, "Bazaar buy: ${formatPrice(bazaar.buyPrice)} coins", PRICE_COLOR)
+            val buy = bazaar.buyPrice.takeIf { it > 0 }
+            val sell = bazaar.sellPrice.takeIf { it > 0 }
+            detailLabels += DetailLabel(detailX, y, "Bazaar insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Bazaar sell: ${formatPrice(bazaar.sellPrice)} coins", PRICE_COLOR)
+            detailLabels += DetailLabel(detailX, y, "Bazaar buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            y += ROW_HEIGHT
+            detailLabels += DetailLabel(detailX, y, "Bazaar insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            y += ROW_HEIGHT
+            detailLabels += DetailLabel(detailX, y, "Bazaar sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
 
-            val margin = bazaar.sellPrice - bazaar.buyPrice
-            val marginPercent = if (bazaar.buyPrice > 0) margin / bazaar.buyPrice * 100 else 0.0
-            if (margin > 0 && marginPercent >= Saibon.config.data.market.flipMinMarginPercent) {
+            val margin = BazaarFlipRanking.margin(buy, sell)
+            val marginPercent = if (margin != null && sell != null && sell > 0) margin / sell * 100 else null
+            if (margin != null && marginPercent != null && margin > 0 && marginPercent >= Saibon.config.data.market.flipMinMarginPercent) {
                 detailLabels += DetailLabel(
                     detailX, y,
                     "Flip margin: ${formatPrice(margin)} coins (${"%.0f".format(marginPercent)}%)",
@@ -246,6 +254,9 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
                 y += ROW_HEIGHT
             }
             y += MARGIN / 2
+        } else if (item.soulbound) {
+            detailLabels += DetailLabel(detailX, y, "Soulbound (not tradeable)", MUTED_TEXT_COLOR)
+            y += ROW_HEIGHT + MARGIN / 2
         }
 
         val auction = AuctionPriceRepository.lowestBin(item.id)
@@ -389,7 +400,7 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
 
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 
-        detailLabels.forEach { extractor.text(font, it.text, it.x, it.y, it.color, false) }
+        detailLabels.forEach { ColorCodes.drawText(extractor, font, it.text, it.x, it.y, it.color, false) }
 
         if (filteredItems.isEmpty()) {
             val message = if (DataRepository.allItems().isEmpty()) "No item data loaded yet" else "No items match your filters"
@@ -406,15 +417,22 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
             add(item.name to RarityColors.of(item.tier))
             add("${item.tier} ${item.category}".trim() to MUTED_TEXT_COLOR)
             if (item.npcSellPrice > 0) add("NPC sell: ${formatPrice(item.npcSellPrice)} coins" to PRICE_COLOR)
-            MarketPriceRepository.bazaarPrice(item.id)?.let { bazaar ->
-                add("Bazaar buy: ${formatPrice(bazaar.buyPrice)} coins" to PRICE_COLOR)
-                add("Bazaar sell: ${formatPrice(bazaar.sellPrice)} coins" to PRICE_COLOR)
+            val bazaar = MarketPriceRepository.bazaarPrice(item.id)
+            if (bazaar != null) {
+                val buy = bazaar.buyPrice.takeIf { it > 0 }
+                val sell = bazaar.sellPrice.takeIf { it > 0 }
+                add("Bazaar insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Bazaar buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Bazaar insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Bazaar sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+            } else if (item.soulbound) {
+                add("Soulbound (not tradeable)" to MUTED_TEXT_COLOR)
             }
             AuctionPriceRepository.lowestBin(item.id)?.let { auction ->
                 add("AH lowest BIN: ${formatPrice(auction.lowestBin.toDouble())} coins" to PRICE_COLOR)
             }
         }
-        val boxWidth = lines.maxOf { font.width(it.first) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX + 12
         var boxY = mouseY - 4
@@ -423,7 +441,7 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, (text, color) ->
-            extractor.text(font, text, boxX + 4, boxY + 3 + index * 10, color, false)
+            ColorCodes.drawText(extractor, font, text, boxX + 4, boxY + 3 + index * 10, color, false)
         }
     }
 

@@ -12,6 +12,7 @@ import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
 import net.minecraft.world.item.ItemStack
 import net.minecraft.world.item.Items
+import kotlin.math.max
 
 /**
  * Categorized, searchable settings screen. The sidebar lists [SaibonCategory]
@@ -30,8 +31,8 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
         private const val ROW_HEIGHT = 20
         private const val ROW_GAP = 4
         private const val WIDGET_WIDTH = 150
-        private const val PLACEHOLDER_TEXT_COLOR = 0xA0A0A0
-        private const val TITLE_TEXT_COLOR = 0xFFD700
+        private const val PLACEHOLDER_TEXT_COLOR = 0xFFA0A0A0.toInt()
+        private const val TITLE_TEXT_COLOR = 0xFFFFD700.toInt()
 
         private fun iconFor(category: SaibonCategory): Item = when (category) {
             SaibonCategory.GENERAL -> Items.COMPASS
@@ -48,6 +49,12 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
     private val contentLabels = mutableListOf<ContentLabel>()
     private var filter: String = ""
     private var selected: SaibonCategory = SaibonCategory.GENERAL
+    private var contentScroll: Int = 0
+    private var contentHeight: Int = 0
+
+    private val contentTop get() = MARGIN
+    private val contentBottom get() = height - MARGIN
+    private val contentVisibleHeight get() = contentBottom - contentTop
 
     override fun init() {
         val box = SearchEditBox(font, MARGIN, MARGIN, SIDEBAR_WIDTH - MARGIN * 2, ROW_HEIGHT, Component.literal("Search"))
@@ -95,35 +102,49 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
 
         val labelX = SIDEBAR_WIDTH + MARGIN * 2
         val widgetX = width - MARGIN - WIDGET_WIDTH
-        var y = MARGIN
 
-        val sections = SettingsRegistry.sectionsFor(selected)
-        var matched = false
-
-        for (section in sections) {
-            val entries = section.entries.filter {
+        val sections = SettingsRegistry.sectionsFor(selected).map { section ->
+            section to section.entries.filter {
                 filter.isBlank() || it.label.contains(filter, ignoreCase = true) || section.title.contains(filter, ignoreCase = true)
             }
-            if (entries.isEmpty()) continue
-            matched = true
+        }.filter { (_, entries) -> entries.isNotEmpty() }
 
-            contentLabels += ContentLabel(labelX, y, section.title, isTitle = true)
+        contentHeight = sections.sumOf { (_, entries) -> ROW_HEIGHT + entries.size * (ROW_HEIGHT + ROW_GAP) + ROW_GAP }
+        val maxScroll = max(0, contentHeight - contentVisibleHeight)
+        contentScroll = contentScroll.coerceIn(0, maxScroll)
+
+        var y = contentTop - contentScroll
+        for ((section, entries) in sections) {
+            if (y + ROW_HEIGHT > contentTop && y < contentBottom) {
+                contentLabels += ContentLabel(labelX, y, section.title, isTitle = true)
+            }
             y += ROW_HEIGHT
 
             for (entry in entries) {
-                contentLabels += ContentLabel(labelX, y + (ROW_HEIGHT - 8) / 2, entry.label, isTitle = false)
-                val widget = entry.build(this, widgetX, y, WIDGET_WIDTH, ROW_HEIGHT)
-                contentWidgets += widget
-                addRenderableWidget(widget)
+                if (y + ROW_HEIGHT > contentTop && y < contentBottom) {
+                    contentLabels += ContentLabel(labelX, y + (ROW_HEIGHT - 8) / 2, entry.label, isTitle = false)
+                    val widget = entry.build(this, widgetX, y, WIDGET_WIDTH, ROW_HEIGHT)
+                    contentWidgets += widget
+                    addRenderableWidget(widget)
+                }
                 y += ROW_HEIGHT + ROW_GAP
             }
             y += ROW_GAP
         }
 
-        if (!matched) {
-            val message = if (sections.isEmpty()) "Nothing here yet" else "No settings match \"$filter\""
+        if (sections.isEmpty()) {
+            val message = if (SettingsRegistry.sectionsFor(selected).isEmpty()) "Nothing here yet" else "No settings match \"$filter\""
             contentLabels += ContentLabel(labelX, MARGIN, message, isTitle = false)
         }
+    }
+
+    override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
+        if (mouseX >= SIDEBAR_WIDTH && scrollY != 0.0) {
+            contentScroll -= (scrollY * (ROW_HEIGHT + ROW_GAP)).toInt()
+            rebuildContent()
+            return true
+        }
+        return super.mouseScrolled(mouseX, mouseY, scrollX, scrollY)
     }
 
     override fun extractRenderState(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int, delta: Float) {

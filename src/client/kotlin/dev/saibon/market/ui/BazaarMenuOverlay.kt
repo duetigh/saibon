@@ -15,6 +15,7 @@ import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.SearchEditBox
+import dev.saibon.util.ColorCodes
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.client.Minecraft
@@ -42,6 +43,7 @@ object BazaarMenuOverlay {
 
     private const val VIEW_ALL = "All"
     private const val VIEW_FLIPS_MARGIN = "Flips: Bazaar Margin"
+    private const val VIEW_FLIPS_INSTABUY_NPC = "Flips: Insta-buy -> NPC"
     private const val VIEW_FLIPS_NPC = "Flips: Buy Order -> NPC"
     private const val VIEW_FLIPS_CRAFT = "Flips: Craft"
 
@@ -83,7 +85,7 @@ object BazaarMenuOverlay {
         val accessor get() = screen as AbstractContainerScreenAccessor
         val originX get() = accessor.getLeftPos() + accessor.getImageWidth() + MARGIN * 2
         val originY get() = accessor.getTopPos()
-        val gridColumns get() = max(1, (GRID_WIDTH - MARGIN) / (TILE_SIZE + TILE_GAP))
+        val gridColumns get() = max(1, (GRID_WIDTH - MARGIN + TILE_GAP) / (TILE_SIZE + TILE_GAP))
         val detailX get() = originX + GRID_WIDTH + MARGIN
         val basePanelHeight get() = ROW_HEIGHT * 2 + MARGIN * 3 + GRID_ROWS * (TILE_SIZE + TILE_GAP)
         val panelHeight get() = basePanelHeight + if (pendingConfirm != null) (ROW_HEIGHT + MARGIN) * 2 else 0
@@ -111,7 +113,7 @@ object BazaarMenuOverlay {
 
         val views = listOf(VIEW_ALL) + DataRepository.allItems()
             .mapNotNull { it.category.takeIf { c -> c.isNotBlank() } }
-            .distinct().sorted() + listOf(VIEW_FLIPS_MARGIN, VIEW_FLIPS_NPC, VIEW_FLIPS_CRAFT)
+            .distinct().sorted() + listOf(VIEW_FLIPS_MARGIN, VIEW_FLIPS_INSTABUY_NPC, VIEW_FLIPS_NPC, VIEW_FLIPS_CRAFT)
 
         val searchBox = SearchEditBox(
             Minecraft.getInstance().font, state.originX, state.originY, GRID_WIDTH, ROW_HEIGHT,
@@ -125,14 +127,14 @@ object BazaarMenuOverlay {
         addManaged(
             state,
             DropdownWidget.create(
-                state.originX, state.originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
+                state.screen, state.originX, state.originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
                 Component.literal("View"), views, state.view, { Component.literal(it) }
             ) { state.view = it; state.page = 0; rebuildGrid(state) }
         )
         addManaged(
             state,
             DropdownWidget.create(
-                state.originX + halfWidth + MARGIN, state.originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
+                state.screen, state.originX + halfWidth + MARGIN, state.originY + ROW_HEIGHT + MARGIN, halfWidth, ROW_HEIGHT,
                 Component.literal("Sort"), SortOrder.entries.toList(), state.sortOrder, { Component.literal(it.label) }
             ) { state.sortOrder = it; rebuildGrid(state) }
         )
@@ -189,12 +191,9 @@ object BazaarMenuOverlay {
         clearConfirm(state)
     }
 
-    private fun buyPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice
-    private fun sellPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.sellPrice
-    private fun margin(item: SkyblockItem): Double? {
-        val price = MarketPriceRepository.bazaarPrice(item.id) ?: return null
-        return price.sellPrice - price.buyPrice
-    }
+    private fun buyPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice?.takeIf { it > 0 }
+    private fun sellPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.sellPrice?.takeIf { it > 0 }
+    private fun margin(item: SkyblockItem): Double? = BazaarFlipRanking.margin(buyPrice(item), sellPrice(item))
 
     private fun rebuildGrid(state: State) {
         state.gridTiles.forEach { state.widgets.remove(it) }
@@ -203,7 +202,8 @@ object BazaarMenuOverlay {
         val config = Saibon.config.data.market
         val candidates: List<SkyblockItem> = when (state.view) {
             VIEW_FLIPS_MARGIN -> BazaarFlipRanking.marginFlips(DataRepository.allItems(), ::buyPrice, ::sellPrice, config.flipMinMarginPercent).map { it.item }
-            VIEW_FLIPS_NPC -> BazaarFlipRanking.npcSellFlips(DataRepository.allItems(), ::buyPrice, config.buyOrderToNpcMinMarginPercent).map { it.item }
+            VIEW_FLIPS_INSTABUY_NPC -> BazaarFlipRanking.instaBuyNpcFlips(DataRepository.allItems(), ::buyPrice, config.instaBuyToNpcMinMarginPercent).map { it.item }
+            VIEW_FLIPS_NPC -> BazaarFlipRanking.buyOrderNpcFlips(DataRepository.allItems(), ::sellPrice, config.buyOrderToNpcMinMarginPercent).map { it.item }
             VIEW_FLIPS_CRAFT -> CraftFlipRanking.bestFlips(
                 DataRepository.allItems(),
                 recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
@@ -216,9 +216,9 @@ object BazaarMenuOverlay {
                     .filter { MarketPriceRepository.bazaarPrice(it.id) != null }
                     .filter { state.view == VIEW_ALL || it.category.equals(state.view, ignoreCase = true) }
                 when (state.sortOrder) {
-                    SortOrder.BUY_ASC -> matching.sortedBy { buyPrice(it) ?: Double.MAX_VALUE }
-                    SortOrder.SELL_DESC -> matching.sortedByDescending { sellPrice(it) ?: 0.0 }
-                    SortOrder.MARGIN_DESC -> matching.sortedByDescending { margin(it) ?: 0.0 }
+                    SortOrder.BUY_ASC -> matching.sortedWith(compareBy<SkyblockItem> { buyPrice(it) == null }.thenBy { buyPrice(it) })
+                    SortOrder.SELL_DESC -> matching.sortedWith(compareBy<SkyblockItem> { sellPrice(it) == null }.thenByDescending { sellPrice(it) })
+                    SortOrder.MARGIN_DESC -> matching.sortedWith(compareBy<SkyblockItem> { margin(it) == null }.thenByDescending { margin(it) })
                     SortOrder.NAME -> matching.sortedBy { it.name }
                 }
             }
@@ -315,7 +315,7 @@ object BazaarMenuOverlay {
 
         val lines = buildDetailLines(state, item)
         for (line in lines) {
-            extractor.text(font, line.text, state.detailX, y, line.color, false)
+            ColorCodes.drawText(extractor, font, line.text, state.detailX, y, line.color, false)
             y += ROW_HEIGHT - 4
         }
     }
@@ -324,19 +324,27 @@ object BazaarMenuOverlay {
         add(DetailLine(item.name, RarityColors.of(item.tier)))
         add(DetailLine("${item.tier} ${item.category}".trim(), MUTED_TEXT_COLOR))
 
-        val price = MarketPriceRepository.bazaarPrice(item.id)
-        if (price != null) {
-            add(DetailLine("Buy: %,.1f".format(price.buyPrice), PRICE_COLOR))
-            add(DetailLine("Sell: %,.1f".format(price.sellPrice), PRICE_COLOR))
-            val margin = price.sellPrice - price.buyPrice
-            add(DetailLine("Margin: %,.1f".format(margin), if (margin > 0) PROFIT_COLOR else LOSS_COLOR))
+        val buy = buyPrice(item)
+        val sell = sellPrice(item)
+        if (buy != null || sell != null) {
+            add(DetailLine("Insta-buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Buy order: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Insta-sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Sell offer: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            val margin = BazaarFlipRanking.margin(buy, sell)
+            add(DetailLine("Margin: ${margin?.let { "%,.1f".format(it) } ?: "N/A"}", if (margin != null && margin > 0) PROFIT_COLOR else if (margin == null) MUTED_TEXT_COLOR else LOSS_COLOR))
         }
 
         when (state.view) {
-            VIEW_FLIPS_NPC -> if (item.npcSellPrice > 0 && price != null) {
-                val profit = item.npcSellPrice - price.buyPrice
-                add(DetailLine("NPC sell: %,.1f".format(item.npcSellPrice), PRICE_COLOR))
-                add(DetailLine("Profit: %,.1f".format(profit), if (profit > 0) PROFIT_COLOR else LOSS_COLOR))
+            VIEW_FLIPS_INSTABUY_NPC -> {
+                add(DetailLine("NPC sell: ${if (item.npcSellPrice > 0) "%,.1f".format(item.npcSellPrice) else "N/A"}", PRICE_COLOR))
+                val profit = if (item.npcSellPrice > 0) buy?.let { item.npcSellPrice - it } else null
+                add(DetailLine("Profit: ${profit?.let { "%,.1f".format(it) } ?: "N/A"}", if (profit != null && profit > 0) PROFIT_COLOR else if (profit == null) MUTED_TEXT_COLOR else LOSS_COLOR))
+            }
+            VIEW_FLIPS_NPC -> {
+                add(DetailLine("NPC sell: ${if (item.npcSellPrice > 0) "%,.1f".format(item.npcSellPrice) else "N/A"}", PRICE_COLOR))
+                val profit = if (item.npcSellPrice > 0) sell?.let { item.npcSellPrice - it } else null
+                add(DetailLine("Profit: ${profit?.let { "%,.1f".format(it) } ?: "N/A"}", if (profit != null && profit > 0) PROFIT_COLOR else if (profit == null) MUTED_TEXT_COLOR else LOSS_COLOR))
             }
             VIEW_FLIPS_CRAFT -> {
                 val recipe = DataRepository.recipesFor(item.id).firstOrNull()
@@ -359,7 +367,7 @@ object BazaarMenuOverlay {
 
     private fun drawTooltip(state: State, extractor: GuiGraphicsExtractor, font: net.minecraft.client.gui.Font, item: SkyblockItem, mouseX: Int, mouseY: Int) {
         val lines = buildDetailLines(state, item)
-        val boxWidth = lines.maxOf { font.width(it.text) } + 8
+        val boxWidth = lines.maxOf { ColorCodes.width(font, it.text) } + 8
         val boxHeight = lines.size * 10 + 6
         var boxX = mouseX + 12
         var boxY = mouseY - 4
@@ -368,7 +376,7 @@ object BazaarMenuOverlay {
 
         Panel.draw(extractor, boxX, boxY, boxWidth, boxHeight)
         lines.forEachIndexed { index, line ->
-            extractor.text(font, line.text, boxX + 4, boxY + 3 + index * 10, line.color, false)
+            ColorCodes.drawText(extractor, font, line.text, boxX + 4, boxY + 3 + index * 10, line.color, false)
         }
     }
 }
