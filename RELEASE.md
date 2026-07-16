@@ -15,6 +15,59 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.6.0 - 2026-07-15
+
+### Added
+- Auction House relayout (`NEU_FEATURE_PARITY.md` #2, opt-in, **off by
+  default**): `AuctionRelayoutPanel` redraws the current AH page's listings
+  as a sorted (price asc/desc, name), searchable NEU-style tile grid drawn
+  over the real menu. Every tile stays backed by its real, currently-open
+  `Slot` — `Slot.x`/`Slot.y` are immutable in this MC build so listings
+  can't actually move, the grid just draws over them at new coordinates and
+  maps clicks back. Clicking a tile doesn't fire immediately: it goes
+  through a Confirm/Cancel gate (on by default) before issuing the same
+  `invokeSlotClicked` call path a genuine click would take, so Hypixel's own
+  server-side purchase confirmation still runs as the backstop. New toggles
+  in Auction House Overlay settings (enable relayout, require confirm).
+- Inventory search overlay: double-clicking the expanded search box toggles
+  whether the current query filters/highlights slots, independent of typing
+  — lets a query (e.g. scratch math) be typed without dimming the inventory,
+  while a single click still just focuses the box.
+
+### Changed
+- Data repository, self-update manifest, and mod contact link now point at
+  `duetigh/saibon` instead of `JamesWLyon/saibon` (maintainer's GitHub
+  account was renamed); `data/index.json`'s `items` dataset bumped to
+  version 3.
+- Panel theme switched from the gold/amber NEU-style accent to a neutral
+  gray/white scheme (`Panel.BACKGROUND`/`ACCENT`/etc.).
+- `RarityColors.of` now normalizes underscore-separated tiers (`VERY_SPECIAL`,
+  as returned by the Hypixel API via the data repo) to the space-separated
+  form its color map already used for lore-parsed tiers; added `SUPREME` and
+  `UNOBTAINABLE` entries.
+- Update checker no longer re-announces "Mod loaded"/re-checks on every
+  Hypixel server switch (hub ↔ SkyBlock island ↔ dungeon instance ↔ `/warp`),
+  which each resend a join packet without closing the connection — it now
+  only fires once per actual connection, gated on a new `DISCONNECT` listener.
+- `MarketMenuOverlay`, `BazaarMenuOverlay`, `AuctionHouseListingPanel`, and
+  `ItemListSidebarPanel` now draw their background panel in a
+  `beforeExtract` pass instead of inline at the top of `render`, fixing the
+  panel background painting over content drawn earlier in the same frame by
+  sibling overlays sharing a screen.
+
+### Fixed
+- Inventory search overlay's search box now takes focus via
+  `Screen.setFocused` instead of `EditBox.setFocused(true)`, fixing the
+  vanilla screen not recognizing the box as focused for keyboard routing.
+
+### Policy
+- The AH relayout tile-click path follows the same rule as the existing
+  Bazaar action-navigation feature (`PLAN.md`): it synthesizes a real click
+  only from a direct, in-the-moment player action, and stops at the same
+  server-round-trip a genuine click would trigger rather than chaining
+  further clicks itself. Unverified against a live server, so it ships off
+  by default with confirm-required also on by default.
+
 ## v0.5.0 - 2026-07-15
 
 ### Added

@@ -93,9 +93,9 @@ fun SettingsSection(
     category: SaibonCategory,
     title: String,
     order: Int = 0,
-    build: SettingsSectionBuilder.() -> Unit
+    block: SettingsSectionBuilder.() -> Unit
 ): SettingsSection {
     val builder = SettingsSectionBuilder(category, title, order)
-    builder.build()
+    builder.block()
     return builder.build()
 }

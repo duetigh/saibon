@@ -156,9 +156,12 @@ class ItemListSidebarPanel(private val screen: Screen) {
         }
     }
 
+    fun renderBackground(extractor: GuiGraphicsExtractor) {
+        Panel.draw(extractor, originX - MARGIN, originY - MARGIN, panelWidth + MARGIN * 2, panelHeight + MARGIN)
+    }
+
     fun render(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
         val font = Minecraft.getInstance().font
-        Panel.draw(extractor, originX - MARGIN, originY - MARGIN, panelWidth + MARGIN * 2, panelHeight + MARGIN)
 
         if (filteredItems.isEmpty()) {
             val message = if (DataRepository.allItems().isEmpty()) "No item data loaded yet" else "No items match"

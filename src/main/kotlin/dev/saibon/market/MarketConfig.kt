@@ -35,5 +35,9 @@ data class MarketConfig(
     /** A second explicit confirmation before the first synthesized click of any Bazaar buy/sell/order/offer sequence. */
     var bazaarActionConfirmRequired: Boolean = true,
     /** Per-step timeout for the Bazaar action navigator before it aborts a stalled click sequence. */
-    var bazaarActionTimeoutMs: Int = 5000
+    var bazaarActionTimeoutMs: Int = 5000,
+    /** Relays the real AH page's listings into a sorted/paginated NEU-style grid over the real slots — see AuctionRelayoutPanel. Off by default: unlike the read-only overlays above, clicking a tile issues a real click on the backing real slot. */
+    var ahRelayoutEnabled: Boolean = false,
+    /** A Confirm/Cancel gate before a relayout tile's click is forwarded to its real slot — see AuctionRelayoutPanel. */
+    var ahRelayoutConfirmRequired: Boolean = true
 )

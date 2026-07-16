@@ -19,22 +19,39 @@ import java.util.concurrent.Executors
  * off [ClientPlayConnectionEvents.JOIN] (world/server join) rather than mod
  * init or the title screen, so a [net.minecraft.client.player.LocalPlayer]
  * always exists to receive the "Mod loaded" / update chat lines.
+ *
+ * Hypixel switches you between backend servers (hub, SkyBlock islands,
+ * dungeon instances, `/warp`s) without ever closing the underlying
+ * connection, but each switch resends a fresh join packet, so [JOIN] fires
+ * again on every warp. [DISCONNECT] only fires when that connection actually
+ * closes (leaving the network), so it's used here to gate re-announcing.
  */
 object UpdateChecker {
-    private const val MANIFEST_URL = "https://github.com/JamesWLyon/saibon/releases/latest/download/version.json"
+    private const val MANIFEST_URL = "https://github.com/duetigh/saibon/releases/latest/download/version.json"
     private val gson = Gson()
     private val executor = Executors.newSingleThreadExecutor { runnable ->
         Thread(runnable, "Saibon-UpdateChecker").apply { isDaemon = true }
     }
-    private val httpClient: HttpClient = HttpClient.newBuilder().executor(executor).build()
+    private val httpClient: HttpClient = HttpClient.newBuilder()
+        .executor(executor)
+        .followRedirects(HttpClient.Redirect.NORMAL)
+        .build()
 
     var latestManifest: VersionManifest? = null
         private set
 
+    private var hasActiveSession = false
+
     fun init() {
         ClientPlayConnectionEvents.JOIN.register { _, _, _ ->
-            Minecraft.getInstance().player?.sendSystemMessage(SaibonChat.message("Mod loaded."))
-            checkNow()
+            if (!hasActiveSession) {
+                Minecraft.getInstance().player?.sendSystemMessage(SaibonChat.message("Mod loaded."))
+                checkNow()
+            }
+            hasActiveSession = true
+        }
+        ClientPlayConnectionEvents.DISCONNECT.register { _, _ ->
+            hasActiveSession = false
         }
     }
 

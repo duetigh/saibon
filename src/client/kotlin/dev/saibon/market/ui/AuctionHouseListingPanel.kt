@@ -160,14 +160,17 @@ class AuctionHouseListingPanel(private val screen: AbstractContainerScreen<*>) {
         }
     }
 
+    fun renderBackground(extractor: GuiGraphicsExtractor) {
+        Panel.draw(extractor, originX - MARGIN, originY - MARGIN, PANEL_WIDTH, panelHeight)
+    }
+
     fun render(extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
         val font = Minecraft.getInstance().font
-        Panel.draw(extractor, originX - MARGIN, originY - MARGIN, PANEL_WIDTH, panelHeight)
 
         if (filteredItems.isEmpty()) {
             val message = when {
                 AuctionPriceRepository.isRefreshing -> "Fetching auction prices..."
-                AuctionPriceRepository.lastRefreshed == null -> "Enable AH price refresh in Market settings"
+                AuctionPriceRepository.lastRefreshed == null -> "Enable AH price refresh in Auction House Prices settings"
                 else -> "No items match"
             }
             extractor.text(font, message, originX, originY + MARGIN * 3 + ROW_HEIGHT * 2, MUTED_TEXT_COLOR, false)

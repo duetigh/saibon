@@ -13,7 +13,6 @@ import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
-import net.minecraft.core.component.DataComponents
 import net.minecraft.network.chat.Component
 import net.minecraft.world.inventory.Slot
 import java.util.IdentityHashMap
@@ -24,30 +23,37 @@ import java.util.IdentityHashMap
  * Bazaar's equivalent is [BazaarMenuOverlay] — split out separately since it
  * grew a full category/flip panel and (eventually) click execution, neither
  * of which apply to the AH side (see [AuctionHouseListingPanel]'s doc
- * comment for why AH stays informational-only).
+ * comment for why its own browse panel stays informational-only).
  *
- * The originally-planned approach — reposition real [Slot]s into a
- * freshly-sorted grid and let vanilla's own click routing follow — turned
- * out not to be buildable: `Slot.x`/`Slot.y` are `public final` in this MC
- * build (verified against the actual decompiled 26.2 jar), not mutable like
- * older MC versions this technique is known from. Rather than hand-roll new
- * click-dispatch logic to fake a relayout (untestable in a sandbox with no
- * live Hypixel session, and a bad place to get click-mapping wrong — real
- * coins), this stays render-only: every real listing stays in its real,
- * server-assigned slot, exactly where a click already lands correctly.
+ * By default this stays render-only: every real listing stays in its real,
+ * server-assigned [Slot], exactly where a click already lands correctly.
  * Search highlights the cheapest match and dims non-matches, and listings
  * priced far above the known lowest BIN get an overpay outline. Same proven
  * technique as [dev.saibon.ui.overlay.InventorySearchOverlay] (dim/outline
  * over real slots, zero clicks, zero mutation).
  *
- * TODO verify against a live server before relying on it: the title regex
- * and the lore price-line pattern below are based on Hypixel's historically-
- * known AH GUI conventions, not confirmed live from this sandbox (no
- * reachable Minecraft/Hypixel session here).
+ * Opt-in beyond that (`Saibon.config.data.market.ahRelayoutEnabled`, default
+ * off): [AuctionRelayoutPanel] repositions the current page's listings into
+ * a sorted/paginated NEU-style grid, still backed by the real [Slot]s
+ * underneath (`Slot.x`/`Slot.y` are `public final` in this MC build —
+ * verified against the decompiled 26.2 jar — so the real slots can't
+ * actually move; the grid just draws over them at new coordinates and maps
+ * clicks back). A tile click doesn't fire immediately — it goes through a
+ * Confirm/Cancel gate (`ahRelayoutConfirmRequired`, default on) before
+ * calling [AbstractContainerScreenAccessor.invokeSlotClicked] on the real
+ * backing slot, the same call path a genuine click takes, so Hypixel's own
+ * server-side AH purchase confirmation still runs as the real backstop.
+ * When active, the render-only dim/outline pass below is skipped for
+ * listing slots (both would otherwise draw conflicting treatments over the
+ * same, now-repositioned, slots).
+ *
+ * TODO verify against a live server before relying on it: the title regex,
+ * the lore price-line pattern, and the relayout click-routing above are
+ * based on Hypixel's historically-known AH GUI conventions, not confirmed
+ * live from this sandbox (no reachable Minecraft/Hypixel session here).
  */
 object MarketMenuOverlay {
     private val AH_TITLE = Regex("Auction House|BIN Auction View|Auctions Browser|Manage Auctions", RegexOption.IGNORE_CASE)
-    private val PRICE_LINE = Regex("([\\d,]+(?:\\.\\d+)?)\\s*coins", RegexOption.IGNORE_CASE)
 
     private const val SLOT_SIZE = 16
     private const val BAR_HEIGHT = 14
@@ -59,6 +65,7 @@ object MarketMenuOverlay {
     private class State {
         var query: SearchQuery = SearchQuery.Bare("")
         var listingPanel: AuctionHouseListingPanel? = null
+        var relayoutPanel: AuctionRelayoutPanel? = null
     }
 
     private val states = IdentityHashMap<Screen, State>()
@@ -87,7 +94,10 @@ object MarketMenuOverlay {
 
         val box = SearchEditBox(Minecraft.getInstance().font, barX, barY, barWidth, BAR_HEIGHT, Component.literal("Search"))
         box.setHint(Component.literal("Highlight this page's listings... (minprice:1000000)"))
-        box.setResponder { text -> state.query = SearchParser.parse(text) }
+        box.setResponder { text ->
+            state.query = SearchParser.parse(text)
+            state.relayoutPanel?.onQueryChanged(state.query)
+        }
         Screens.getWidgets(screen).add(box)
 
         if (Saibon.config.data.market.ahOverlayPanelEnabled) {
@@ -96,20 +106,39 @@ object MarketMenuOverlay {
             state.listingPanel = panel
         }
 
+        if (Saibon.config.data.market.ahRelayoutEnabled) {
+            val relayout = AuctionRelayoutPanel(screen)
+            relayout.attach()
+            state.relayoutPanel = relayout
+        }
+
         ScreenEvents.remove(screen).register {
             state.listingPanel?.detach()
+            state.relayoutPanel?.detach()
             states.remove(screen)
+        }
+        ScreenEvents.beforeExtract(screen).register { _, extractor, _, _, _ ->
+            state.listingPanel?.renderBackground(extractor)
+            state.relayoutPanel?.renderBackground(extractor)
         }
         ScreenEvents.afterExtract(screen).register { _, extractor, mouseX, mouseY, _ -> render(screen, state, extractor, mouseX, mouseY) }
     }
 
     private fun render(screen: AbstractContainerScreen<*>, state: State, extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
         val accessor = screen as AbstractContainerScreenAccessor
-        val player = Minecraft.getInstance().player
-        val listingSlots = screen.menu.slots.filter { it.container !== player?.inventory && !it.item.isEmpty }
-
-        renderSearchHighlight(listingSlots, state, accessor, extractor)
-        renderOverpayBadges(listingSlots, accessor, extractor)
+        val relayout = state.relayoutPanel
+        if (relayout != null) {
+            // Both the dim/outline pass below and the overpay badges key off each
+            // real slot's own x/y — once the relayout grid has repositioned
+            // listings on screen, those coordinates no longer line up with what's
+            // visually shown, so skip them entirely rather than draw stale outlines.
+            relayout.render(extractor, mouseX, mouseY)
+        } else {
+            val player = Minecraft.getInstance().player
+            val listingSlots = screen.menu.slots.filter { it.container !== player?.inventory && !it.item.isEmpty }
+            renderSearchHighlight(listingSlots, state, accessor, extractor)
+            renderOverpayBadges(listingSlots, accessor, extractor)
+        }
         state.listingPanel?.render(extractor, mouseX, mouseY)
     }
 
@@ -123,7 +152,7 @@ object MarketMenuOverlay {
         if (query is SearchQuery.Bare && query.value.isBlank()) return
 
         val matches = listingSlots.filter { matchesQuery(it, query) }
-        val cheapest = matches.minByOrNull { parsedPrice(it) ?: Double.MAX_VALUE }
+        val cheapest = matches.minByOrNull { LiveListingMatcher.priceOf(it) ?: Double.MAX_VALUE }
 
         for (slot in listingSlots) {
             val absX = accessor.getLeftPos() + slot.x
@@ -148,7 +177,7 @@ object MarketMenuOverlay {
         val threshold = Saibon.config.data.market.overpayWarningThreshold
 
         for (slot in listingSlots) {
-            val price = parsedPrice(slot) ?: continue
+            val price = LiveListingMatcher.priceOf(slot) ?: continue
             val displayName = slot.item.hoverName.string
             val item = DataRepository.allItems().firstOrNull { it.name.equals(displayName, ignoreCase = true) }
                 ?: DataRepository.allItems().firstOrNull { displayName.endsWith(it.name, ignoreCase = true) }
@@ -162,15 +191,9 @@ object MarketMenuOverlay {
         }
     }
 
-    private fun parsedPrice(slot: Slot): Double? {
-        val lore = slot.item.get(DataComponents.LORE)?.lines()?.joinToString(" ") { it.string } ?: return null
-        val match = PRICE_LINE.find(lore) ?: return null
-        return match.groupValues[1].replace(",", "").toDoubleOrNull()
-    }
-
     private fun matchesQuery(slot: Slot, query: SearchQuery): Boolean {
         val name = slot.item.hoverName.string
-        val price = parsedPrice(slot)
+        val price = LiveListingMatcher.priceOf(slot)
         return LiveListingMatcher.matches(name, price, query)
     }
 }

@@ -37,6 +37,7 @@ object ItemListSidebarOverlay {
             panel.detach()
             panels.remove(screen)
         }
+        ScreenEvents.beforeExtract(screen).register { _, extractor, _, _, _ -> panel.renderBackground(extractor) }
         ScreenEvents.afterExtract(screen).register { _, extractor, mouseX, mouseY, _ -> panel.render(extractor, mouseX, mouseY) }
     }
 }

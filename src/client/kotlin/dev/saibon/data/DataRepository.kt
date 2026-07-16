@@ -33,7 +33,7 @@ import java.util.concurrent.atomic.AtomicBoolean
  */
 object DataRepository {
     private const val MANIFEST_URL =
-        "https://raw.githubusercontent.com/JamesWLyon/saibon/master/data/index.json"
+        "https://raw.githubusercontent.com/duetigh/saibon/master/data/index.json"
 
     /** Initial fetch is delayed rather than run at mod-init time, per PLAN.md's
      * "defer non-critical startup work (e.g. the data-repo fetch) until after

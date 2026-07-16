@@ -15,7 +15,7 @@ import net.minecraft.network.chat.Component
  * the hovered item, "1".."9" swaps it into a hotbar slot — all while the box
  * still has focus and is receiving the same keystroke as text.
  */
-class SearchEditBox(font: Font, x: Int, y: Int, width: Int, height: Int, message: Component) :
+open class SearchEditBox(font: Font, x: Int, y: Int, width: Int, height: Int, message: Component) :
     EditBox(font, x, y, width, height, message) {
 
     override fun keyPressed(event: KeyEvent): Boolean {

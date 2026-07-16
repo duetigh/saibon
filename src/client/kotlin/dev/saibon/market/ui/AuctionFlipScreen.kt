@@ -206,7 +206,7 @@ class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
 
         if (filteredItems.isEmpty()) {
             val message = when {
-                !Saibon.config.data.market.ahAutoRefresh -> "Enable AH price refresh in Market Prices settings"
+                !Saibon.config.data.market.ahAutoRefresh -> "Enable AH price refresh in Auction House Prices settings"
                 !Saibon.config.data.market.salesHistoryAutoRefresh -> "Enable sales tracking in Auction Flip Finder settings"
                 AuctionPriceRepository.isRefreshing || AuctionSalesHistoryRepository.isRefreshing -> "Fetching auction data..."
                 else -> "No flips found yet — try again after a few refresh cycles"

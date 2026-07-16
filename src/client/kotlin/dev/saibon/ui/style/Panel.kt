@@ -9,12 +9,12 @@ import net.minecraft.client.gui.GuiGraphicsExtractor
  * flat single-color rectangles Stage 1 shipped with.
  */
 object Panel {
-    const val BACKGROUND = 0xE8241A14.toInt()
-    const val HOVER_BACKGROUND = 0xE8382A1E.toInt()
-    const val SELECTED_BACKGROUND = 0xE84A3820.toInt()
-    const val BORDER_LIGHT = 0x50FFECC8.toInt()
+    const val BACKGROUND = 0xE81C1C1C.toInt()
+    const val HOVER_BACKGROUND = 0xE82E2E2E.toInt()
+    const val SELECTED_BACKGROUND = 0xE8404040.toInt()
+    const val BORDER_LIGHT = 0x50C0C0C0.toInt()
     const val BORDER_DARK = 0x90000000.toInt()
-    const val ACCENT = 0xFFC8942A.toInt()
+    const val ACCENT = 0xFFF2F2F2.toInt()
     const val TOGGLE_ON = 0xE82E7D32.toInt()
     const val TOGGLE_OFF = 0xE87D2E2E.toInt()
 

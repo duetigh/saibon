@@ -18,8 +18,11 @@ object RarityColors {
         "DIVINE" to 0xFF55FFFF.toInt(),
         "SPECIAL" to 0xFFFF5555.toInt(),
         "VERY SPECIAL" to 0xFFFF5555.toInt(),
+        "SUPREME" to 0xFFFF5555.toInt(),
+        "UNOBTAINABLE" to 0xFF555555.toInt(),
         "ADMIN" to 0xFFAA0000.toInt()
     )
 
-    fun of(tier: String): Int = COLORS[tier.uppercase()] ?: 0xFFE0E0E0.toInt()
+    /** Data-repo tiers (from the Hypixel API) use underscores (`VERY_SPECIAL`); lore-text tiers use spaces — normalize both to the space form used as this map's keys. */
+    fun of(tier: String): Int = COLORS[tier.uppercase().replace('_', ' ')] ?: 0xFFE0E0E0.toInt()
 }

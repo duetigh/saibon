@@ -170,6 +170,7 @@ object BazaarMenuOverlay {
             detach(state)
             states.remove(screen)
         }
+        ScreenEvents.beforeExtract(screen).register { _, extractor, _, _, _ -> renderBackground(state, extractor) }
         ScreenEvents.afterExtract(screen).register { _, extractor, mouseX, mouseY, _ -> render(state, extractor, mouseX, mouseY) }
 
         rebuildGrid(state)
@@ -285,9 +286,12 @@ object BazaarMenuOverlay {
         state.pendingConfirm = null
     }
 
+    private fun renderBackground(state: State, extractor: GuiGraphicsExtractor) {
+        Panel.draw(extractor, state.originX - MARGIN, state.originY - MARGIN, GRID_WIDTH + DETAIL_WIDTH + MARGIN * 3, state.panelHeight + MARGIN * 2)
+    }
+
     private fun render(state: State, extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
         val font = Minecraft.getInstance().font
-        Panel.draw(extractor, state.originX - MARGIN, state.originY - MARGIN, GRID_WIDTH + DETAIL_WIDTH + MARGIN * 3, state.panelHeight + MARGIN * 2)
 
         if (state.filteredItems.isEmpty()) {
             extractor.text(font, "No items match", state.originX, state.gridY, MUTED_TEXT_COLOR, false)
