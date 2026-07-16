@@ -11,8 +11,8 @@ data class MarketConfig(
     var overpayWarningThreshold: Double = 1.5,
     /** Minimum buy-order/sell-offer margin (ask minus bid), as a percent of the bid, to surface as a flip suggestion. */
     var flipMinMarginPercent: Double = 10.0,
-    /** Render-only search/highlight overlay on the real Hypixel AH/Bazaar menus — see MarketMenuOverlay. */
-    var menuOverlayEnabled: Boolean = true,
+    /** Render-only search/highlight overlay on the real Hypixel AH menu — see MarketMenuOverlay. Off by default, same as [ahOverlayPanelEnabled]/[ahRelayoutEnabled] — the AH menu gets no Saibon overlay at all unless explicitly opted into. */
+    var menuOverlayEnabled: Boolean = false,
     /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. Off by default — the real AH menu stays a plain highlight/dim overlay unless explicitly opted into. */
     var ahOverlayPanelEnabled: Boolean = false,
     /** Powers the `/saibonah` flip finder's reference-sale-price engine — see AuctionSalesHistoryRepository. Off by default, same rationale as [ahAutoRefresh]: not everyone wants the extra polling. */
