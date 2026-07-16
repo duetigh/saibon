@@ -1,5 +1,6 @@
 package dev.saibon.client
 
+import dev.saibon.about.AboutSettings
 import dev.saibon.client.chat.SaibonChat
 import dev.saibon.core.Saibon
 import dev.saibon.core.command.CommandRegistry
@@ -8,10 +9,17 @@ import dev.saibon.data.DataSettings
 import dev.saibon.itemlist.ItemListMenuButton
 import dev.saibon.itemlist.ItemListScreen
 import dev.saibon.itemlist.ItemListSettings
+import dev.saibon.itemlist.ItemListSidebarOverlay
+import dev.saibon.market.AuctionMenuSettings
 import dev.saibon.market.AuctionPriceRepository
+import dev.saibon.market.AuctionSalesHistoryRepository
+import dev.saibon.market.BazaarMenuSettings
+import dev.saibon.market.FlipFinderSettings
 import dev.saibon.market.MarketPriceRepository
 import dev.saibon.market.MarketSettings
-import dev.saibon.market.ui.AuctionSearchScreen
+import dev.saibon.market.ui.AuctionFlipScreen
+import dev.saibon.market.ui.BazaarActionNavigator
+import dev.saibon.market.ui.BazaarMenuOverlay
 import dev.saibon.market.ui.BazaarSearchScreen
 import dev.saibon.market.ui.MarketMenuOverlay
 import dev.saibon.search.SearchSettings
@@ -45,7 +53,7 @@ object SaibonClient : ClientModInitializer {
             dispatcher.register(literal("sbi").executes { openItemList() })
         }
         CommandRegistry.register { dispatcher ->
-            dispatcher.register(literal("saibonah").executes { openAuctionSearch() })
+            dispatcher.register(literal("saibonah").executes { openAuctionFlipFinder() })
             dispatcher.register(literal("saibonbz").executes { openBazaarSearch() })
         }
 
@@ -57,10 +65,18 @@ object SaibonClient : ClientModInitializer {
         DataSettings.register()
         ItemListSettings.register()
         ItemListMenuButton.init()
+        ItemListSidebarOverlay.init()
         MarketPriceRepository.init()
         AuctionPriceRepository.init()
+        AuctionSalesHistoryRepository.init()
         MarketMenuOverlay.init()
+        BazaarActionNavigator.init()
+        BazaarMenuOverlay.init()
         MarketSettings.register()
+        AuctionMenuSettings.register()
+        FlipFinderSettings.register()
+        BazaarMenuSettings.register()
+        AboutSettings.register()
 
         Saibon.logger.info("Saibon client initialized")
     }
@@ -73,8 +89,8 @@ object SaibonClient : ClientModInitializer {
         Minecraft.getInstance().setScreenAndShow(ItemListScreen())
     }
 
-    private fun openAuctionSearch(): Int = guardedScreen("open the auction house price browser") {
-        Minecraft.getInstance().setScreenAndShow(AuctionSearchScreen())
+    private fun openAuctionFlipFinder(): Int = guardedScreen("open the auction flip finder") {
+        Minecraft.getInstance().setScreenAndShow(AuctionFlipScreen())
     }
 
     private fun openBazaarSearch(): Int = guardedScreen("open the bazaar price browser") {

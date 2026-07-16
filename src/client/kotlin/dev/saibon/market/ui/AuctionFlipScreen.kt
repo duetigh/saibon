@@ -1,15 +1,20 @@
 package dev.saibon.market.ui
 
+import dev.saibon.core.Saibon
 import dev.saibon.data.DataRepository
 import dev.saibon.data.model.SkyblockItem
 import dev.saibon.itemlist.ItemTileWidget
 import dev.saibon.itemlist.RarityColors
+import dev.saibon.market.AuctionFlip
+import dev.saibon.market.AuctionFlipRanking
 import dev.saibon.market.AuctionPriceRepository
+import dev.saibon.market.AuctionSalesHistoryRepository
 import dev.saibon.market.MarketItemMatcher
 import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
+import dev.saibon.ui.widget.SearchEditBox
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
@@ -19,28 +24,34 @@ import kotlin.math.max
 import kotlin.math.min
 
 /**
- * Read-only lowest-BIN price browser (`docs/planning/NEU_FEATURE_PARITY.md`
- * #2), sourced from [AuctionPriceRepository]'s sweep of the data-repo item
- * catalog — modeled on [dev.saibon.itemlist.ItemListScreen]'s grid, minus
- * recipe/used-in navigation which doesn't apply here. This never touches the
- * real vanilla AH menu; that's [MarketMenuOverlay]'s job.
+ * `/saibonah` — the "best AH flips" finder (`docs/planning/PLAN.md`'s
+ * SkyCofl-style ask): ranks each active low-BIN listing against a locally
+ * computed reference resale price ([AuctionSalesHistoryRepository]) and
+ * sorts by estimated profit. Same grid/detail layout as the retired
+ * `AuctionSearchScreen` (which this replaces); browsing AH prices by
+ * category now lives in the real-menu overlay ([AuctionHouseListingPanel])
+ * instead of a standalone screen.
  */
-class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
+class AuctionFlipScreen : Screen(Component.literal("Auction Flip Finder")) {
 
     companion object {
         private const val MARGIN = 8
         private const val TOP_BAR_HEIGHT = 20
-        private const val DETAIL_WIDTH = 190
+        private const val DETAIL_WIDTH = 200
         private const val TILE_SIZE = 20
         private const val TILE_GAP = 2
         private const val ROW_HEIGHT = 12
         private const val MUTED_TEXT_COLOR = 0xFFA0A0A0.toInt()
         private const val PRICE_COLOR = 0xFFFFFF55.toInt()
+        private const val PROFIT_COLOR = 0xFF55FF55.toInt()
+        private const val LOSS_COLOR = 0xFFFF5555.toInt()
+        private const val DISCLAIMER_COLOR = 0xFF808080.toInt()
+        private const val DISCLAIMER = "Estimates use item-id-level median price; ignores enchants/reforges/stars/pets — not a per-listing appraisal."
     }
 
     private enum class SortOrder(val label: String) {
-        PRICE_ASC("Price: Low to High"),
-        PRICE_DESC("Price: High to Low"),
+        PROFIT_DESC("Profit: High to Low"),
+        PROFIT_PERCENT_DESC("Profit %: High to Low"),
         NAME("Name")
     }
 
@@ -51,27 +62,29 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
 
     private lateinit var searchBox: EditBox
     private var query: SearchQuery = SearchQuery.Bare("")
-    private var sortOrder: SortOrder = SortOrder.PRICE_ASC
+    private var sortOrder: SortOrder = SortOrder.PROFIT_DESC
     private var scrollRows: Int = 0
+    private var flips: List<AuctionFlip> = emptyList()
+    private var flipsByItemId: Map<String, AuctionFlip> = emptyMap()
     private var filteredItems: List<SkyblockItem> = emptyList()
     private var selectedItem: SkyblockItem? = null
 
     private val gridAreaX get() = MARGIN
     private val gridAreaWidth get() = width - DETAIL_WIDTH - MARGIN * 3
     private val gridAreaY get() = MARGIN * 2 + TOP_BAR_HEIGHT
-    private val gridAreaHeight get() = height - gridAreaY - MARGIN
+    private val gridAreaHeight get() = height - gridAreaY - MARGIN - ROW_HEIGHT
     private val detailX get() = gridAreaX + gridAreaWidth + MARGIN
 
     private fun gridColumns(): Int = max(1, gridAreaWidth / (TILE_SIZE + TILE_GAP))
     private fun gridVisibleRows(): Int = max(1, gridAreaHeight / (TILE_SIZE + TILE_GAP))
 
     override fun init() {
-        val dropdownWidth = 130
-        searchBox = EditBox(
+        val dropdownWidth = 150
+        searchBox = SearchEditBox(
             font, gridAreaX, MARGIN, gridAreaWidth - dropdownWidth - MARGIN, TOP_BAR_HEIGHT,
             Component.literal("Search")
         )
-        searchBox.setHint(Component.literal("name, rarity:legendary, minprice:1000000..."))
+        searchBox.setHint(Component.literal("name, rarity:legendary, minmargin:100000..."))
         searchBox.setResponder { text -> query = SearchParser.parse(text); rebuildGrid() }
         addRenderableWidget(searchBox)
 
@@ -86,24 +99,33 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
         rebuildDetail()
     }
 
-    private fun lowestBin(item: SkyblockItem): Double? = AuctionPriceRepository.lowestBin(item.id)?.lowestBin?.toDouble()
-
-    private fun computeFilteredItems(): List<SkyblockItem> {
-        val matching = DataRepository.allItems()
-            .filter { AuctionPriceRepository.lowestBin(it.id) != null }
-            .filter { MarketItemMatcher.matches(it, query, ::lowestBin) { null } }
-        return when (sortOrder) {
-            SortOrder.PRICE_ASC -> matching.sortedBy { lowestBin(it) ?: Double.MAX_VALUE }
-            SortOrder.PRICE_DESC -> matching.sortedByDescending { lowestBin(it) ?: 0.0 }
-            SortOrder.NAME -> matching.sortedBy { it.name }
-        }
+    private fun computeFlips(): List<AuctionFlip> {
+        val config = Saibon.config.data.market
+        return AuctionFlipRanking.bestFlips(
+            DataRepository.allItems(),
+            lowestBinOf = { AuctionPriceRepository.lowestBin(it.id)?.lowestBin?.toDouble() },
+            referenceMedianOf = { AuctionSalesHistoryRepository.saleReference(it.id)?.median },
+            sampleCountOf = { AuctionSalesHistoryRepository.saleReference(it.id)?.sampleCount ?: 0 },
+            taxRatePercent = config.ahTaxRatePercent,
+            minSamples = config.salesHistoryMinSamples
+        )
     }
 
     private fun rebuildGrid() {
         gridTiles.forEach { removeWidget(it) }
         gridTiles.clear()
 
-        filteredItems = computeFilteredItems()
+        flips = computeFlips()
+        flipsByItemId = flips.associateBy { it.item.id }
+        val matching = flips
+            .map { it.item }
+            .filter { MarketItemMatcher.matches(it, query, { item -> flipsByItemId[item.id]?.lowestBin }) { item -> flipsByItemId[item.id]?.estimatedProfit } }
+        filteredItems = when (sortOrder) {
+            SortOrder.PROFIT_DESC -> matching.sortedByDescending { flipsByItemId[it.id]?.estimatedProfit ?: Double.MIN_VALUE }
+            SortOrder.PROFIT_PERCENT_DESC -> matching.sortedByDescending { flipsByItemId[it.id]?.profitPercent ?: Double.MIN_VALUE }
+            SortOrder.NAME -> matching.sortedBy { it.name }
+        }
+
         val columns = gridColumns()
         val totalRows = ceil(filteredItems.size / columns.toDouble()).toInt()
         val maxScroll = max(0, totalRows - gridVisibleRows())
@@ -137,7 +159,7 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
         detailLabels.clear()
         val item = selectedItem
         if (item == null) {
-            detailLabels += DetailLabel(detailX, MARGIN, "Select an item to see its AH price", MUTED_TEXT_COLOR)
+            detailLabels += DetailLabel(detailX, MARGIN, "Select an item to see its flip estimate", MUTED_TEXT_COLOR)
             return
         }
 
@@ -147,11 +169,18 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
         detailLabels += DetailLabel(detailX, y, "${item.tier} ${item.category}".trim(), MUTED_TEXT_COLOR)
         y += ROW_HEIGHT + MARGIN
 
-        val auction = AuctionPriceRepository.lowestBin(item.id)
-        if (auction != null) {
-            detailLabels += DetailLabel(detailX, y, "Lowest BIN: ${formatPrice(auction.lowestBin.toDouble())} coins", PRICE_COLOR)
+        val flip = flipsByItemId[item.id]
+        if (flip != null) {
+            detailLabels += DetailLabel(detailX, y, "Lowest BIN: ${formatPrice(flip.lowestBin)} coins", PRICE_COLOR)
             y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "${auction.activeBinCount} active BIN listings", MUTED_TEXT_COLOR)
+            detailLabels += DetailLabel(detailX, y, "Reference median: ${formatPrice(flip.referenceMedian)} coins", PRICE_COLOR)
+            y += ROW_HEIGHT
+            detailLabels += DetailLabel(detailX, y, "(median of ${flip.sampleCount} recent sales)", MUTED_TEXT_COLOR)
+            y += ROW_HEIGHT + MARGIN
+            val color = if (flip.estimatedProfit > 0) PROFIT_COLOR else LOSS_COLOR
+            detailLabels += DetailLabel(detailX, y, "Est. profit: ${formatPrice(flip.estimatedProfit)} coins", color)
+            y += ROW_HEIGHT
+            detailLabels += DetailLabel(detailX, y, "(${"%.1f".format(flip.profitPercent)}%, after est. AH tax)", color)
         }
     }
 
@@ -173,12 +202,14 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
         super.extractRenderState(extractor, mouseX, mouseY, delta)
 
         detailLabels.forEach { extractor.text(font, it.text, it.x, it.y, it.color, false) }
+        extractor.textWithWordWrap(font, Component.literal(DISCLAIMER), gridAreaX, height - ROW_HEIGHT, gridAreaWidth, DISCLAIMER_COLOR)
 
         if (filteredItems.isEmpty()) {
             val message = when {
-                AuctionPriceRepository.isRefreshing -> "Fetching auction prices..."
-                AuctionPriceRepository.lastRefreshed == null -> "Enable Auction House price refresh in Market settings"
-                else -> "No items match your filters"
+                !Saibon.config.data.market.ahAutoRefresh -> "Enable AH price refresh in Market Prices settings"
+                !Saibon.config.data.market.salesHistoryAutoRefresh -> "Enable sales tracking in Auction Flip Finder settings"
+                AuctionPriceRepository.isRefreshing || AuctionSalesHistoryRepository.isRefreshing -> "Fetching auction data..."
+                else -> "No flips found yet — try again after a few refresh cycles"
             }
             extractor.text(font, message, gridAreaX, gridAreaY, MUTED_TEXT_COLOR, false)
         }
@@ -187,11 +218,13 @@ class AuctionSearchScreen : Screen(Component.literal("Auction House Prices")) {
     }
 
     private fun drawTooltip(extractor: GuiGraphicsExtractor, item: SkyblockItem, mouseX: Int, mouseY: Int) {
+        val flip = flipsByItemId[item.id]
         val lines = buildList {
             add(item.name to RarityColors.of(item.tier))
             add("${item.tier} ${item.category}".trim() to MUTED_TEXT_COLOR)
-            AuctionPriceRepository.lowestBin(item.id)?.let { auction ->
-                add("Lowest BIN: ${formatPrice(auction.lowestBin.toDouble())} coins" to PRICE_COLOR)
+            if (flip != null) {
+                add("Lowest BIN: ${formatPrice(flip.lowestBin)} coins" to PRICE_COLOR)
+                add("Est. profit: ${formatPrice(flip.estimatedProfit)} coins" to if (flip.estimatedProfit > 0) PROFIT_COLOR else LOSS_COLOR)
             }
         }
         val boxWidth = lines.maxOf { font.width(it.first) } + 8

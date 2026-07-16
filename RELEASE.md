@@ -15,6 +15,61 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.5.0 - 2026-07-15
+
+### Added
+- Auction Flip Finder (`NEU_FEATURE_PARITY.md` #2): `/saibonah` now opens a
+  flip-ranked grid instead of the plain price browser, backed by a new sold-
+  auctions feed (`AuctionSalesHistoryRepository`, off by default) that tracks
+  a rolling median sale price per item and ranks items by
+  `median sale − AH tax − lowest active BIN`. Bazaar gained two more flip
+  rankings: buy/sell margin (moved from the old `BazaarSearchScreen` sort)
+  and "buy on Bazaar, instant-sell to an NPC vendor"; plus a "craft cheaper
+  than it sells" ranking that recurses into sub-recipes when an ingredient
+  has no direct market price. New "Auction Flip Finder" settings section
+  (sample-size/margin thresholds, AH tax-rate estimate).
+- `BazaarMenuOverlay`: a category-tabbed browse/flip panel drawn beside the
+  real Bazaar menu (split out of the old combined `MarketMenuOverlay`), with
+  its own "Bazaar Overlay" settings section. `AuctionHouseListingPanel` adds
+  the equivalent read-only browse panel beside the real AH menu.
+- Opt-in, **dry-run-by-default** semi-automated Bazaar navigation: clicking
+  Buy/Sell/Order/Offer on the overlay (after a confirm prompt) drives
+  synthesized clicks through the Bazaar's category → product → action-menu
+  screens, verifying the screen title/slot text at every step and aborting on
+  any mismatch or timeout. It deliberately stops before the final
+  money-committing click — quantity/price selection is always a real manual
+  click by the player. Ships with dry-run (logs the intended clicks to chat
+  instead of sending them) and a second explicit confirmation both on by
+  default; new "Auction House Overlay" and "Bazaar Overlay" settings expose
+  the toggles.
+- Item List sidebar (`NEU_FEATURE_PARITY.md` #1): a narrower grid/search/
+  filter companion panel now docks onto the player's own inventory screen on
+  Hypixel, so items can be looked up without leaving the inventory; picking a
+  tile or its expand button opens the full Item List screen, which gained a
+  "Minimize" button to return to the inventory view. New sidebar
+  toggle/width slider in Item List settings (on by default).
+- Calculator (`NEU_FEATURE_PARITY.md` #9, first slice): typing a pure
+  arithmetic expression (`+ - * / % ^ ()`) into the inventory search overlay
+  shows the result as suggestion text instead of filtering the inventory.
+- "About" settings tab: current version, a "Check for updates now" button,
+  and a "View changelog" button, replacing the previously empty tab.
+- `SearchEditBox`, a text field that swallows all keypresses while focused,
+  fixing letter/number keys (e.g. e/q/1-9) leaking through to vanilla
+  container hotkeys while typing in any Saibon search box.
+
+### Changed
+- `AuctionSearchScreen` removed; its category/price browsing moved into
+  `AuctionHouseListingPanel` and its flip-ranked view into `AuctionFlipScreen`.
+- `MarketMenuOverlay` is now AH-only; Bazaar's search/highlight/overpay
+  overlay logic moved to the new `BazaarMenuOverlay`.
+
+### Policy
+- The Bazaar action-navigation feature synthesizes multiple clicks from a
+  single confirmed player action and stops short of the purchase-committing
+  click, in line with `PLAN.md`'s "no feature acts without a direct,
+  in-the-moment user action" rule; it is unverified against a live server, so
+  it ships behind dry-run + confirm-required defaults until confirmed safe.
+
 ## v0.4.0 - 2026-07-15
 
 ### Added

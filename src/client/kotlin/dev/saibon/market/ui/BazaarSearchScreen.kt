@@ -10,6 +10,7 @@ import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
+import dev.saibon.ui.widget.SearchEditBox
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
@@ -69,7 +70,7 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
 
     override fun init() {
         val dropdownWidth = 130
-        searchBox = EditBox(
+        searchBox = SearchEditBox(
             font, gridAreaX, MARGIN, gridAreaWidth - dropdownWidth - MARGIN, TOP_BAR_HEIGHT,
             Component.literal("Search")
         )

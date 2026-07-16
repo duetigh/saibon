@@ -4,9 +4,9 @@ import dev.saibon.ui.SaibonCategory
 import dev.saibon.ui.settings.SettingsRegistry
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.CategoryTileWidget
+import dev.saibon.ui.widget.SearchEditBox
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
-import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.network.chat.Component
 import net.minecraft.world.item.Item
@@ -50,7 +50,7 @@ class SaibonScreen : Screen(Component.literal("Saibon")) {
     private var selected: SaibonCategory = SaibonCategory.GENERAL
 
     override fun init() {
-        val box = EditBox(font, MARGIN, MARGIN, SIDEBAR_WIDTH - MARGIN * 2, ROW_HEIGHT, Component.literal("Search"))
+        val box = SearchEditBox(font, MARGIN, MARGIN, SIDEBAR_WIDTH - MARGIN * 2, ROW_HEIGHT, Component.literal("Search"))
         box.setHint(Component.literal("Search..."))
         box.setResponder { text ->
             filter = text

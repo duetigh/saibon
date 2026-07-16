@@ -16,6 +16,18 @@ object ItemListSettings {
                     config.showMenuButton = it
                     Saibon.config.save()
                 }
+                toggle("Show item list sidebar in your inventory", config.sidebarEnabled) {
+                    config.sidebarEnabled = it
+                    Saibon.config.save()
+                }
+                slider(
+                    "Sidebar width",
+                    160f, 360f, config.sidebarWidth.toFloat(),
+                    { "${it.toInt()}px" }
+                ) {
+                    config.sidebarWidth = it.toInt()
+                    Saibon.config.save()
+                }
             }
         )
     }

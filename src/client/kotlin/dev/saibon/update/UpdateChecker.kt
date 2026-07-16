@@ -38,8 +38,9 @@ object UpdateChecker {
         }
     }
 
-    fun checkNow() {
-        if (!Saibon.config.data.update.autoCheck) return
+    /** [force] lets a manual "Check for updates now" button bypass the auto-check toggle without changing what that toggle gates on join. */
+    fun checkNow(force: Boolean = false) {
+        if (!force && !Saibon.config.data.update.autoCheck) return
 
         val request = HttpRequest.newBuilder(URI.create(MANIFEST_URL)).GET().build()
         httpClient.sendAsync(request, HttpResponse.BodyHandlers.ofString())

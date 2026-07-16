@@ -4,6 +4,7 @@ import dev.saibon.ui.SaibonCategory
 import dev.saibon.ui.widget.ColorPickerWidget
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.ui.widget.KeybindWidget
+import dev.saibon.ui.widget.LabelSpacerWidget
 import dev.saibon.ui.widget.SliderWidget
 import dev.saibon.ui.widget.TextFieldWidget
 import dev.saibon.ui.widget.ToggleWidget
@@ -30,6 +31,11 @@ class SettingsSection(
 /** Builder DSL passed to the [SettingsSection] factory function below. */
 class SettingsSectionBuilder(private val category: SaibonCategory, private val title: String, private val order: Int) {
     private val entries = mutableListOf<SettingEntry>()
+
+    /** Static, non-interactive text row — version info, disclaimers, warnings. No widget on the right. */
+    fun label(text: String) {
+        entries += SettingEntry(text) { _, x, y, _, _ -> LabelSpacerWidget(x, y) }
+    }
 
     fun toggle(label: String, initial: Boolean, onChange: (Boolean) -> Unit) {
         entries += SettingEntry(label) { _, x, y, w, h ->

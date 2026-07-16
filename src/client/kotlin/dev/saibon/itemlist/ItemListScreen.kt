@@ -12,11 +12,14 @@ import dev.saibon.search.query.SearchQuery
 import dev.saibon.search.query.SkyblockItemMatcher
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
+import dev.saibon.ui.widget.SearchEditBox
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.AbstractWidget
 import net.minecraft.client.gui.components.Button
 import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
+import net.minecraft.client.gui.screens.inventory.InventoryScreen
+import net.minecraft.client.Minecraft
 import net.minecraft.network.chat.Component
 import net.minecraft.util.Util
 import kotlin.math.ceil
@@ -37,12 +40,13 @@ import kotlin.math.min
  * - In-game embedded wiki view (needs a web-view rendering library);
  *   the wiki button opens the system browser instead.
  */
-class ItemListScreen : Screen(Component.literal("Item List")) {
+class ItemListScreen(private val initialItemId: String? = null) : Screen(Component.literal("Item List")) {
 
     companion object {
         private const val MARGIN = 8
         private const val TOP_BAR_HEIGHT = 20
         private const val DETAIL_WIDTH = 190
+        private const val MINIMIZE_BUTTON_WIDTH = 70
         private const val TILE_SIZE = 20
         private const val TILE_GAP = 2
         private const val ROW_HEIGHT = 12
@@ -82,7 +86,7 @@ class ItemListScreen : Screen(Component.literal("Item List")) {
 
     override fun init() {
         val dropdownWidth = 90
-        searchBox = EditBox(
+        searchBox = SearchEditBox(
             font, gridAreaX, MARGIN, gridAreaWidth - dropdownWidth * 2 - MARGIN * 2, TOP_BAR_HEIGHT,
             Component.literal("Search")
         )
@@ -106,8 +110,25 @@ class ItemListScreen : Screen(Component.literal("Item List")) {
             ) { tierFilter = it; rebuildGrid() }
         )
 
+        addRenderableWidget(
+            Button.builder(Component.literal("Minimize")) { minimize() }
+                .bounds(detailX + DETAIL_WIDTH - MINIMIZE_BUTTON_WIDTH, MARGIN, MINIMIZE_BUTTON_WIDTH, TOP_BAR_HEIGHT).build()
+        )
+
         rebuildGrid()
         rebuildDetail()
+
+        initialItemId?.let { id -> DataRepository.item(id)?.let { select(it) } }
+    }
+
+    /**
+     * Returns to the player's own inventory — the sidebar's docking point
+     * ([ItemListSidebarOverlay]) reattaches automatically once it's open
+     * again, so this is the fullscreen mode's other half of that toggle.
+     */
+    private fun minimize() {
+        val player = Minecraft.getInstance().player ?: return
+        Minecraft.getInstance().setScreenAndShow(InventoryScreen(player))
     }
 
     private fun computeFilteredItems(): List<SkyblockItem> =

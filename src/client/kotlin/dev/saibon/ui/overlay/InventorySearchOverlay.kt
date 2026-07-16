@@ -1,16 +1,17 @@
 package dev.saibon.ui.overlay
 
+import dev.saibon.calculator.MathExpressionEvaluator
 import dev.saibon.core.Saibon
 import dev.saibon.mixin.AbstractContainerScreenAccessor
 import dev.saibon.search.extract.SkyblockItemExtractor
 import dev.saibon.search.query.SearchMatcher
 import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
+import dev.saibon.ui.widget.SearchEditBox
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.network.chat.Component
@@ -68,11 +69,30 @@ object InventorySearchOverlay {
     }
 
     private fun expand(screen: AbstractContainerScreen<*>, state: State, x: Int, y: Int, width: Int) {
-        val box = EditBox(Minecraft.getInstance().font, x, y, width, BAR_HEIGHT, Component.literal("Search"))
-        box.setHint(Component.literal("prot&gro, enchant:sharpness, rarity:legendary..."))
-        box.setResponder { text -> state.query = SearchParser.parse(text) }
+        val box = SearchEditBox(Minecraft.getInstance().font, x, y, width, BAR_HEIGHT, Component.literal("Search"))
+        box.setHint(Component.literal("prot&gro, enchant:sharpness, rarity:legendary, 2+2*8..."))
+        box.setResponder { text -> onQueryChanged(box, state, text) }
         Screens.getWidgets(screen).add(box)
         box.setFocused(true)
+    }
+
+    /**
+     * NEU-style calculator: a query that's pure arithmetic (`2+2*8`) is
+     * evaluated instead of parsed as an item filter — the result is shown as
+     * grayed-out suggestion text after the cursor, and the query is treated
+     * as blank so the inventory renders unfiltered underneath it.
+     */
+    private fun onQueryChanged(box: SearchEditBox, state: State, text: String) {
+        if (MathExpressionEvaluator.looksLikeMath(text)) {
+            val result = MathExpressionEvaluator.evaluate(text)
+            if (result != null) {
+                box.setSuggestion("  = ${MathExpressionEvaluator.format(result)}")
+                state.query = SearchQuery.Bare("")
+                return
+            }
+        }
+        box.setSuggestion(null)
+        state.query = SearchParser.parse(text)
     }
 
     private fun renderHighlights(screen: AbstractContainerScreen<*>, state: State, extractor: GuiGraphicsExtractor) {

@@ -15,7 +15,7 @@ object TextFieldWidget {
         initial: String,
         onChange: (String) -> Unit
     ): EditBox {
-        val box = EditBox(font, x, y, width, height, Component.literal("Value"))
+        val box = SearchEditBox(font, x, y, width, height, Component.literal("Value"))
         box.setValue(initial)
         box.setResponder(onChange)
         return box

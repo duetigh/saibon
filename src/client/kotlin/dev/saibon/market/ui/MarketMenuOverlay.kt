@@ -6,11 +6,11 @@ import dev.saibon.market.AuctionPriceRepository
 import dev.saibon.mixin.AbstractContainerScreenAccessor
 import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
+import dev.saibon.ui.widget.SearchEditBox
 import net.fabricmc.fabric.api.client.screen.v1.ScreenEvents
 import net.fabricmc.fabric.api.client.screen.v1.Screens
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
-import net.minecraft.client.gui.components.EditBox
 import net.minecraft.client.gui.screens.Screen
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen
 import net.minecraft.core.component.DataComponents
@@ -19,8 +19,12 @@ import net.minecraft.world.inventory.Slot
 import java.util.IdentityHashMap
 
 /**
- * Client-side re-skin of Hypixel's real Auction House / Bazaar browse GUIs
- * (`docs/planning/NEU_FEATURE_PARITY.md` #2's "custom AH/BZ search screen").
+ * Client-side re-skin of Hypixel's real Auction House browse GUI
+ * (`docs/planning/NEU_FEATURE_PARITY.md` #2's "custom AH search screen").
+ * Bazaar's equivalent is [BazaarMenuOverlay] — split out separately since it
+ * grew a full category/flip panel and (eventually) click execution, neither
+ * of which apply to the AH side (see [AuctionHouseListingPanel]'s doc
+ * comment for why AH stays informational-only).
  *
  * The originally-planned approach — reposition real [Slot]s into a
  * freshly-sorted grid and let vanilla's own click routing follow — turned
@@ -29,21 +33,20 @@ import java.util.IdentityHashMap
  * older MC versions this technique is known from. Rather than hand-roll new
  * click-dispatch logic to fake a relayout (untestable in a sandbox with no
  * live Hypixel session, and a bad place to get click-mapping wrong — real
- * coins), this stays render-only: every real listing/product stays in its
- * real, server-assigned slot, exactly where a click already lands correctly.
- * Search highlights the cheapest match and dims non-matches, and AH listings
+ * coins), this stays render-only: every real listing stays in its real,
+ * server-assigned slot, exactly where a click already lands correctly.
+ * Search highlights the cheapest match and dims non-matches, and listings
  * priced far above the known lowest BIN get an overpay outline. Same proven
  * technique as [dev.saibon.ui.overlay.InventorySearchOverlay] (dim/outline
  * over real slots, zero clicks, zero mutation).
  *
- * TODO verify against a live server before relying on it: the title regexes
+ * TODO verify against a live server before relying on it: the title regex
  * and the lore price-line pattern below are based on Hypixel's historically-
- * known AH/Bazaar GUI conventions, not confirmed live from this sandbox (no
+ * known AH GUI conventions, not confirmed live from this sandbox (no
  * reachable Minecraft/Hypixel session here).
  */
 object MarketMenuOverlay {
     private val AH_TITLE = Regex("Auction House|BIN Auction View|Auctions Browser|Manage Auctions", RegexOption.IGNORE_CASE)
-    private val BAZAAR_TITLE = Regex("^Bazaar(\\s|$)", RegexOption.IGNORE_CASE)
     private val PRICE_LINE = Regex("([\\d,]+(?:\\.\\d+)?)\\s*coins", RegexOption.IGNORE_CASE)
 
     private const val SLOT_SIZE = 16
@@ -55,7 +58,7 @@ object MarketMenuOverlay {
 
     private class State {
         var query: SearchQuery = SearchQuery.Bare("")
-        var isAuctionHouse: Boolean = false
+        var listingPanel: AuctionHouseListingPanel? = null
     }
 
     private val states = IdentityHashMap<Screen, State>()
@@ -65,19 +68,16 @@ object MarketMenuOverlay {
             if (screen !is AbstractContainerScreen<*>) return@register
             if (!Saibon.config.data.market.menuOverlayEnabled) return@register
             if (!isOnHypixel()) return@register
-            val title = screen.title.string
-            val isAh = AH_TITLE.containsMatchIn(title)
-            if (!isAh && !BAZAAR_TITLE.containsMatchIn(title)) return@register
-            attach(screen, isAh)
+            if (!AH_TITLE.containsMatchIn(screen.title.string)) return@register
+            attach(screen)
         }
     }
 
     private fun isOnHypixel(): Boolean =
         Minecraft.getInstance().currentServer?.ip?.contains("hypixel.net", ignoreCase = true) == true
 
-    private fun attach(screen: AbstractContainerScreen<*>, isAuctionHouse: Boolean) {
+    private fun attach(screen: AbstractContainerScreen<*>) {
         val state = State()
-        state.isAuctionHouse = isAuctionHouse
         states[screen] = state
 
         val accessor = screen as AbstractContainerScreenAccessor
@@ -85,22 +85,32 @@ object MarketMenuOverlay {
         val barY = accessor.getTopPos() + accessor.getImageHeight() + 4
         val barWidth = accessor.getImageWidth()
 
-        val box = EditBox(Minecraft.getInstance().font, barX, barY, barWidth, BAR_HEIGHT, Component.literal("Search"))
+        val box = SearchEditBox(Minecraft.getInstance().font, barX, barY, barWidth, BAR_HEIGHT, Component.literal("Search"))
         box.setHint(Component.literal("Highlight this page's listings... (minprice:1000000)"))
         box.setResponder { text -> state.query = SearchParser.parse(text) }
         Screens.getWidgets(screen).add(box)
 
-        ScreenEvents.remove(screen).register { states.remove(screen) }
-        ScreenEvents.afterExtract(screen).register { _, extractor, _, _, _ -> render(screen, state, extractor) }
+        if (Saibon.config.data.market.ahOverlayPanelEnabled) {
+            val panel = AuctionHouseListingPanel(screen)
+            panel.attach()
+            state.listingPanel = panel
+        }
+
+        ScreenEvents.remove(screen).register {
+            state.listingPanel?.detach()
+            states.remove(screen)
+        }
+        ScreenEvents.afterExtract(screen).register { _, extractor, mouseX, mouseY, _ -> render(screen, state, extractor, mouseX, mouseY) }
     }
 
-    private fun render(screen: AbstractContainerScreen<*>, state: State, extractor: GuiGraphicsExtractor) {
+    private fun render(screen: AbstractContainerScreen<*>, state: State, extractor: GuiGraphicsExtractor, mouseX: Int, mouseY: Int) {
         val accessor = screen as AbstractContainerScreenAccessor
         val player = Minecraft.getInstance().player
         val listingSlots = screen.menu.slots.filter { it.container !== player?.inventory && !it.item.isEmpty }
 
         renderSearchHighlight(listingSlots, state, accessor, extractor)
-        if (state.isAuctionHouse) renderOverpayBadges(listingSlots, accessor, extractor)
+        renderOverpayBadges(listingSlots, accessor, extractor)
+        state.listingPanel?.render(extractor, mouseX, mouseY)
     }
 
     private fun renderSearchHighlight(

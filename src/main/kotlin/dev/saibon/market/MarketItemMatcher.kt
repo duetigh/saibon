@@ -8,9 +8,10 @@ import dev.saibon.search.query.SkyblockItemMatcher
  * Extends [SkyblockItemMatcher]'s name/rarity/category/id matching with
  * `minprice:`/`minmargin:` numeric fields, resolved against whichever price
  * source the caller supplies — AH lowest-BIN for
- * [dev.saibon.market.ui.AuctionSearchScreen], Bazaar buy/sell spread for
- * [dev.saibon.market.ui.BazaarSearchScreen] — so both screens share one
- * field grammar without either repository knowing about the other.
+ * [dev.saibon.market.ui.AuctionFlipScreen]/[dev.saibon.market.ui.AuctionHouseListingPanel],
+ * Bazaar buy/sell spread for [dev.saibon.market.ui.BazaarSearchScreen] — so
+ * every caller shares one field grammar without either repository knowing
+ * about the other.
  */
 object MarketItemMatcher {
     fun matches(
