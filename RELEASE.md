@@ -15,6 +15,13 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.2 - 2026-07-17
+
+### Fixed
+- `SaibonChat`'s "Saibon" gradient reverted back to red (`0xFF5555` →
+  `0x8B0000`); v0.13.1 accidentally changed it to grey-to-white instead of
+  just fixing the brackets to render flat white.
+
 ## v0.13.1 - 2026-07-17
 
 ### Changed
@@ -23,9 +30,10 @@ Style guide for entries in this file (read this before adding a new one):
   recipe price is available, since nobody would rationally pay an AH seller
   more than it costs to just make one; flip candidates hitting this cap show
   "capped at craft cost (...)" in place of the raw sales-based reason.
-- `SaibonChat`'s "Saibon" gradient changed from red to grey-to-white; the
-  surrounding brackets now render flat white instead of picking up whichever
-  color sits at the gradient's endpoints.
+- `SaibonChat`'s brackets around "Saibon" now render flat white instead of
+  picking up whichever color sits at the gradient's endpoints (the "Saibon"
+  gradient itself briefly changed to grey-to-white in this release and was
+  reverted back to red in v0.13.2).
 - `AhFlipChatNotifier`'s Auction House flip chat line now highlights the
   cost/margin/resell-price figures in yellow (matching `FlipScreen`'s
   `PRICE_COLOR`) instead of leaving the whole line default white.
