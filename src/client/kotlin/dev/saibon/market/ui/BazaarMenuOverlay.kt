@@ -327,10 +327,8 @@ object BazaarMenuOverlay {
         val buy = buyPrice(item)
         val sell = sellPrice(item)
         if (buy != null || sell != null) {
-            add(DetailLine("Insta-buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
-            add(DetailLine("Buy order: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
-            add(DetailLine("Insta-sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
-            add(DetailLine("Sell offer: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
             val margin = BazaarFlipRanking.margin(buy, sell)
             add(DetailLine("Margin: ${margin?.let { "%,.1f".format(it) } ?: "N/A"}", if (margin != null && margin > 0) PROFIT_COLOR else if (margin == null) MUTED_TEXT_COLOR else LOSS_COLOR))
         }

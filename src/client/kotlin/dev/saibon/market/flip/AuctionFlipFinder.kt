@@ -40,7 +40,8 @@ object AuctionFlipFinder : FlipFinder {
                 confidence = flip.sampleCount,
                 sourceFinder = name,
                 reason = "median of ${flip.sampleCount} recent sales of this item",
-                auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() }
+                auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() },
+                sellerUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinSeller?.takeIf { it.isNotEmpty() }
             )
         }
 
@@ -67,7 +68,8 @@ object AuctionFlipFinder : FlipFinder {
                 confidence = reference.sampleCount,
                 sourceFinder = name,
                 reason = "median of ${reference.sampleCount} recent sales matching modifiers ($signature)",
-                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() }
+                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() },
+                sellerUuid = lowestBin.lowestBinSeller.takeIf { it.isNotEmpty() }
             )
         }
 

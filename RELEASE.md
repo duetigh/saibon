@@ -15,6 +15,48 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.9.0 - 2026-07-16
+
+### Added
+- `data/items.json` now holds the full ~5,500-item SkyBlock catalog matched
+  id-for-id against Hypixel's public `/v2/resources/skyblock/items` API,
+  replacing the two-item placeholder seed; new
+  `scripts/sync_hypixel_items.py` re-syncs `material`/`color`/`skullTexture`
+  against Hypixel's current data. `SkyblockItem` gained a `skullTexture`
+  field, and `ItemIcons` now renders `minecraft:player_head` items with
+  their real custom Mojang skin texture (via a resolved `GameProfile`, the
+  same mechanism vanilla uses for any player head) instead of a default
+  Steve head.
+- `FlipScreen`'s AH flip detail panel now resolves the winning listing's
+  seller UUID to a name (`PlayerNameResolver`, a Mojang session-server
+  lookup and deliberate second exception to `PLAN.md`'s outbound-call
+  whitelist) and shows an "Open `<seller>`'s AH" button that runs
+  `/ah <seller>`, replacing the old "Copy /viewauction command" button.
+  `AuctionPrice`/`AuctionEntry`/`FlipCandidate` now carry the seller UUID
+  end to end to support this.
+- Auction House flip chat notifications (`AhFlipChatNotifier`, off by
+  default): posts an item/price/margin line plus a clickable "Buy now."
+  link (`/ah <seller>`) for newly-found high-confidence AH flips, gated by
+  the same profit/margin thresholds as the existing toast. New "Post
+  Auction House flips to chat" toggle in Flip Finder settings.
+- `FlipScreen` gained a Sort dropdown (Max profit / Margin % / Cheapest).
+- `DropdownWidget` popups now virtualize option lists longer than 10 rows
+  behind a scrollbar (mouse-wheel or drag-to-jump) instead of rendering
+  every row, and intercept clicks/scroll/drag on the popup
+  (`ScreenMouseEvents.allowMouseClick`/`Scroll`/`Drag`) so an open popup
+  can no longer leak input through to a widget underneath it at the same
+  screen position.
+
+### Changed
+- Bazaar price displays (`BazaarMenuOverlay`, `BazaarSearchScreen`)
+  collapsed the mislabeled four-line Insta-buy/Buy order/Insta-sell/Sell
+  offer breakdown (the middle two always duplicated the outer two) down to
+  a plain Buy/Sell pair.
+- Panel backgrounds (`Panel.BACKGROUND`/`HOVER_BACKGROUND`/
+  `SELECTED_BACKGROUND`/`TOGGLE_ON`/`TOGGLE_OFF`) and
+  `SearchToggleWidget`'s fill are now fully opaque instead of translucent,
+  so nothing renders through a Saibon panel or dropdown popup.
+
 ## v0.8.0 - 2026-07-16
 
 ### Added

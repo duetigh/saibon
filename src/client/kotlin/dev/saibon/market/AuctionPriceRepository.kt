@@ -51,6 +51,7 @@ object AuctionPriceRepository {
         var lowestBin: Long = Long.MAX_VALUE
         var count: Int = 0
         var lowestBinUuid: String = ""
+        var lowestBinSeller: String = ""
     }
 
     fun init() {
@@ -134,27 +135,28 @@ object AuctionPriceRepository {
             if (!auction.bin || auction.claimed) continue
             val decoded = AuctionItemDecoder.decode(auction.item_bytes) ?: continue
             val itemId = decoded.itemId.uppercase()
-            accumulate(accumulated, itemId, auction.starting_bid, auction.uuid)
+            accumulate(accumulated, itemId, auction.starting_bid, auction.uuid, auction.auctioneer)
             if (decoded.modifierSignature.isNotEmpty()) {
-                accumulate(signatureAccumulated, "$itemId|${decoded.modifierSignature}", auction.starting_bid, auction.uuid)
+                accumulate(signatureAccumulated, "$itemId|${decoded.modifierSignature}", auction.starting_bid, auction.uuid, auction.auctioneer)
             }
         }
     }
 
-    private fun accumulate(map: ConcurrentHashMap<String, Accumulator>, key: String, price: Long, uuid: String) {
+    private fun accumulate(map: ConcurrentHashMap<String, Accumulator>, key: String, price: Long, uuid: String, seller: String) {
         val acc = map.computeIfAbsent(key) { Accumulator() }
         synchronized(acc) {
             acc.count++
             if (price < acc.lowestBin) {
                 acc.lowestBin = price
                 acc.lowestBinUuid = uuid
+                acc.lowestBinSeller = seller
             }
         }
     }
 
     private fun publish(accumulated: ConcurrentHashMap<String, Accumulator>, signatureAccumulated: ConcurrentHashMap<String, Accumulator>) {
-        lowestBins = accumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid) }
-        signatureLowestBins = signatureAccumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid) }
+        lowestBins = accumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid, acc.lowestBinSeller) }
+        signatureLowestBins = signatureAccumulated.mapValues { (_, acc) -> AuctionPrice(acc.lowestBin, acc.count, acc.lowestBinUuid, acc.lowestBinSeller) }
         lastRefreshed = Instant.now()
         refreshing.set(false)
         Saibon.logger.info("Saibon auction price sweep complete: {} items, {} modifier signatures", lowestBins.size, signatureLowestBins.size)

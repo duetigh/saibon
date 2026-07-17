@@ -158,13 +158,9 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
         val buy = buyPrice(item)
         val sell = sellPrice(item)
         if (buy != null || sell != null) {
-            detailLabels += DetailLabel(detailX, y, "Insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            detailLabels += DetailLabel(detailX, y, "Buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
-            y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
-            y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
+            detailLabels += DetailLabel(detailX, y, "Sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
             val margin = margin(item)
             detailLabels += DetailLabel(
@@ -207,10 +203,8 @@ class BazaarSearchScreen : Screen(Component.literal("Bazaar Prices")) {
             add(item.name to RarityColors.of(item.tier))
             add("${item.tier} ${item.category}".trim() to MUTED_TEXT_COLOR)
             if (buy != null || sell != null) {
-                add("Insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
-                add("Buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
-                add("Insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
-                add("Sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
+                add("Sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
             }
         }
         val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8

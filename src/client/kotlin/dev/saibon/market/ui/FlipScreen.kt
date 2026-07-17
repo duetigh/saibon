@@ -3,6 +3,7 @@ package dev.saibon.market.ui
 import dev.saibon.core.Saibon
 import dev.saibon.itemlist.ItemTileWidget
 import dev.saibon.itemlist.RarityColors
+import dev.saibon.market.PlayerNameResolver
 import dev.saibon.market.flip.FlipCandidate
 import dev.saibon.market.flip.FlipEngine
 import dev.saibon.ui.style.Panel
@@ -23,9 +24,9 @@ import kotlin.math.min
  * (`/saibonah` itself stays as-is — see `AuctionFlipScreen` — since it's
  * still a valid narrower view). Reads [FlipEngine.latestCandidates] (already
  * scanned in the background on its own schedule) rather than computing
- * anything itself; a "Copy /viewauction command" button appears only for
- * candidates backed by one real listing ([FlipCandidate.auctionUuid] != null)
- * — Bazaar/craft/NPC flips have no single listing to point at.
+ * anything itself; an "Open &lt;seller&gt;'s AH" button appears only for
+ * candidates backed by one real listing ([FlipCandidate.sellerUuid] != null)
+ * — Bazaar/craft/NPC flips have no single listing/seller to point at.
  */
 class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
@@ -50,6 +51,12 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         CRAFT_FLIP("Craft Flip")
     }
 
+    private enum class SortMode(val label: String) {
+        PROFIT("Sort: Max profit"),
+        MARGIN("Sort: Margin %"),
+        CHEAPEST("Sort: Cheapest")
+    }
+
     private data class DetailLabel(val x: Int, val y: Int, val text: String, val color: Int)
 
     private val gridTiles = mutableListOf<ItemTileWidget>()
@@ -57,6 +64,7 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
     private val detailLabels = mutableListOf<DetailLabel>()
 
     private var sourceFilter: SourceFilter = SourceFilter.ALL
+    private var sortMode: SortMode = SortMode.PROFIT
     private var scrollRows: Int = 0
     private var displayedCandidates: List<FlipCandidate> = emptyList()
     private var selected: FlipCandidate? = null
@@ -73,11 +81,18 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
     override fun init() {
         val dropdownWidth = 160
+        val sortDropdownWidth = 140
         addRenderableWidget(
             DropdownWidget.create(
                 this, gridAreaX + gridAreaWidth - dropdownWidth, MARGIN, dropdownWidth, TOP_BAR_HEIGHT,
                 Component.literal("Finder"), SourceFilter.entries.toList(), sourceFilter, { Component.literal(it.label) }
             ) { sourceFilter = it; rebuildGrid() }
+        )
+        addRenderableWidget(
+            DropdownWidget.create(
+                this, gridAreaX + gridAreaWidth - dropdownWidth - sortDropdownWidth - MARGIN, MARGIN, sortDropdownWidth, TOP_BAR_HEIGHT,
+                Component.literal("Sort"), SortMode.entries.toList(), sortMode, { Component.literal(it.label) }
+            ) { sortMode = it; rebuildGrid() }
         )
         addRenderableWidget(
             Button.builder(Component.literal("Rescan")) { FlipEngine.scanNow(); rebuildGrid() }
@@ -94,9 +109,14 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         tileCandidates.clear()
 
         val all = FlipEngine.latestCandidates()
-        displayedCandidates = when (sourceFilter) {
+        val filtered = when (sourceFilter) {
             SourceFilter.ALL -> all
             else -> all.filter { it.sourceFinder == sourceFilter.label }
+        }
+        displayedCandidates = when (sortMode) {
+            SortMode.PROFIT -> filtered.sortedByDescending { it.estimatedProfit }
+            SortMode.MARGIN -> filtered.sortedByDescending { it.marginPercent }
+            SortMode.CHEAPEST -> filtered.sortedBy { it.cost }
         }
 
         val columns = gridColumns()
@@ -161,13 +181,36 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         detailLabels += DetailLabel(detailX, y, candidate.reason, MUTED_TEXT_COLOR)
         y += ROW_HEIGHT + MARGIN
 
-        val uuid = candidate.auctionUuid
-        if (uuid != null) {
-            val button = Button.builder(Component.literal("Copy /viewauction command")) {
-                Minecraft.getInstance().keyboardHandler.setClipboard("/viewauction $uuid")
-            }.bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
-            addRenderableWidget(button)
-            copyButton = button
+        val sellerUuid = candidate.sellerUuid
+        if (sellerUuid != null) {
+            addSellerButton(y, sellerUuid, candidate)
+        }
+    }
+
+    /** Resolves [sellerUuid] to a name (via [PlayerNameResolver]) and then swaps in a button that runs `/ah <name>` to open that seller's Auction House page — a direct, in-the-moment player click, same as [dev.saibon.update.UpdatePrompt]'s command links. */
+    private fun addSellerButton(y: Int, sellerUuid: String, forCandidate: FlipCandidate) {
+        val placeholder = Button.builder(Component.literal("Resolving seller...")) {}
+            .bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
+        placeholder.active = false
+        addRenderableWidget(placeholder)
+        copyButton = placeholder
+
+        PlayerNameResolver.resolve(sellerUuid).thenAccept { name ->
+            Minecraft.getInstance().execute {
+                if (selected !== forCandidate || Minecraft.getInstance().gui.screen() !== this@FlipScreen) return@execute
+                copyButton?.let { removeWidget(it) }
+                val resolvedButton = if (name != null) {
+                    Button.builder(Component.literal("Open $name's AH")) {
+                        Minecraft.getInstance().connection?.sendCommand("ah $name")
+                    }.bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
+                } else {
+                    Button.builder(Component.literal("Seller lookup failed")) {}
+                        .bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
+                        .also { it.active = false }
+                }
+                addRenderableWidget(resolvedButton)
+                copyButton = resolvedButton
+            }
         }
     }
 

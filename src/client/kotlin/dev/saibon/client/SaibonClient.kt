@@ -24,6 +24,7 @@ import dev.saibon.market.BazaarMenuSettings
 import dev.saibon.market.FlipFinderSettings
 import dev.saibon.market.MarketPriceRepository
 import dev.saibon.market.MarketSettings
+import dev.saibon.market.flip.AhFlipChatNotifier
 import dev.saibon.market.flip.FlipEngine
 import dev.saibon.market.flip.FlipEngineSettings
 import dev.saibon.market.ui.AuctionFlipScreen
@@ -90,6 +91,7 @@ object SaibonClient : ClientModInitializer {
         BazaarMenuOverlay.init()
         FlipEngine.init()
         FlipAlertHudModule.init()
+        AhFlipChatNotifier.init()
         HudEngine.register(FlipAlertHudModule)
         MarketSettings.register()
         AuctionMenuSettings.register()

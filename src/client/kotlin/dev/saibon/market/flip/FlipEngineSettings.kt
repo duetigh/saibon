@@ -34,6 +34,10 @@ object FlipEngineSettings {
                     config.alertMinMarginPercent = it.toDouble()
                     Saibon.config.save()
                 }
+                toggle("Post Auction House flips to chat (item, price, margin, Buy now link)", config.chatNotifyEnabled) {
+                    config.chatNotifyEnabled = it
+                    Saibon.config.save()
+                }
             }
         )
     }
