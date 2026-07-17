@@ -1,4 +1,13 @@
 {
+  "ench:arcane5": {
+    "confidence": 57,
+    "fairPrice": 108332.0,
+    "median": 108332.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 108332.0
+  },
   "reforge:blazing": {
     "confidence": 55,
     "fairPrice": 92754.40904677848,
@@ -6,6 +15,15 @@
     "sampleCount": 2,
     "stddev": 15249.0,
     "volumePerWeek": 2,
-    "weightedMean": 92754.97905231641
+    "weightedMean": 92754.97905231643
+  },
+  "reforge:rugged": {
+    "confidence": 57,
+    "fairPrice": 108332.0,
+    "median": 108332.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 108332.0
   }
 }
