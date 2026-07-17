@@ -12,6 +12,7 @@ import dev.saibon.hud.HudEngine
 import dev.saibon.hud.HudSettings
 import dev.saibon.hud.ScoreboardReader
 import dev.saibon.hud.TabListReader
+import dev.saibon.hud.modules.EstimatedValueHudModule
 import dev.saibon.hud.modules.FlipAlertHudModule
 import dev.saibon.itemlist.ItemListMenuButton
 import dev.saibon.itemlist.ItemListScreen
@@ -31,6 +32,7 @@ import dev.saibon.market.ui.BazaarActionNavigator
 import dev.saibon.market.ui.BazaarMenuOverlay
 import dev.saibon.market.ui.FlipScreen
 import dev.saibon.market.ui.MarketMenuOverlay
+import dev.saibon.market.value.EstimatedValueTooltipAppender
 import dev.saibon.search.SearchSettings
 import dev.saibon.ui.overlay.InventorySearchOverlay
 import dev.saibon.ui.screen.ChangelogScreen
@@ -89,6 +91,8 @@ object SaibonClient : ClientModInitializer {
         FlipAlertHudModule.init()
         AhFlipChatNotifier.init()
         HudEngine.register(FlipAlertHudModule)
+        EstimatedValueTooltipAppender.init()
+        HudEngine.register(EstimatedValueHudModule)
         MarketSettings.register()
         AuctionMenuSettings.register()
         FlipFinderSettings.register()

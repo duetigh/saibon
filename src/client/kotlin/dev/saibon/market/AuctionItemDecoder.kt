@@ -84,8 +84,11 @@ object AuctionItemDecoder {
      * — [modifierSignature] is derived *from* this list (each modifier's
      * `poolKey`, sorted and joined), not the other way around, so every kind
      * handled here automatically participates in exact-match bucketing too.
+     * Internal (not private) so [dev.saibon.market.value.EstimatedItemValueCalculator]
+     * can reuse this same decomposition against a live `ItemStack`'s
+     * `ExtraAttributes` instead of re-parsing NBT from scratch.
      */
-    private fun itemModifiers(extraAttributes: CompoundTag): List<ItemModifier> {
+    internal fun itemModifiers(extraAttributes: CompoundTag): List<ItemModifier> {
         val modifiers = mutableListOf<ItemModifier>()
         reforgeModifier(extraAttributes)?.let { modifiers += it }
         hotPotatoModifier(extraAttributes)?.let { modifiers += it }

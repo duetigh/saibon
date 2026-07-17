@@ -15,6 +15,29 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.3 - 2026-07-17
+
+### Added
+- SkyHanni-style "Estimated Item Value": every item's tooltip (inventory,
+  chests, Auction House — anywhere a tooltip renders) now gets a red "Est.
+  value: ..." line totaling the item's base market price plus the resolved
+  cost of every modifier actually present on that specific item instance
+  (reforge, hot potato/fuming books, recombobulator, dungeon stars,
+  enchants, gems, accessory enrichment, ability scrolls, Art of War/Peace,
+  Wood Singularity, Farming for Dummies) — see new
+  `EstimatedItemValueCalculator`/`EstimatedValueTooltipAppender`. New "Estimated
+  Value Breakdown" HUD module shows the same per-modifier cost breakdown for
+  whichever item is currently hovered, next to the cursor. A component whose
+  cost can't be resolved (no market data, or a coverage gap in the new
+  `ModifierCostTables` game-mechanic constants — most non-Wither essence
+  types and non-armor reforge stones aren't covered yet) is dropped rather
+  than guessed, and the total is flagged "(partial)" instead of silently
+  understating as if it were complete.
+- `AuctionItemDecoder.itemModifiers()` is now `internal` instead of
+  `private` so the new Estimated Item Value calculator can reuse the same
+  modifier decomposition against a live `ItemStack` instead of re-parsing
+  NBT from scratch.
+
 ## v0.13.2 - 2026-07-17
 
 ### Fixed
