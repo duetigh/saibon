@@ -7,7 +7,7 @@ import dev.saibon.ui.settings.SettingsSection
 
 /** Registers the "Auction Flip Finder" settings section, governing the sales-history engine behind `/saibonflips`'s Auction House finder. Called once from `SaibonClient.onInitializeClient()`. */
 object FlipFinderSettings {
-    private val REFRESH_INTERVALS = listOf(180, 300, 600, 900)
+    private val REFRESH_INTERVALS = listOf(60, 180, 300, 600, 900)
     private val MIN_SAMPLE_OPTIONS = listOf(1, 3, 5, 10)
 
     fun register() {

@@ -15,6 +15,45 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.12.0 - 2026-07-17
+
+### Added
+- Item List detail panel and sidebar panel now show a "Craft cost" line
+  (recursive buy-vs-craft cost, reusing `CraftFlipRanking`'s logic) and a
+  "Craft cost vs LBIN" percentage (highlighted green when crafting undercuts
+  the lowest BIN) alongside the existing AH lowest BIN line, for any item
+  with a known recipe.
+- `scripts/sync_hypixel_items.py` now cross-references the Detexturify mod's
+  public item dataset for items whose only known reskin was Hypixel's
+  server-resource-pack `item_model`, retexturing 387 of them with a real
+  Mojang skull texture (the same resource-pack-independent trick used for
+  the existing skull-item special case) instead of leaving them as plain
+  paper for players who don't run Hypixel's own resource pack.
+
+### Changed
+- Auction House sweep and sales-history refresh intervals both gained a 60s
+  option (AH sweep also gained 120s); their defaults dropped to match
+  (`ahRefreshIntervalSeconds` 600s → 120s, `salesHistoryRefreshIntervalSeconds`
+  300s → 60s), so `/saibonflips`'s fair-price data warms up faster on a
+  fresh install.
+
+### Fixed
+- `ItemIcons` no longer sets `minecraft:item_model` from Hypixel's own
+  `item_model` data — that id only resolves through Hypixel's own server
+  resource pack, and rendered as a missing-texture checkerboard for any
+  player running a different texture pack instead of Hypixel's. Items now
+  fall back to their plain vanilla material (or the new Detexturify skull
+  texture where available) regardless of which resource pack is active.
+- `AuctionSalesHistoryRepository`'s item-id-only sale bucket (the fallback
+  fair-price reference for items with no matching-modifier sales history)
+  no longer mixes in god-rolled/hot-potatoed/starred sale prices — those now
+  go exclusively into the modifier-signature bucket — since a lowest-BIN
+  listing is almost always a plain copy, and mixing in upgraded sale prices
+  was inflating the computed fair price far above what a plain copy
+  actually sells for.
+- `data/index.json`'s `items` dataset checksum/version bumped to match the
+  retextured `data/items.json` shipped in this release.
+
 ## v0.11.0 - 2026-07-16
 
 ### Added

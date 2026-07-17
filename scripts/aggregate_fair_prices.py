@@ -329,9 +329,14 @@ def apply_sales(raw_state: dict[str, list[list[int]]], auctions: list[dict[str, 
         item_id = item_id.upper()
         timestamp = sale.get("timestamp") or now_ms
 
-        _record(raw_state, item_id, price, timestamp)
+        # Item-level bucket must stay reforge/star/enchant/recomb-free (mirrors
+        # AuctionSalesHistoryRepository.kt): a lowest-BIN listing is almost always a
+        # plain copy, so mixing god-rolled sale prices in here inflates the fair
+        # price far above what a plain copy actually sells for.
         if signature:
             _record(raw_state, f"{item_id}|{signature}", price, timestamp)
+        else:
+            _record(raw_state, item_id, price, timestamp)
         applied += 1
     return applied
 

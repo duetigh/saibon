@@ -6,7 +6,7 @@ data class MarketConfig(
     var refreshIntervalSeconds: Int = 60,
     /** On by default — [dev.saibon.market.flip.CraftVsBinFinder] needs this sweep to find anything at all, and it's the one flip signal that's useful within minutes of a fresh install (no sales-history warm-up). Costs a full lowest-BIN sweep of Hypixel's entire active-auction list (tens of MB) on [ahRefreshIntervalSeconds]. */
     var ahAutoRefresh: Boolean = true,
-    var ahRefreshIntervalSeconds: Int = 600,
+    var ahRefreshIntervalSeconds: Int = 120,
     /** Multiplier over the known lowest-BIN price above which a real AH listing is flagged as overpriced. */
     var overpayWarningThreshold: Double = 1.5,
     /** Minimum buy-order/sell-offer margin (ask minus bid), as a percent of the bid, to surface as a flip suggestion. */
@@ -17,7 +17,7 @@ data class MarketConfig(
     var ahOverlayPanelEnabled: Boolean = false,
     /** Powers `/saibonflips`' Auction House finder's reference-sale-price engine — see AuctionSalesHistoryRepository. On by default so that finder actually produces candidates out of the box; local samples are also seeded from the bundled `fair_prices` server snapshot ([dev.saibon.data.DataRepository.fairPriceSnapshot]) so it isn't starting from zero. */
     var salesHistoryAutoRefresh: Boolean = true,
-    var salesHistoryRefreshIntervalSeconds: Int = 300,
+    var salesHistoryRefreshIntervalSeconds: Int = 60,
     /** Bounded per-item rolling sample ring buffer size — sized to support a real sales/week volume figure ([dev.saibon.market.FairPriceCalculator]), not just a short price window. */
     var salesHistoryMaxSamplesPerItem: Int = 300,
     /** An item needs at least this many recent sales observed before it's ranked as a flip — avoids ranking on a single troll/outlier sale. */

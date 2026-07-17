@@ -8,7 +8,7 @@ import dev.saibon.ui.settings.SettingsSection
 /** Registers the "Market" settings sections. Called once from `SaibonClient.onInitializeClient()`. */
 object MarketSettings {
     private val REFRESH_INTERVALS = listOf(30, 60, 120, 300)
-    private val AH_REFRESH_INTERVALS = listOf(300, 600, 900, 1800)
+    private val AH_REFRESH_INTERVALS = listOf(60, 120, 300, 600, 900, 1800)
 
     fun register() {
         SettingsRegistry.register(

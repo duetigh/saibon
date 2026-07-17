@@ -7,7 +7,9 @@ import dev.saibon.data.model.RecipeType
 import dev.saibon.data.model.SkyblockItem
 import dev.saibon.market.AuctionPriceRepository
 import dev.saibon.market.BazaarFlipRanking
+import dev.saibon.market.CraftFlipRanking
 import dev.saibon.market.MarketPriceRepository
+import dev.saibon.market.flip.IngredientPriceResolver
 import dev.saibon.search.query.SearchParser
 import dev.saibon.search.query.SearchQuery
 import dev.saibon.search.query.SkyblockItemMatcher
@@ -405,6 +407,16 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
 
     private fun formatPrice(value: Double): String = "%,.1f".format(value)
 
+    /** Recursive craft cost (buy-vs-craft per ingredient, see [CraftFlipRanking]), or null if [item] has no known recipe. */
+    private fun craftCostOf(item: SkyblockItem): Double? {
+        DataRepository.recipesFor(item.id).firstOrNull() ?: return null
+        return CraftFlipRanking.craftCostOf(
+            item.id,
+            recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
+            marketCostOf = { id -> IngredientPriceResolver.costOf(id) }
+        )
+    }
+
     override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
         if (mouseX < detailX && scrollY != 0.0) {
             scrollRows += if (scrollY > 0) -1 else 1
@@ -446,8 +458,15 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
             } else if (item.soulbound) {
                 add("Soulbound (not tradeable)" to MUTED_TEXT_COLOR)
             }
-            AuctionPriceRepository.lowestBin(item.id)?.let { auction ->
-                add("AH lowest BIN: ${formatPrice(auction.lowestBin.toDouble())} coins" to PRICE_COLOR)
+            val lbin = AuctionPriceRepository.lowestBin(item.id)?.lowestBin?.toDouble()
+            if (lbin != null) add("AH lowest BIN: ${formatPrice(lbin)} coins" to PRICE_COLOR)
+            craftCostOf(item)?.let { craftCost ->
+                add("Craft cost: ${formatPrice(craftCost)} coins" to PRICE_COLOR)
+                if (lbin != null && lbin > 0) {
+                    val ratioPercent = craftCost / lbin * 100.0
+                    val color = if (craftCost < lbin) FLIP_COLOR else PRICE_COLOR
+                    add("Craft cost vs LBIN: ${"%.0f".format(ratioPercent)}%" to color)
+                }
             }
         }
         val boxWidth = lines.maxOf { ColorCodes.width(font, it.first) } + 8

@@ -26,17 +26,27 @@ data/items.json's ids and metadata originally came from:
   placeholder every one of these got when the legacy id was first
   flattened.
 - Every item with a remote `item_model`: copies it verbatim into local
-  `itemModel` so ItemIcons can set `minecraft:item_model`, which is how
-  Hypixel itself re-skins a plain vanilla base item (usually `PAPER`) into
-  its real SkyBlock look via their own server resource pack — this is by
-  far the biggest fix, covering ~950 items across the whole catalog (drill
-  engine upgrades, jacob tickets, slayer drops, etc.), not just the
-  leather/skull special cases above.
+  `itemModel` (kept as informational metadata only — ItemIcons deliberately
+  does not consume it, since `hypixel_skyblock:item/...` only resolves
+  through Hypixel's own live server resource pack, which not every player
+  runs; see ItemIcons.kt's doc comment).
+- Items whose only known reskin is that same server-resource-pack
+  `item_model` are cross-referenced against the Detexturify mod's public
+  item dataset (https://athen.aerii.xyz/items, keyless, fetched here at
+  sync time only — never at Saibon runtime, same category as the NEU-REPO
+  fallback below) for a real Mojang skull-texture blob: the classic pre-
+  resource-pack NEU-era rendering trick, resource-pack-independent (same
+  mechanism as the skull-item case above, just sourced from a community
+  dataset instead of Hypixel's own API). Covers ~400 of the ~950
+  `item_model`-only items as of 2026-07-17.
 
 Usage:
-    python scripts/sync_hypixel_items.py [--source path/to/cached-api-response.json]
+    python scripts/sync_hypixel_items.py [--source path/to/cached-api-response.json] [--detexturify-source path/to/cached-detexturify.json]
 
-Without --source, fetches live from the Hypixel API.
+Without --source/--detexturify-source, fetches live from the Hypixel API /
+Detexturify's dataset respectively. A Detexturify fetch failure is
+non-fatal (logged, sync continues without it) since it's a bonus data
+source, not the primary one.
 """
 from __future__ import annotations
 
@@ -49,6 +59,7 @@ from pathlib import Path
 REPO_ROOT = Path(__file__).resolve().parent.parent
 ITEMS_PATH = REPO_ROOT / "data" / "items.json"
 API_URL = "https://api.hypixel.net/v2/resources/skyblock/items"
+DETEXTURIFY_URL = "https://athen.aerii.xyz/items"
 
 LEATHER_MATERIALS = {
     "LEATHER_BOOTS",
@@ -102,6 +113,19 @@ def fetch_remote_items(source: str | None) -> list[dict]:
     return payload["items"]
 
 
+def fetch_detexturify_items(source: str | None) -> dict:
+    """Returns {} on any failure — this is a bonus data source, sync must still succeed without it."""
+    try:
+        if source:
+            with open(source, encoding="utf-8") as f:
+                return json.load(f)
+        with urllib.request.urlopen(DETEXTURIFY_URL, timeout=30) as resp:
+            return json.load(resp)
+    except Exception as exc:  # noqa: BLE001 - deliberately broad, see docstring
+        print(f"Detexturify dataset fetch failed, continuing without it: {exc}", file=sys.stderr)
+        return {}
+
+
 def pack_rgb(color: str) -> int:
     r, g, b = (int(part) for part in color.split(","))
     return (r << 16) | (g << 8) | b
@@ -110,6 +134,10 @@ def pack_rgb(color: str) -> int:
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--source", help="Path to a cached Hypixel API response JSON, instead of fetching live")
+    parser.add_argument(
+        "--detexturify-source",
+        help="Path to a cached Detexturify items JSON, instead of fetching live (see fetch_detexturify_items)",
+    )
     args = parser.parse_args()
 
     with open(ITEMS_PATH, encoding="utf-8") as f:
@@ -117,6 +145,7 @@ def main() -> int:
     local_by_id = {item["id"]: item for item in local_items}
 
     remote_items = fetch_remote_items(args.source)
+    detexturify_items = fetch_detexturify_items(args.detexturify_source)
 
     leather_updated = 0
     skull_updated = 0
@@ -176,6 +205,22 @@ def main() -> int:
         else:
             local.pop("itemModel", None)
 
+    detexturify_retextured = 0
+    for item_id, local in local_by_id.items():
+        if not local.get("itemModel") or local.get("skullTexture"):
+            continue  # only items whose only known reskin is Hypixel's own server pack, not already a skull
+
+        detex_entry = detexturify_items.get(item_id)
+        texture = detex_entry.get("texture") if detex_entry else None
+        if not texture:
+            continue
+
+        if local.get("skullTexture") != texture or local.get("material") != "minecraft:player_head":
+            local["material"] = "minecraft:player_head"
+            local["skullTexture"] = texture
+            local.pop("color", None)
+            detexturify_retextured += 1
+
     with open(ITEMS_PATH, "w", encoding="utf-8", newline="\n") as f:
         json.dump(local_items, f, indent=2, ensure_ascii=False)
         f.write("\n")
@@ -184,6 +229,7 @@ def main() -> int:
     print(f"Skull items retextured/remapped: {skull_updated}")
     print(f"Dye-family items remapped: {dye_updated}")
     print(f"Item models set/updated: {item_model_updated}")
+    print(f"Items retextured via Detexturify's community skull-texture data: {detexturify_retextured}")
     if skipped_no_local_match:
         print(f"Remote ids with no local match (skipped): {skipped_no_local_match}", file=sys.stderr)
     return 0

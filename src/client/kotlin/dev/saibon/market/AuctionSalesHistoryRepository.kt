@@ -67,7 +67,7 @@ object AuctionSalesHistoryRepository {
         val samples = ArrayDeque<SaleSample>()
     }
 
-    /** Item-id-only bucket — always populated, the pre-existing behavior every caller that omits a modifier signature still gets. */
+    /** Item-id-only bucket — only sales with no reforge/hot-potato/recomb/star/enchant carry (a "plain" copy), so this stays comparable to a plain lowest-BIN listing. Modified copies only go into [signatureHistory]. */
     private val history = ConcurrentHashMap<String, SaleHistory>()
 
     /** `"<itemId>|<modifierSignature>"` bucket — only populated for sales that actually carry a non-empty signature (enchants/hot-potato/recomb/stars/reforge). Lets [saleReference] give a modifier-aware price for common upgraded gear while item-id-only items keep working exactly as before. */
@@ -173,8 +173,12 @@ object AuctionSalesHistoryRepository {
             val itemId = decoded.itemId.uppercase()
             val timestampMillis = if (sale.timestamp > 0) sale.timestamp else System.currentTimeMillis()
 
-            record(history, itemId, sale.price, timestampMillis, maxSamples)
-            if (decoded.modifierSignature.isNotEmpty()) {
+            if (decoded.modifierSignature.isEmpty()) {
+                // Item-level bucket must stay reforge/star/enchant/recomb-free: a lowest-BIN
+                // listing is almost always a plain copy, so mixing god-rolled sale prices in
+                // here inflates the "fair price" far above what a plain copy actually sells for.
+                record(history, itemId, sale.price, timestampMillis, maxSamples)
+            } else {
                 record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, timestampMillis, maxSamples)
             }
             newSamples++
