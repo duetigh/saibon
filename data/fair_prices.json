@@ -1,12 +1,12 @@
 {
   "ABIPHONE_BASIC": {
-    "confidence": 60,
-    "fairPrice": 199680.76828365342,
+    "confidence": 64,
+    "fairPrice": 208493.00955621048,
     "median": 200000.0,
-    "sampleCount": 3,
-    "stddev": 942.8090415820634,
-    "volumePerWeek": 3,
-    "weightedMean": 199358.502404767
+    "sampleCount": 5,
+    "stddev": 22605.90719612907,
+    "volumePerWeek": 5,
+    "weightedMean": 218955.2314101275
   },
   "ABIPHONE_XIII_PRO_GIGA": {
     "confidence": 54,
@@ -24,7 +24,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 12900000.000000002
+    "weightedMean": 12899999.999999998
   },
   "ABYSSAL_CHESTPLATE": {
     "confidence": 53,
@@ -33,7 +33,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 12900000.000000002
+    "weightedMean": 12900000.0
   },
   "ABYSSAL_HELMET": {
     "confidence": 53,
@@ -53,8 +53,17 @@
     "volumePerWeek": 1,
     "weightedMean": 12900000.0
   },
+  "ADAPTIVE_BELT": {
+    "confidence": 57,
+    "fairPrice": 699999.0,
+    "median": 699999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 699999.0
+  },
   "ADAPTIVE_BOOTS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 168000.0,
     "median": 168000.0,
     "sampleCount": 1,
@@ -63,16 +72,16 @@
     "weightedMean": 168000.0
   },
   "ADAPTIVE_CHESTPLATE": {
-    "confidence": 59,
-    "fairPrice": 1150319.8135241498,
+    "confidence": 58,
+    "fairPrice": 1150319.8135241496,
     "median": 1099499.5,
     "sampleCount": 4,
     "stddev": 287921.1016064123,
     "volumePerWeek": 4,
-    "weightedMean": 1232444.782916693
+    "weightedMean": 1232444.7829166928
   },
   "ADAPTIVE_HELMET": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 477000.0,
     "median": 477000.0,
     "sampleCount": 1,
@@ -90,7 +99,7 @@
     "weightedMean": 250000.0
   },
   "ADAPTIVE_HELMET|reforge:reinforced": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 370000.0,
     "median": 370000.0,
     "sampleCount": 1,
@@ -99,7 +108,7 @@
     "weightedMean": 370000.0
   },
   "ADAPTIVE_LEGGINGS": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 715429.4639384561,
     "median": 700000.0,
     "sampleCount": 3,
@@ -108,22 +117,22 @@
     "weightedMean": 733003.9980191604
   },
   "ADVANCED_GARDENING_HOE|ench:replenish1": {
-    "confidence": 59,
-    "fairPrice": 340969.4239538164,
+    "confidence": 58,
+    "fairPrice": 340969.42395381635,
     "median": 330000.0,
     "sampleCount": 3,
     "stddev": 33236.766793550916,
     "volumePerWeek": 3,
-    "weightedMean": 354219.2136783789
+    "weightedMean": 354219.21367837884
   },
   "AGARIMOO_ARTIFACT": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 7600000.0,
     "median": 7600000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 7600000.0
+    "weightedMean": 7600000.000000001
   },
   "AMBER_POLISHED_DRILL_ENGINE": {
     "confidence": 56,
@@ -141,7 +150,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 3499999.0000000005
+    "weightedMean": 3499999.0
   },
   "ANANKE_FEATHER": {
     "confidence": 55,
@@ -153,16 +162,16 @@
     "weightedMean": 26476667.22295851
   },
   "ANCIENT_CLOAK|recomb:applied|reforge:blazing": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 13333333.0,
     "median": 13333333.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 13333332.999999998
+    "weightedMean": 13333333.0
   },
   "ANGUISH_ARTIFACT": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 58704999.0,
     "median": 58704999.0,
     "sampleCount": 1,
@@ -177,7 +186,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 999999.0
+    "weightedMean": 999998.9999999999
   },
   "APEX_PRAEDATOR": {
     "confidence": 54,
@@ -208,12 +217,12 @@
   },
   "ARCHFIEND_DICE": {
     "confidence": 99,
-    "fairPrice": 3730324.154685293,
+    "fairPrice": 3775336.144839046,
     "median": 3800000.0,
     "sampleCount": 27,
-    "stddev": 136347.58827179015,
+    "stddev": 117705.25216618914,
     "volumePerWeek": 27,
-    "weightedMean": 3727681.346406738
+    "weightedMean": 3774542.4801669344
   },
   "ARMOR_OF_MAGMA_CHESTPLATE|ench:growth4|ench:protection5|ench:thorns3": {
     "confidence": 55,
@@ -225,7 +234,7 @@
     "weightedMean": 1500000.0
   },
   "ARMOR_OF_YOG_BOOTS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 399000.0,
     "median": 399000.0,
     "sampleCount": 1,
@@ -243,7 +252,7 @@
     "weightedMean": 300000.0
   },
   "ARMOR_OF_YOG_CHESTPLATE": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 525000.0,
     "median": 525000.0,
     "sampleCount": 1,
@@ -252,7 +261,7 @@
     "weightedMean": 525000.0
   },
   "ARMOR_OF_YOG_LEGGINGS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 507139.6014114673,
     "median": 507000.0,
     "sampleCount": 2,
@@ -279,7 +288,7 @@
     "weightedMean": 50000.0
   },
   "ASPECT_OF_THE_DRAGON": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1367592.163371473,
     "median": 1366665.5,
     "sampleCount": 2,
@@ -297,7 +306,7 @@
     "weightedMean": 22000000.0
   },
   "ASPECT_OF_THE_DRAGON|ench:critical5|ench:ender_slayer5|ench:execute5|ench:experience3|ench:fire_aspect2|ench:first_strike4|ench:giant_killer5|ench:lethality5|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger3|ench:sharpness5|ench:thunderlord5|ench:ultimate_wise1|ench:vampirism5|ench:venomous5|potato:10|reforge:legendary": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1500000.0,
     "median": 1500000.0,
     "sampleCount": 1,
@@ -306,22 +315,22 @@
     "weightedMean": 1500000.0
   },
   "ASPECT_OF_THE_END": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 410808.37165655347,
     "median": 407644.0,
     "sampleCount": 4,
     "stddev": 74455.90340597581,
     "volumePerWeek": 4,
-    "weightedMean": 415362.2742304966
+    "weightedMean": 415362.27423049667
   },
   "ASPECT_OF_THE_END|ench:bane_of_arthropods5|ench:cleave5|ench:critical5|ench:cubism5|ench:ender_slayer5|ench:execute5|ench:experience3|ench:fire_aspect2|ench:first_strike4|ench:giant_killer5|ench:lethality5|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger3|ench:sharpness5|ench:smite5|ench:thunderlord5|ench:vampirism5|ench:venomous4|reforge:sharp": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 370000.0,
     "median": 370000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 369999.99999999994
+    "weightedMean": 370000.0
   },
   "ASPECT_OF_THE_END|ench:bane_of_arthropods5|ench:cubism4|ench:ender_slayer5|ench:execute5|ench:experience3|ench:first_strike3|ench:lethality5|ench:scavenger3|ench:sharpness5|ench:smite5|ench:thunderlord5|ench:ultimate_wise5|reforge:heroic": {
     "confidence": 54,
@@ -333,7 +342,7 @@
     "weightedMean": 4500000.0
   },
   "ASPECT_OF_THE_END|ench:critical5|ench:ender_slayer5|ench:first_strike4|ench:giant_killer5|ench:luck5|ench:sharpness5|reforge:epic": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 700000.0,
     "median": 700000.0,
     "sampleCount": 1,
@@ -342,7 +351,7 @@
     "weightedMean": 700000.0
   },
   "ASPECT_OF_THE_JERRY_SIGNATURE|ench:sharpness10": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 219161.43114761118,
     "median": 200000.0,
     "sampleCount": 3,
@@ -351,7 +360,7 @@
     "weightedMean": 252416.50217407724
   },
   "ASPECT_OF_THE_VOID": {
-    "confidence": 44,
+    "confidence": 43,
     "fairPrice": 16200818.90002058,
     "median": 16115000.0,
     "sampleCount": 2,
@@ -360,16 +369,16 @@
     "weightedMean": 16551957.843232764
   },
   "ASPECT_OF_THE_VOID|ench:ultimate_wise5|reforge:heroic": {
-    "confidence": 56,
-    "fairPrice": 27000000.0,
-    "median": 27000000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 27000000.0
+    "confidence": 53,
+    "fairPrice": 20458829.854876596,
+    "median": 20500000.0,
+    "sampleCount": 2,
+    "stddev": 6500000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 20379430.28928146
   },
   "ATMOSPHERIC_FILTER": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 221956.30595038045,
     "median": 219999.5,
     "sampleCount": 6,
@@ -405,13 +414,13 @@
     "weightedMean": 410854.3969219954
   },
   "AURORA_CHESTPLATE": {
-    "confidence": 54,
+    "confidence": 53,
     "fairPrice": 373403.1749664261,
     "median": 369999.0,
     "sampleCount": 2,
     "stddev": 80001.0,
     "volumePerWeek": 2,
-    "weightedMean": 378685.5518617555
+    "weightedMean": 378685.55186175555
   },
   "AURORA_CHESTPLATE|ench:growth5|ench:protection5|potato:10|reforge:loving": {
     "confidence": 55,
@@ -423,7 +432,7 @@
     "weightedMean": 2000000.0
   },
   "AURORA_CHESTPLATE|ench:growth5|ench:protection5|reforge:loving": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 1300000.0,
     "median": 1300000.0,
     "sampleCount": 1,
@@ -450,7 +459,7 @@
     "weightedMean": 312540.94069984264
   },
   "AUTOPET_RULES_2": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 23000000.0,
     "median": 23000000.0,
     "sampleCount": 1,
@@ -465,10 +474,19 @@
     "sampleCount": 3,
     "stddev": 298923.99628593813,
     "volumePerWeek": 3,
-    "weightedMean": 11716309.27508571
+    "weightedMean": 11716309.275085712
+  },
+  "AUTO_RECOMBOBULATOR|enrich:magic_find|recomb:applied|reforge:none": {
+    "confidence": 57,
+    "fairPrice": 18000000.0,
+    "median": 18000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 18000000.0
   },
   "AXE_OF_THE_SHREDDED|ench:PROSECUTE5|ench:bane_of_arthropods6|ench:champion10|ench:cleave5|ench:critical6|ench:cubism5|ench:dragon_hunter5|ench:ender_slayer6|ench:experience4|ench:fire_aspect3|ench:first_strike4|ench:giant_killer6|ench:impaling5|ench:lethality6|ench:looting4|ench:luck6|ench:magmarizer5|ench:scavenger5|ench:sharpness6|ench:smite7|ench:syphon4|ench:thunderlord6|ench:ultimate_chimera3|ench:vampirism5|ench:venomous6|gem:COMBAT_0:ONYX:FINE|gem:JASPER_0:FINE|potato:15|recomb:applied|reforge:fabled": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 175000000.0,
     "median": 175000000.0,
     "sampleCount": 1,
@@ -486,16 +504,16 @@
     "weightedMean": 73000000.0
   },
   "BACKWATER_BELT": {
-    "confidence": 54,
-    "fairPrice": 550000.0,
-    "median": 550000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 550000.0
+    "confidence": 57,
+    "fairPrice": 627058.2837746914,
+    "median": 625000.0,
+    "sampleCount": 2,
+    "stddev": 75000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 629677.9176697531
   },
   "BACKWATER_BOOTS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 289999.0,
     "median": 289999.0,
     "sampleCount": 1,
@@ -505,24 +523,33 @@
   },
   "BACKWATER_CHESTPLATE": {
     "confidence": 55,
-    "fairPrice": 249614.84351399605,
+    "fairPrice": 249614.84351399602,
     "median": 249999.5,
     "sampleCount": 2,
     "stddev": 50000.5,
     "volumePerWeek": 2,
-    "weightedMean": 249037.855900052
+    "weightedMean": 249037.85590005197
   },
   "BACKWATER_CLOAK": {
-    "confidence": 54,
-    "fairPrice": 540000.0,
-    "median": 540000.0,
+    "confidence": 56,
+    "fairPrice": 622171.156511496,
+    "median": 620000.0,
+    "sampleCount": 2,
+    "stddev": 80000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 624985.6186560282
+  },
+  "BACKWATER_GLOVES": {
+    "confidence": 57,
+    "fairPrice": 800000.0,
+    "median": 800000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 540000.0
+    "weightedMean": 800000.0
   },
   "BACKWATER_HELMET": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 244952.34692787944,
     "median": 244999.5,
     "sampleCount": 2,
@@ -531,40 +558,40 @@
     "weightedMean": 244903.22893976225
   },
   "BACKWATER_LEGGINGS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 310000.0,
     "median": 310000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 310000.00000000006
+    "weightedMean": 310000.0
   },
   "BACKWATER_NECKLACE": {
-    "confidence": 57,
-    "fairPrice": 732720.0955000306,
-    "median": 734000.0,
-    "sampleCount": 2,
-    "stddev": 64000.0,
-    "volumePerWeek": 2,
-    "weightedMean": 731195.6719314102
+    "confidence": 60,
+    "fairPrice": 709352.2450767914,
+    "median": 700000.0,
+    "sampleCount": 3,
+    "stddev": 54658.53598071902,
+    "volumePerWeek": 3,
+    "weightedMean": 720234.950639162
   },
   "BALLOON_HAT_2024": {
     "confidence": 55,
-    "fairPrice": 3745021.381586884,
+    "fairPrice": 3745021.3815868846,
     "median": 3745000.0,
     "sampleCount": 2,
     "stddev": 745000.0,
     "volumePerWeek": 2,
-    "weightedMean": 3745053.3826952544
+    "weightedMean": 3745053.382695255
   },
   "BALLOON_SNAKE": {
-    "confidence": 51,
-    "fairPrice": 260000.0,
-    "median": 260000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 260000.0
+    "confidence": 58,
+    "fairPrice": 269016.6214638223,
+    "median": 268499.5,
+    "sampleCount": 2,
+    "stddev": 8499.5,
+    "volumePerWeek": 2,
+    "weightedMean": 269567.55272673507
   },
   "BASE_CAMP_TRAVEL_SCROLL": {
     "confidence": 56,
@@ -576,16 +603,16 @@
     "weightedMean": 3600000.0
   },
   "BASIC_GARDENING_AXE": {
-    "confidence": 55,
-    "fairPrice": 116999.0,
-    "median": 116999.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 116999.0
+    "confidence": 57,
+    "fairPrice": 108304.13549609727,
+    "median": 108499.5,
+    "sampleCount": 2,
+    "stddev": 8499.5,
+    "volumePerWeek": 2,
+    "weightedMean": 108075.56098017615
   },
   "BASIC_GARDENING_HOE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 148999.0,
     "median": 148999.0,
     "sampleCount": 1,
@@ -618,10 +645,10 @@
     "sampleCount": 4,
     "stddev": 36148.99721984,
     "volumePerWeek": 4,
-    "weightedMean": 147174.05841191852
+    "weightedMean": 147174.05841191855
   },
   "BAYOU_TRAVEL_SCROLL": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1809991.0,
     "median": 1809991.0,
     "sampleCount": 1,
@@ -648,16 +675,16 @@
     "weightedMean": 89000.0
   },
   "BEJEWELED_COLLAR": {
-    "confidence": 56,
-    "fairPrice": 3250000.0,
-    "median": 3250000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 3250000.0
+    "confidence": 61,
+    "fairPrice": 3123518.0799320783,
+    "median": 3100000.0,
+    "sampleCount": 3,
+    "stddev": 70710.91382209366,
+    "volumePerWeek": 3,
+    "weightedMean": 3148116.269627687
   },
   "BIOFUEL": {
-    "confidence": 63,
+    "confidence": 62,
     "fairPrice": 77189.48501253163,
     "median": 79598.0,
     "sampleCount": 5,
@@ -672,16 +699,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 16450000.000000002
+    "weightedMean": 16449999.999999998
   },
   "BLADE_OF_THE_VOLCANO": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 100000.0,
     "median": 100000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 100000.0
+    "weightedMean": 99999.99999999999
   },
   "BLAZE_TALISMAN": {
     "confidence": 63,
@@ -690,10 +717,10 @@
     "sampleCount": 5,
     "stddev": 342355.1282994896,
     "volumePerWeek": 5,
-    "weightedMean": 3711098.452358314
+    "weightedMean": 3711098.4523583143
   },
   "BLOBFISH_HAT": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 159950.35021793397,
     "median": 164999.0,
     "sampleCount": 4,
@@ -708,7 +735,7 @@
     "sampleCount": 2,
     "stddev": 24000.5,
     "volumePerWeek": 2,
-    "weightedMean": 3475350.230689926
+    "weightedMean": 3475350.2306899256
   },
   "BLOSSOM_BELT": {
     "confidence": 56,
@@ -720,7 +747,7 @@
     "weightedMean": 7538999.0
   },
   "BLOSSOM_BELT|reforge:rooted": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 7500000.0,
     "median": 7500000.0,
     "sampleCount": 1,
@@ -735,10 +762,10 @@
     "sampleCount": 3,
     "stddev": 94046.32546546173,
     "volumePerWeek": 3,
-    "weightedMean": 4905100.74218284
+    "weightedMean": 4905100.742182839
   },
   "BLOSSOM_BRACELET|reforge:rooted": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 4700000.0,
     "median": 4700000.0,
     "sampleCount": 1,
@@ -747,7 +774,7 @@
     "weightedMean": 4700000.0
   },
   "BLOSSOM_CLOAK": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 17449992.0,
     "median": 17449992.0,
     "sampleCount": 1,
@@ -765,7 +792,7 @@
     "weightedMean": 16900000.0
   },
   "BLOSSOM_NECKLACE": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 13489995.0,
     "median": 13489995.0,
     "sampleCount": 1,
@@ -774,7 +801,7 @@
     "weightedMean": 13489995.0
   },
   "BLOSSOM_NECKLACE|reforge:rooted": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 12900000.0,
     "median": 12900000.0,
     "sampleCount": 1,
@@ -792,7 +819,7 @@
     "weightedMean": 2850000.0
   },
   "BONZO_MASK": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 1298710.5743895671,
     "median": 1300000.0,
     "sampleCount": 3,
@@ -801,7 +828,7 @@
     "weightedMean": 1297248.3229272969
   },
   "BONZO_STAFF": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 5471504.0,
     "median": 5471504.0,
     "sampleCount": 1,
@@ -810,7 +837,7 @@
     "weightedMean": 5471504.0
   },
   "BONZO_STAFF|ench:ultimate_wise5": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 7000000.0,
     "median": 7000000.0,
     "sampleCount": 1,
@@ -828,7 +855,7 @@
     "weightedMean": 27500000.0
   },
   "BROWN_BANDANA": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 4000000.0,
     "median": 4000000.0,
     "sampleCount": 1,
@@ -837,22 +864,22 @@
     "weightedMean": 4000000.0
   },
   "BUCKET_OF_DYE": {
-    "confidence": 67,
-    "fairPrice": 902745.7671386945,
+    "confidence": 66,
+    "fairPrice": 902745.7671386944,
     "median": 894443.5,
     "sampleCount": 6,
     "stddev": 59419.268102938535,
     "volumePerWeek": 6,
-    "weightedMean": 912205.0611352843
+    "weightedMean": 912205.0611352841
   },
   "BUILDERS_RULER": {
-    "confidence": 61,
+    "confidence": 60,
     "fairPrice": 177065.73857873335,
     "median": 178500.0,
     "sampleCount": 4,
     "stddev": 19252.944584855064,
     "volumePerWeek": 4,
-    "weightedMean": 175280.81917947077
+    "weightedMean": 175280.8191794708
   },
   "BURNT_TEXTS": {
     "confidence": 54,
@@ -864,16 +891,16 @@
     "weightedMean": 72500000.0
   },
   "BUZZYBEES_FANTABULOUS_DISCO_DESTINATION": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 97000000.0,
     "median": 97000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 97000000.0
+    "weightedMean": 96999999.99999999
   },
   "CAGED_WISP": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 59900000.0,
     "median": 59900000.0,
     "sampleCount": 1,
@@ -882,7 +909,7 @@
     "weightedMean": 59900000.0
   },
   "CAKE_SOUL": {
-    "confidence": 88,
+    "confidence": 87,
     "fairPrice": 2235730.108075721,
     "median": 2300000.0,
     "sampleCount": 16,
@@ -891,7 +918,7 @@
     "weightedMean": 2208472.232983551
   },
   "CANDY_ARTIFACT": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1800000.0,
     "median": 1800000.0,
     "sampleCount": 1,
@@ -900,7 +927,7 @@
     "weightedMean": 1800000.0
   },
   "CANDY_THE_FISH": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 945248.0,
     "median": 945248.0,
     "sampleCount": 1,
@@ -909,7 +936,7 @@
     "weightedMean": 945248.0
   },
   "CARNIVAL_MASK_BAG": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 4210000.0,
     "median": 4210000.0,
     "sampleCount": 1,
@@ -918,7 +945,7 @@
     "weightedMean": 4210000.0
   },
   "CASHMERE_JACKET": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1050000.0,
     "median": 1050000.0,
     "sampleCount": 1,
@@ -945,7 +972,7 @@
     "weightedMean": 4000.0
   },
   "CELESTE_WAND": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 349999.0,
     "median": 349999.0,
     "sampleCount": 1,
@@ -978,10 +1005,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 399000.00000000006
+    "weightedMean": 399000.0
   },
   "CHALLENGER_BELT|reforge:menacing": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 800000.0,
     "median": 800000.0,
     "sampleCount": 1,
@@ -1023,10 +1050,10 @@
     "sampleCount": 2,
     "stddev": 45388.5,
     "volumePerWeek": 2,
-    "weightedMean": 440107.11455408257
+    "weightedMean": 440107.1145540825
   },
   "CHEAP_TUXEDO_BOOTS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 800000.0,
     "median": 800000.0,
     "sampleCount": 1,
@@ -1035,7 +1062,7 @@
     "weightedMean": 800000.0
   },
   "CHEAP_TUXEDO_LEGGINGS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 600000.0,
     "median": 600000.0,
     "sampleCount": 1,
@@ -1045,12 +1072,12 @@
   },
   "CHOCO_RABBIT_PERSONALITY": {
     "confidence": 48,
-    "fairPrice": 76743.63962578072,
+    "fairPrice": 76743.63962578074,
     "median": 80000.0,
     "sampleCount": 3,
     "stddev": 38586.12300930075,
     "volumePerWeek": 3,
-    "weightedMean": 63332.57330151621
+    "weightedMean": 63332.573301516226
   },
   "CHUM_SINKER": {
     "confidence": 51,
@@ -1071,7 +1098,7 @@
     "weightedMean": 144416.5325896688
   },
   "COLOSSAL_EXP_BOTTLE_UPGRADE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1499000.0,
     "median": 1499000.0,
     "sampleCount": 1,
@@ -1089,7 +1116,7 @@
     "weightedMean": 221064.07451231268
   },
   "CONJURING_SWORD|ench:critical5|ench:experience3|ench:first_strike4|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|reforge:sharp": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 35000.0,
     "median": 35000.0,
     "sampleCount": 1,
@@ -1098,7 +1125,7 @@
     "weightedMean": 35000.0
   },
   "CONJURING_SWORD|ench:execute5|ench:experience3|ench:first_strike4|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|reforge:fast": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 150000.0,
     "median": 150000.0,
     "sampleCount": 1,
@@ -1107,16 +1134,16 @@
     "weightedMean": 150000.0
   },
   "COPPER_TALISMAN": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 7694445.57856958,
     "median": 7699999.0,
     "sampleCount": 2,
     "stddev": 199999.0,
     "volumePerWeek": 2,
-    "weightedMean": 7688595.976143784
+    "weightedMean": 7688595.976143783
   },
   "CRIMSON_BOOTS": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 333981.4218635884,
     "median": 348999.0,
     "sampleCount": 3,
@@ -1126,12 +1153,12 @@
   },
   "CRIMSON_CHESTPLATE": {
     "confidence": 48,
-    "fairPrice": 379008.28409066284,
+    "fairPrice": 379008.2840906629,
     "median": 340000.0,
     "sampleCount": 3,
     "stddev": 320970.74979228596,
     "volumePerWeek": 3,
-    "weightedMean": 528966.8978645987
+    "weightedMean": 528966.8978645988
   },
   "CRIMSON_HELMET": {
     "confidence": 61,
@@ -1140,7 +1167,7 @@
     "sampleCount": 3,
     "stddev": 1179.6898839195928,
     "volumePerWeek": 3,
-    "weightedMean": 499107.9761904483
+    "weightedMean": 499107.97619044833
   },
   "CRIMSON_LEGGINGS": {
     "confidence": 52,
@@ -1153,24 +1180,24 @@
   },
   "CROCHET_TIGER_PLUSHIE": {
     "confidence": 66,
-    "fairPrice": 531749.1590823226,
+    "fairPrice": 531749.1590823225,
     "median": 515000.0,
     "sampleCount": 7,
     "stddev": 97934.17197697812,
     "volumePerWeek": 7,
-    "weightedMean": 555653.5419928966
+    "weightedMean": 555653.5419928964
   },
   "CROPIE_BOOTS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 5920248.0,
     "median": 5920248.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 5920247.999999999
+    "weightedMean": 5920248.0
   },
   "CROPIE_HELMET|ench:pesterminator5|reforge:bustling": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 5500000.0,
     "median": 5500000.0,
     "sampleCount": 1,
@@ -1179,7 +1206,7 @@
     "weightedMean": 5500000.0
   },
   "CROPIE_HELMET|reforge:bustling": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 4290000.0,
     "median": 4290000.0,
     "sampleCount": 1,
@@ -1206,7 +1233,7 @@
     "weightedMean": 66000.0
   },
   "CRYPT_BOW|ench:infinite_quiver5|ench:piercing1|ench:power5|ench:snipe3|reforge:rich_bow": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 549999.0,
     "median": 549999.0,
     "sampleCount": 1,
@@ -1221,10 +1248,10 @@
     "sampleCount": 2,
     "stddev": 5000.0,
     "volumePerWeek": 2,
-    "weightedMean": 10088.571253168084
+    "weightedMean": 10088.571253168082
   },
   "CRYPT_DREADLORD_SWORD|ench:critical5|ench:execute5|ench:experience3|ench:first_strike4|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|ench:vampirism5|reforge:spicy": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 18999.0,
     "median": 18999.0,
     "sampleCount": 1,
@@ -1261,12 +1288,12 @@
   },
   "CRYSTALLIZED_HEART": {
     "confidence": 52,
-    "fairPrice": 1251495.666917686,
+    "fairPrice": 1251495.6669176861,
     "median": 1245000.0,
     "sampleCount": 2,
     "stddev": 255000.0,
     "volumePerWeek": 2,
-    "weightedMean": 1261337.5864899377
+    "weightedMean": 1261337.586489938
   },
   "CRYSTAL_BOOTS|reforge:necrotic": {
     "confidence": 50,
@@ -1293,7 +1320,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 500000.0
+    "weightedMean": 499999.99999999994
   },
   "CRYSTAL_LEGGINGS|reforge:necrotic": {
     "confidence": 50,
@@ -1302,10 +1329,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 1000000.0000000001
+    "weightedMean": 1000000.0
   },
   "DANGER_1_TRAVEL_SCROLL": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 947123.0,
     "median": 947123.0,
     "sampleCount": 1,
@@ -1314,7 +1341,7 @@
     "weightedMean": 947123.0
   },
   "DANGER_2_PORTAL": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 449000.0,
     "median": 449000.0,
     "sampleCount": 1,
@@ -1323,7 +1350,7 @@
     "weightedMean": 449000.0
   },
   "DANTE_GREENHOUSE_SKIN": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 39000000.0,
     "median": 39000000.0,
     "sampleCount": 1,
@@ -1332,7 +1359,7 @@
     "weightedMean": 39000000.0
   },
   "DARK_GOGGLES": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 250000.0,
     "median": 250000.0,
     "sampleCount": 1,
@@ -1341,7 +1368,7 @@
     "weightedMean": 250000.0
   },
   "DAY_CRYSTAL": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 370000.0,
     "median": 370000.0,
     "sampleCount": 1,
@@ -1350,13 +1377,13 @@
     "weightedMean": 370000.0
   },
   "DAY_CRYSTAL|reforge:silky": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 369000.0,
     "median": 369000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 369000.0
+    "weightedMean": 369000.00000000006
   },
   "DAY_SAVER": {
     "confidence": 59,
@@ -1368,7 +1395,7 @@
     "weightedMean": 365604.8168653155
   },
   "DECENT_BOW": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 249000.0,
     "median": 249000.0,
     "sampleCount": 1,
@@ -1377,16 +1404,16 @@
     "weightedMean": 249000.0
   },
   "DEEPTERROR_MIXIN": {
-    "confidence": 55,
-    "fairPrice": 3049500.7518435004,
+    "confidence": 54,
+    "fairPrice": 3049500.751843501,
     "median": 3049500.0,
     "sampleCount": 2,
     "stddev": 49500.0,
     "volumePerWeek": 2,
-    "weightedMean": 3049501.5284978366
+    "weightedMean": 3049501.528497837
   },
   "DEVOUR_RING": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 3448000.0,
     "median": 3448000.0,
     "sampleCount": 1,
@@ -1410,7 +1437,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 78000000.00000001
+    "weightedMean": 78000000.0
   },
   "DIVAN_BOOTS|reforge:jaded|ench:protection5": {
     "confidence": 51,
@@ -1419,7 +1446,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 59999999.99999999
+    "weightedMean": 60000000.0
   },
   "DIVAN_CHESTPLATE|ench:growth5|ench:protection5|ench:reflection1|ench:ultimate_wisdom5|recomb:applied|reforge:jaded": {
     "confidence": 54,
@@ -1431,7 +1458,7 @@
     "weightedMean": 83000000.0
   },
   "DIVAN_CHESTPLATE|recomb:applied|reforge:jaded": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 85000000.0,
     "median": 85000000.0,
     "sampleCount": 1,
@@ -1440,7 +1467,7 @@
     "weightedMean": 85000000.0
   },
   "DIVAN_HELMET|ench:growth5|ench:protection5|recomb:applied|reforge:jaded": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 85000000.0,
     "median": 85000000.0,
     "sampleCount": 1,
@@ -1449,7 +1476,7 @@
     "weightedMean": 85000000.0
   },
   "DIVAN_LEGGINGS|recomb:applied|reforge:jaded": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 60000000.0,
     "median": 60000000.0,
     "sampleCount": 1,
@@ -1458,7 +1485,7 @@
     "weightedMean": 60000000.0
   },
   "DIVER_BOOTS|ench:depth_strider3": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 996997.0,
     "median": 996997.0,
     "sampleCount": 1,
@@ -1477,42 +1504,42 @@
   },
   "DIVER_CHESTPLATE": {
     "confidence": 58,
-    "fairPrice": 1124822.4057387987,
+    "fairPrice": 1124822.405738799,
     "median": 1124942.5,
     "sampleCount": 2,
     "stddev": 25054.5,
     "volumePerWeek": 2,
-    "weightedMean": 1124696.8401902167
+    "weightedMean": 1124696.840190217
   },
   "DIVER_HELMET": {
-    "confidence": 56,
-    "fairPrice": 1601525.8966643184,
+    "confidence": 55,
+    "fairPrice": 1601525.8966643182,
     "median": 1594997.5,
     "sampleCount": 2,
     "stddev": 195000.5,
     "volumePerWeek": 2,
-    "weightedMean": 1609872.926673909
+    "weightedMean": 1609872.9266739087
   },
   "DIVER_LEGGINGS": {
-    "confidence": 54,
-    "fairPrice": 2021276.9315325276,
+    "confidence": 53,
+    "fairPrice": 2021276.9315325273,
     "median": 2100000.0,
     "sampleCount": 3,
     "stddev": 601785.6098135504,
     "volumePerWeek": 3,
-    "weightedMean": 1865614.9038390478
+    "weightedMean": 1865614.9038390473
   },
   "DRAGONFUSE_GLOVE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 12950000.0,
     "median": 12950000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 12950000.000000002
+    "weightedMean": 12950000.0
   },
   "DUNGEON_LORE_PAPER": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 2.0,
     "median": 2.0,
     "sampleCount": 1,
@@ -1530,16 +1557,25 @@
     "weightedMean": 150000.0
   },
   "DWARF_TURTLE_SHELMET": {
-    "confidence": 62,
-    "fairPrice": 325622.491740906,
+    "confidence": 61,
+    "fairPrice": 325622.49174090597,
     "median": 325000.0,
     "sampleCount": 4,
     "stddev": 27726.58922744556,
     "volumePerWeek": 4,
-    "weightedMean": 326360.1343695906
+    "weightedMean": 326360.13436959055
+  },
+  "DWARVEN_HANDWARMERS": {
+    "confidence": 57,
+    "fairPrice": 31000000.0,
+    "median": 31000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 31000000.0
   },
   "DYE_CHARCOAL": {
-    "confidence": 54,
+    "confidence": 53,
     "fairPrice": 17745002.352552217,
     "median": 17745000.0,
     "sampleCount": 2,
@@ -1557,22 +1593,22 @@
     "weightedMean": 426860.4715642704
   },
   "DYE_LAVA": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 14900000.0,
     "median": 14900000.0,
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 14900000.000000002
+    "weightedMean": 14900000.0
   },
   "DYE_PURE_BLUE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 169000000.0,
     "median": 169000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 168999999.99999997
+    "weightedMean": 169000000.0
   },
   "DYE_RED_TULIP": {
     "confidence": 53,
@@ -1584,7 +1620,7 @@
     "weightedMean": 17909999.0
   },
   "EARTH_SHARD|ench:critical5|ench:experience3|ench:first_strike4|ench:giant_killer5|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|ench:vampirism5|reforge:fast": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 30000.0,
     "median": 30000.0,
     "sampleCount": 1,
@@ -1602,7 +1638,7 @@
     "weightedMean": 2462236.206278665
   },
   "EMBER_BOOTS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 3800000.0,
     "median": 3800000.0,
     "sampleCount": 1,
@@ -1611,7 +1647,7 @@
     "weightedMean": 3800000.0
   },
   "EMBER_CHESTPLATE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 7000000.0,
     "median": 7000000.0,
     "sampleCount": 1,
@@ -1662,10 +1698,10 @@
     "sampleCount": 2,
     "stddev": 4000000.0,
     "volumePerWeek": 2,
-    "weightedMean": 158906408.00762764
+    "weightedMean": 158906408.0076276
   },
   "ENDER_BOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 180241.24763383967,
     "median": 180000.0,
     "sampleCount": 2,
@@ -1682,8 +1718,17 @@
     "volumePerWeek": 1,
     "weightedMean": 350000.0
   },
+  "ENTANGLER_LASSO": {
+    "confidence": 57,
+    "fairPrice": 1150000.0,
+    "median": 1150000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 1150000.0
+  },
   "EPOCH_CAKE_AQUA": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1000000.0,
     "median": 1000000.0,
     "sampleCount": 1,
@@ -1692,7 +1737,7 @@
     "weightedMean": 1000000.0
   },
   "EPOCH_CAKE_BLUE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 890000.0,
     "median": 890000.0,
     "sampleCount": 1,
@@ -1701,7 +1746,7 @@
     "weightedMean": 890000.0
   },
   "EPOCH_CAKE_BROWN": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 1200000.0,
     "median": 1200000.0,
     "sampleCount": 1,
@@ -1710,7 +1755,7 @@
     "weightedMean": 1200000.0
   },
   "EPOCH_CAKE_CYAN": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 850000.0,
     "median": 850000.0,
     "sampleCount": 1,
@@ -1719,7 +1764,7 @@
     "weightedMean": 850000.0
   },
   "EPOCH_CAKE_DARK_GREEN": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1489999.0,
     "median": 1489999.0,
     "sampleCount": 1,
@@ -1728,7 +1773,7 @@
     "weightedMean": 1489999.0
   },
   "EPOCH_CAKE_GRAY": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 1392998.0,
     "median": 1392998.0,
     "sampleCount": 1,
@@ -1761,10 +1806,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 3999999.9999999995
+    "weightedMean": 4000000.0
   },
   "EPOCH_CAKE_STARBORN": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 4000000.0,
     "median": 4000000.0,
     "sampleCount": 1,
@@ -1773,7 +1818,7 @@
     "weightedMean": 4000000.0
   },
   "EPOCH_CAKE_YELLOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 943260.0,
     "median": 943260.0,
     "sampleCount": 1,
@@ -1791,7 +1836,7 @@
     "weightedMean": 6600000.0
   },
   "ETHERWARP_CONDUIT": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 19000000.0,
     "median": 19000000.0,
     "sampleCount": 1,
@@ -1806,10 +1851,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 650000.0
+    "weightedMean": 649999.9999999999
   },
   "EVERSTRETCH_LASSO": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 5600000.0,
     "median": 5600000.0,
     "sampleCount": 1,
@@ -1818,16 +1863,16 @@
     "weightedMean": 5600000.0
   },
   "EXPERIENCE_ARTIFACT": {
-    "confidence": 57,
-    "fairPrice": 1243749.0,
-    "median": 1243749.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 1243749.0
+    "confidence": 59,
+    "fairPrice": 1243372.797844953,
+    "median": 1243374.5,
+    "sampleCount": 2,
+    "stddev": 374.5,
+    "volumePerWeek": 2,
+    "weightedMean": 1243371.0946642305
   },
   "FALLEN_STAR_TRACKER": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 299000.0,
     "median": 299000.0,
     "sampleCount": 1,
@@ -1836,7 +1881,7 @@
     "weightedMean": 299000.0
   },
   "FANCY_TUXEDO_CHESTPLATE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 6000000.0,
     "median": 6000000.0,
     "sampleCount": 1,
@@ -1845,7 +1890,7 @@
     "weightedMean": 6000000.0
   },
   "FARMER_BOOTS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 1084266.0318638266,
     "median": 1074998.5,
     "sampleCount": 2,
@@ -1854,7 +1899,7 @@
     "weightedMean": 1101565.4230287392
   },
   "FARMER_ORB": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 750000.0,
     "median": 750000.0,
     "sampleCount": 1,
@@ -1869,10 +1914,19 @@
     "sampleCount": 3,
     "stddev": 0.816496580927726,
     "volumePerWeek": 3,
-    "weightedMean": 993998.0000148737
+    "weightedMean": 993998.0000148738
+  },
+  "FARMING_TALISMAN": {
+    "confidence": 57,
+    "fairPrice": 1000.0,
+    "median": 1000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 1000.0
   },
   "FARM_ARMOR_LEGGINGS": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 165000.0,
     "median": 165000.0,
     "sampleCount": 1,
@@ -1881,7 +1935,7 @@
     "weightedMean": 165000.0
   },
   "FEATHER_RING": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 300000.0,
     "median": 300000.0,
     "sampleCount": 1,
@@ -1908,7 +1962,7 @@
     "weightedMean": 729000.0
   },
   "FERMENTO_CHESTPLATE|ench:pesterminator5|gem:PERIDOT_0:FINE|gem:PERIDOT_1:FINE|recomb:applied|reforge:bustling": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 37600000.0,
     "median": 37600000.0,
     "sampleCount": 1,
@@ -1935,7 +1989,7 @@
     "weightedMean": 39499999.0
   },
   "FERVOR_BOOTS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 250000.0,
     "median": 250000.0,
     "sampleCount": 1,
@@ -1944,7 +1998,7 @@
     "weightedMean": 250000.0
   },
   "FERVOR_CHESTPLATE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 199999.0,
     "median": 199999.0,
     "sampleCount": 1,
@@ -1953,7 +2007,7 @@
     "weightedMean": 199999.0
   },
   "FERVOR_LEGGINGS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 284999.0,
     "median": 284999.0,
     "sampleCount": 1,
@@ -1998,7 +2052,7 @@
     "weightedMean": 1600000.0
   },
   "FIG_AXE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 280000.0,
     "median": 280000.0,
     "sampleCount": 1,
@@ -2025,7 +2079,7 @@
     "weightedMean": 1986688.3207380378
   },
   "FIG_CHESTPLATE|ench:forest_pledge5|gem:CITRINE_0:FINE|reforge:groovy": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 6700000.0,
     "median": 6700000.0,
     "sampleCount": 1,
@@ -2043,7 +2097,7 @@
     "weightedMean": 1331089.755635813
   },
   "FIG_LEGGINGS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 1599999.0,
     "median": 1599999.0,
     "sampleCount": 1,
@@ -2058,7 +2112,7 @@
     "sampleCount": 2,
     "stddev": 5000.0,
     "volumePerWeek": 2,
-    "weightedMean": 895054.4948677839
+    "weightedMean": 895054.494867784
   },
   "FINAL_DESTINATION_BOOTS|reforge:fierce|ench:feather_falling5,growth5,protection5,thorns3": {
     "confidence": 51,
@@ -2067,7 +2121,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 1000000.0
+    "weightedMean": 999999.9999999999
   },
   "FINAL_DESTINATION_CHESTPLATE": {
     "confidence": 55,
@@ -2079,7 +2133,7 @@
     "weightedMean": 1490000.0
   },
   "FINAL_DESTINATION_CHESTPLATE|ench:growth6|ench:protection6|ench:rejuvenate5|ench:ultimate_wisdom3|potato:15|recomb:applied|reforge:ancient": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 33630000.0,
     "median": 33630000.0,
     "sampleCount": 1,
@@ -2097,7 +2151,7 @@
     "weightedMean": 1120000.0
   },
   "FINAL_DESTINATION_HELMET|ench:ferocious_mana6|ench:growth5|ench:protection5|ench:rejuvenate5|ench:thorns3|ench:transylvanian5|ench:ultimate_refrigerate5|potato:10|recomb:applied|reforge:ancient": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 53000000.0,
     "median": 53000000.0,
     "sampleCount": 1,
@@ -2115,7 +2169,7 @@
     "weightedMean": 1000000.0
   },
   "FINAL_DESTINATION_LEGGINGS|ench:growth6|ench:hardened_mana7|ench:protection6|ench:rejuvenate5|ench:smarty_pants4|ench:ultimate_refrigerate3|potato:15|recomb:applied|reforge:ancient": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 40000000.0,
     "median": 40000000.0,
     "sampleCount": 1,
@@ -2142,7 +2196,7 @@
     "weightedMean": 1649000.0
   },
   "FIRE_FREEZE_STAFF": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 423876.7395770312,
     "median": 399999.0,
     "sampleCount": 3,
@@ -2151,7 +2205,7 @@
     "weightedMean": 457285.9560954001
   },
   "FIRE_FURY_STAFF": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 4400000.0,
     "median": 4400000.0,
     "sampleCount": 1,
@@ -2160,7 +2214,7 @@
     "weightedMean": 4400000.0
   },
   "FIRE_VEIL_WAND|ench:ultimate_wise5": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 11263123.0,
     "median": 11263123.0,
     "sampleCount": 1,
@@ -2196,7 +2250,7 @@
     "weightedMean": 144999.0
   },
   "FLAMING_SWORD": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 68103.09795216401,
     "median": 70000.0,
     "sampleCount": 5,
@@ -2205,7 +2259,7 @@
     "weightedMean": 63426.01726276206
   },
   "FLAMING_SWORD|ench:bane_of_arthropods5,critical5,ender_slayer5,experience3,first_strike4,giant_killer5,lethality5,looting3,luck5,scavenger3,sharpness5,smite5": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 200.0,
     "median": 200.0,
     "sampleCount": 1,
@@ -2214,16 +2268,16 @@
     "weightedMean": 200.0
   },
   "FLORID_ZOMBIE_SWORD": {
-    "confidence": 56,
-    "fairPrice": 1674478.8894867809,
-    "median": 1674999.5,
-    "sampleCount": 2,
-    "stddev": 24999.5,
-    "volumePerWeek": 2,
-    "weightedMean": 1673942.5032129248
+    "confidence": 60,
+    "fairPrice": 1727144.9402639174,
+    "median": 1699999.0,
+    "sampleCount": 3,
+    "stddev": 108012.49927773277,
+    "volumePerWeek": 3,
+    "weightedMean": 1757862.2858486357
   },
   "FLORID_ZOMBIE_SWORD|ench:ultimate_wise5": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 4320000.0,
     "median": 4320000.0,
     "sampleCount": 1,
@@ -2238,28 +2292,28 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 2999000.0
+    "weightedMean": 2999000.0000000005
   },
   "FORGE_TRAVEL_SCROLL": {
-    "confidence": 63,
-    "fairPrice": 395345.23393990693,
+    "confidence": 68,
+    "fairPrice": 395231.03484225966,
     "median": 395000.0,
-    "sampleCount": 4,
-    "stddev": 2046.5520241371828,
-    "volumePerWeek": 4,
-    "weightedMean": 395694.05707706773
+    "sampleCount": 6,
+    "stddev": 3353.952924866749,
+    "volumePerWeek": 6,
+    "weightedMean": 395466.0216847978
   },
   "FOSSIL_THE_FISH": {
     "confidence": 57,
-    "fairPrice": 113665.06062745156,
+    "fairPrice": 113665.06062745154,
     "median": 118000.0,
     "sampleCount": 3,
     "stddev": 18403.369262779637,
     "volumePerWeek": 3,
-    "weightedMean": 107508.64038483996
+    "weightedMean": 107508.64038483995
   },
   "FRACTURED_MITHRIL_PICKAXE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 115663.34930015932,
     "median": 116500.0,
     "sampleCount": 2,
@@ -2268,13 +2322,40 @@
     "weightedMean": 114550.60386937119
   },
   "FROGGLES_GOLD": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 4500000.0,
     "median": 4500000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 4500000.0
+  },
+  "FROZEN_BLAZE_BOOTS|ench:growth5|ench:protection5": {
+    "confidence": 57,
+    "fairPrice": 4000000.0,
+    "median": 4000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 4000000.0
+  },
+  "FROZEN_BLAZE_HELMET": {
+    "confidence": 57,
+    "fairPrice": 4299999.0,
+    "median": 4299999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 4299999.0
+  },
+  "FROZEN_BLAZE_LEGGINGS": {
+    "confidence": 57,
+    "fairPrice": 4399999.0,
+    "median": 4399999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 4399999.0
   },
   "FROZEN_SCYTHE": {
     "confidence": 55,
@@ -2286,7 +2367,7 @@
     "weightedMean": 1495000.0
   },
   "FROZEN_SCYTHE|ench:cleave5|ench:critical5|ench:ender_slayer6|ench:luck5|ench:sharpness5|reforge:heroic": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1500000.0,
     "median": 1500000.0,
     "sampleCount": 1,
@@ -2295,7 +2376,7 @@
     "weightedMean": 1500000.0
   },
   "GARDEN_SCYTHE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 330000.0,
     "median": 330000.0,
     "sampleCount": 1,
@@ -2304,7 +2385,7 @@
     "weightedMean": 330000.0
   },
   "GARDEN_WARRIOR_FERMENTO": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 19799999.0,
     "median": 19799999.0,
     "sampleCount": 1,
@@ -2314,15 +2395,24 @@
   },
   "GEMSTONE_CHAMBER": {
     "confidence": 99,
-    "fairPrice": 11081454.799676131,
+    "fairPrice": 11081454.799676128,
     "median": 11100000.0,
     "sampleCount": 23,
     "stddev": 234736.22730272714,
     "volumePerWeek": 23,
-    "weightedMean": 11081053.528940335
+    "weightedMean": 11081053.528940331
+  },
+  "GEMSTONE_DRILL_1": {
+    "confidence": 57,
+    "fairPrice": 5788125.0,
+    "median": 5788125.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 5788125.0
   },
   "GEMSTONE_DRILL_2|ench:efficiency5|ench:experience3|ench:fortune3": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 14800000.0,
     "median": 14800000.0,
     "sampleCount": 1,
@@ -2331,7 +2421,7 @@
     "weightedMean": 14800000.0
   },
   "GEMSTONE_DRILL_2|ench:efficiency5|ench:fortune3": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 14200000.0,
     "median": 14200000.0,
     "sampleCount": 1,
@@ -2346,7 +2436,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 15999999.000000002
+    "weightedMean": 15999999.0
   },
   "GEMSTONE_DRILL_3|ench:compact5,efficiency5,experience4,fortune3,lapidary2,paleontologist5,smelting_touch1,ultimate_flowstate3": {
     "confidence": 51,
@@ -2355,10 +2445,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 49999999.0
+    "weightedMean": 49999999.00000001
   },
   "GEMSTONE_FUEL_TANK": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 59000000.0,
     "median": 59000000.0,
     "sampleCount": 1,
@@ -2367,7 +2457,7 @@
     "weightedMean": 59000000.0
   },
   "GEMSTONE_GAUNTLET|ench:cleave5|ench:efficiency5|ench:fortune4|ench:sharpness5|ench:ultimate_flowstate3|gem:AMBER_0:FINE|gem:AMETHYST_0:FINE|gem:SAPPHIRE_0:FINE|gem:TOPAZ_0:FINE|reforge:fleet": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 19000000.0,
     "median": 19000000.0,
     "sampleCount": 1,
@@ -2385,7 +2475,7 @@
     "weightedMean": 1050000.0
   },
   "GIANTS_SWORD": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 77000000.0,
     "median": 77000000.0,
     "sampleCount": 1,
@@ -2394,7 +2484,7 @@
     "weightedMean": 77000000.0
   },
   "GIANTS_SWORD|ench:PROSECUTE5|ench:bane_of_arthropods6|ench:cleave5|ench:critical6|ench:cubism5|ench:dragon_hunter5|ench:ender_slayer6|ench:experience3|ench:fire_aspect3|ench:first_strike4|ench:giant_killer6|ench:impaling5|ench:lethality6|ench:looting4|ench:luck6|ench:magmarizer5|ench:scavenger5|ench:sharpness6|ench:smite6|ench:syphon4|ench:thunderlord6|ench:ultimate_soul_eater5|ench:vampirism5|ench:venomous6|gem:JASPER_0:FINE|gem:JASPER_1:FINE|potato:15|recomb:applied|reforge:withered": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 119999999.0,
     "median": 119999999.0,
     "sampleCount": 1,
@@ -2421,7 +2511,7 @@
     "weightedMean": 2300000.0
   },
   "GLACIAL_SCYTHE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 32800000.0,
     "median": 32800000.0,
     "sampleCount": 1,
@@ -2440,12 +2530,12 @@
   },
   "GLACITE_BOOTS": {
     "confidence": 76,
-    "fairPrice": 26487.262111683693,
+    "fairPrice": 26487.262111683696,
     "median": 25000.0,
     "sampleCount": 13,
     "stddev": 10731.925509250177,
     "volumePerWeek": 13,
-    "weightedMean": 28667.13318560104
+    "weightedMean": 28667.133185601044
   },
   "GLACITE_BOOTS|ench:feather_falling5,growth5,protection5,thorns3": {
     "confidence": 50,
@@ -2457,13 +2547,13 @@
     "weightedMean": 45000.0
   },
   "GLACITE_CHESTPLATE": {
-    "confidence": 65,
-    "fairPrice": 26292.108545954958,
+    "confidence": 68,
+    "fairPrice": 25418.269025365924,
     "median": 25000.0,
     "sampleCount": 7,
-    "stddev": 7108.488745499845,
+    "stddev": 3194.4147878343374,
     "volumePerWeek": 7,
-    "weightedMean": 28445.840303547637
+    "weightedMean": 25955.200652323645
   },
   "GLACITE_CHESTPLATE|ench:growth5,protection5": {
     "confidence": 50,
@@ -2472,16 +2562,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 50000.00000000001
+    "weightedMean": 49999.99999999999
   },
   "GLACITE_HELMET": {
     "confidence": 66,
-    "fairPrice": 20656.30361383012,
+    "fairPrice": 20656.303613830118,
     "median": 20000.0,
     "sampleCount": 6,
     "stddev": 2140.833229531592,
     "volumePerWeek": 6,
-    "weightedMean": 21457.765631573944
+    "weightedMean": 21457.765631573933
   },
   "GLACITE_LANTERN": {
     "confidence": 54,
@@ -2502,7 +2592,7 @@
     "weightedMean": 27586.987849150362
   },
   "GLOSSY_MINERAL_BOOTS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 27300000.0,
     "median": 27300000.0,
     "sampleCount": 1,
@@ -2511,7 +2601,7 @@
     "weightedMean": 27300000.0
   },
   "GLOSSY_MINERAL_HELMET": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 28000000.0,
     "median": 28000000.0,
     "sampleCount": 1,
@@ -2520,13 +2610,40 @@
     "weightedMean": 28000000.0
   },
   "GLOSSY_MINERAL_LEGGINGS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 27900000.0,
     "median": 27900000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 27900000.0
+  },
+  "GLOWING_MUSHROOM_CAVE_TRAVEL_SCROLL": {
+    "confidence": 57,
+    "fairPrice": 2588000.0,
+    "median": 2588000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 2588000.0
+  },
+  "GOBLIN_BOOTS": {
+    "confidence": 57,
+    "fairPrice": 9999.0,
+    "median": 9999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 9999.0
+  },
+  "GOBLIN_CHESTPLATE": {
+    "confidence": 57,
+    "fairPrice": 7999.0,
+    "median": 7999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 7999.0
   },
   "GOBLIN_HELMET": {
     "confidence": 50,
@@ -2535,7 +2652,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 2900.0
+    "weightedMean": 2900.0000000000005
+  },
+  "GOBLIN_LEGGINGS": {
+    "confidence": 57,
+    "fairPrice": 3000.0,
+    "median": 3000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 3000.0
   },
   "GOBLIN_OMELETTE": {
     "confidence": 57,
@@ -2544,7 +2670,7 @@
     "sampleCount": 2,
     "stddev": 30749.5,
     "volumePerWeek": 2,
-    "weightedMean": 1661466.8903174123
+    "weightedMean": 1661466.8903174128
   },
   "GOBLIN_OMELETTE_BLUE_CHEESE": {
     "confidence": 54,
@@ -2556,13 +2682,13 @@
     "weightedMean": 157900000.0
   },
   "GOBLIN_OMELETTE_SPICY": {
-    "confidence": 54,
+    "confidence": 53,
     "fairPrice": 9302114.685686853,
     "median": 9299999.5,
     "sampleCount": 2,
     "stddev": 199999.5,
     "volumePerWeek": 2,
-    "weightedMean": 9304322.846336298
+    "weightedMean": 9304322.846336296
   },
   "GOBLIN_OMELETTE_SUNNY_SIDE": {
     "confidence": 58,
@@ -2575,42 +2701,42 @@
   },
   "GOD_POTION_2": {
     "confidence": 98,
-    "fairPrice": 1703816.593571283,
-    "median": 1749999.0,
-    "sampleCount": 49,
-    "stddev": 113503.1202328806,
-    "volumePerWeek": 49,
-    "weightedMean": 1700516.7321203714
+    "fairPrice": 1710932.9580935326,
+    "median": 1750000.0,
+    "sampleCount": 53,
+    "stddev": 111911.36184719003,
+    "volumePerWeek": 53,
+    "weightedMean": 1708195.1057210746
   },
   "GOLD_GIFT_TALISMAN": {
-    "confidence": 58,
-    "fairPrice": 11851088.073757771,
-    "median": 11849999.5,
-    "sampleCount": 2,
-    "stddev": 49999.5,
-    "volumePerWeek": 2,
-    "weightedMean": 11852185.872624628
+    "confidence": 61,
+    "fairPrice": 11902041.907813765,
+    "median": 11899999.0,
+    "sampleCount": 3,
+    "stddev": 81649.65809413344,
+    "volumePerWeek": 3,
+    "weightedMean": 11904113.043379188
   },
   "GRAPPLING_HOOK": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 49427.07166984149,
     "median": 50000.0,
     "sampleCount": 3,
     "stddev": 25802.770432649282,
     "volumePerWeek": 3,
-    "weightedMean": 47576.33268140332
+    "weightedMean": 47576.33268140331
   },
   "GRAVITY_TALISMAN": {
-    "confidence": 52,
-    "fairPrice": 54561.69193364137,
-    "median": 54999.5,
-    "sampleCount": 2,
-    "stddev": 15000.5,
-    "volumePerWeek": 2,
-    "weightedMean": 53795.50866293199
+    "confidence": 55,
+    "fairPrice": 68604.93368711052,
+    "median": 70000.0,
+    "sampleCount": 3,
+    "stddev": 19431.22916567269,
+    "volumePerWeek": 3,
+    "weightedMean": 66037.25821868566
   },
   "GREATER_BACKPACK": {
-    "confidence": 65,
+    "confidence": 67,
     "fairPrice": 784449.235457642,
     "median": 788500.0,
     "sampleCount": 6,
@@ -2619,7 +2745,7 @@
     "weightedMean": 780182.9372085329
   },
   "GREAT_SPOOK_ARTIFACT": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 66000000.0,
     "median": 66000000.0,
     "sampleCount": 1,
@@ -2647,21 +2773,21 @@
   },
   "GRIZZLY_BAIT": {
     "confidence": 59,
-    "fairPrice": 1000000.0000000001,
+    "fairPrice": 1000000.0,
     "median": 1000000.0,
     "sampleCount": 5,
     "stddev": 0.0,
     "volumePerWeek": 5,
-    "weightedMean": 1000000.0000000002
+    "weightedMean": 1000000.0
   },
   "HANDY_BLOOD_CHALICE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 888887.0,
     "median": 888887.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 888886.9999999999
+    "weightedMean": 888887.0
   },
   "HAPPY_MASK": {
     "confidence": 55,
@@ -2670,10 +2796,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 999000.0
+    "weightedMean": 998999.9999999999
   },
   "HARDENED_DIAMOND_LEGGINGS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 239000.0,
     "median": 239000.0,
     "sampleCount": 1,
@@ -2682,7 +2808,7 @@
     "weightedMean": 239000.0
   },
   "HASTE_ARTIFACT": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 306831.2818388458,
     "median": 315000.0,
     "sampleCount": 4,
@@ -2700,13 +2826,13 @@
     "weightedMean": 166652.68413660378
   },
   "HEALING_RING": {
-    "confidence": 55,
-    "fairPrice": 346998.0,
-    "median": 346998.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 346998.0
+    "confidence": 58,
+    "fairPrice": 337723.6893030457,
+    "median": 337943.0,
+    "sampleCount": 2,
+    "stddev": 9055.0,
+    "volumePerWeek": 2,
+    "weightedMean": 337492.3024077447
   },
   "HEAT_CHESTPLATE|ench:protection5": {
     "confidence": 56,
@@ -2726,6 +2852,24 @@
     "volumePerWeek": 1,
     "weightedMean": 300000.0
   },
+  "HEAVY_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
+    "confidence": 57,
+    "fairPrice": 50000.0,
+    "median": 50000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 50000.0
+  },
+  "HEAVY_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
+    "confidence": 57,
+    "fairPrice": 66000.0,
+    "median": 66000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 66000.0
+  },
   "HEAVY_HELMET|reforge:pure|ench:growth5,protection5,thorns3": {
     "confidence": 50,
     "fairPrice": 38000.0,
@@ -2736,7 +2880,7 @@
     "weightedMean": 38000.0
   },
   "HEAVY_HELMET|reforge:wise|ench:growth5,protection5,thorns3": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 44999.0,
     "median": 44999.0,
     "sampleCount": 1,
@@ -2744,8 +2888,17 @@
     "volumePerWeek": 1,
     "weightedMean": 44999.0
   },
+  "HELIANTHUS_BOOTS|ench:depth_strider3|ench:pesterminator6|recomb:applied|reforge:mantid": {
+    "confidence": 57,
+    "fairPrice": 82999000.0,
+    "median": 82999000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 82999000.0
+  },
   "HELIANTHUS_CHESTPLATE|ench:pesterminator5|reforge:bustling": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 78000000.0,
     "median": 78000000.0,
     "sampleCount": 1,
@@ -2763,7 +2916,7 @@
     "weightedMean": 109999999.0
   },
   "HEPHAESTUS_ANVIL": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 102800000.0,
     "median": 102800000.0,
     "sampleCount": 1,
@@ -2781,13 +2934,13 @@
     "weightedMean": 99395616.26967187
   },
   "HIGH_CLASS_ARCHFIEND_DICE": {
-    "confidence": 65,
-    "fairPrice": 32958121.624073338,
+    "confidence": 64,
+    "fairPrice": 32958121.62407334,
     "median": 33000000.0,
     "sampleCount": 5,
     "stddev": 107795.10786969881,
     "volumePerWeek": 5,
-    "weightedMean": 32915968.064986266
+    "weightedMean": 32915968.06498627
   },
   "HILT_OF_REVELATIONS": {
     "confidence": 53,
@@ -2799,40 +2952,40 @@
     "weightedMean": 148999.0
   },
   "HOLLOW_BOOTS": {
-    "confidence": 57,
-    "fairPrice": 300000.0,
-    "median": 300000.0,
-    "sampleCount": 2,
-    "stddev": 0.0,
-    "volumePerWeek": 2,
-    "weightedMean": 300000.0
-  },
-  "HOLLOW_CHESTPLATE": {
-    "confidence": 59,
-    "fairPrice": 303130.3060165589,
+    "confidence": 58,
+    "fairPrice": 285559.02037975646,
     "median": 300000.0,
     "sampleCount": 3,
-    "stddev": 9428.090415820634,
+    "stddev": 47140.45207910316,
     "volumePerWeek": 3,
-    "weightedMean": 306459.1919652757
+    "weightedMean": 264916.00872390956
+  },
+  "HOLLOW_CHESTPLATE": {
+    "confidence": 63,
+    "fairPrice": 310041.6350569713,
+    "median": 309999.5,
+    "sampleCount": 4,
+    "stddev": 9999.750006250157,
+    "volumePerWeek": 4,
+    "weightedMean": 310086.5790475174
   },
   "HOLLOW_HELMET": {
-    "confidence": 57,
-    "fairPrice": 197500.0587506111,
-    "median": 197500.0,
-    "sampleCount": 2,
-    "stddev": 2500.0,
-    "volumePerWeek": 2,
-    "weightedMean": 197500.11900764806
+    "confidence": 58,
+    "fairPrice": 211413.2644030645,
+    "median": 200000.0,
+    "sampleCount": 3,
+    "stddev": 40827.55061094027,
+    "volumePerWeek": 3,
+    "weightedMean": 227850.36820578243
   },
   "HOLLOW_LEGGINGS": {
-    "confidence": 57,
-    "fairPrice": 261999.7863809293,
-    "median": 261999.5,
-    "sampleCount": 2,
-    "stddev": 11999.5,
-    "volumePerWeek": 2,
-    "weightedMean": 262000.10025328232
+    "confidence": 58,
+    "fairPrice": 281368.6671217602,
+    "median": 273999.0,
+    "sampleCount": 3,
+    "stddev": 40334.84019499217,
+    "volumePerWeek": 3,
+    "weightedMean": 291122.7449884684
   },
   "HOTSPOT_HOOK": {
     "confidence": 54,
@@ -2845,12 +2998,12 @@
   },
   "HOT_CHOCOLATE_MIXIN": {
     "confidence": 44,
-    "fairPrice": 28412.32964905636,
+    "fairPrice": 28412.329649056355,
     "median": 30000.0,
     "sampleCount": 3,
     "stddev": 13906.433363335436,
     "volumePerWeek": 3,
-    "weightedMean": 19770.982264513194
+    "weightedMean": 19770.982264513186
   },
   "HOT_CRIMSON_BOOTS|ench:depth_strider3|ench:feather_falling10|ench:growth5|ench:protection5|ench:rejuvenate5|ench:ultimate_last_stand5|potato:15|reforge:ancient": {
     "confidence": 54,
@@ -2859,10 +3012,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 15000000.0
+    "weightedMean": 15000000.000000002
   },
   "HOT_CRIMSON_CHESTPLATE|ench:ferocious_mana5|ench:growth6|ench:protection6|ench:rejuvenate5|ench:ultimate_habanero_tactics4|potato:12|recomb:applied|reforge:renowned": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 142000000.0,
     "median": 142000000.0,
     "sampleCount": 1,
@@ -2877,10 +3030,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 29000000.0
+    "weightedMean": 29000000.000000004
   },
   "HOT_CRIMSON_LEGGINGS|ench:ferocious_mana5|ench:growth6|ench:protection6|ench:rejuvenate5|ench:ultimate_habanero_tactics4|potato:15|recomb:applied|reforge:renowned": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 143000000.0,
     "median": 143000000.0,
     "sampleCount": 1,
@@ -2898,22 +3051,22 @@
     "weightedMean": 15000000.0
   },
   "HUB_CASTLE_TRAVEL_SCROLL": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 400000.0,
     "median": 400000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 400000.0
+    "weightedMean": 399999.99999999994
   },
   "HUB_WIZARD_TOWER_TRAVEL_SCROLL": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 135542.25683911017,
     "median": 137496.5,
     "sampleCount": 2,
     "stddev": 57500.5,
     "volumePerWeek": 2,
-    "weightedMean": 130778.62423692957
+    "weightedMean": 130778.62423692958
   },
   "HUNTER_TALISMAN": {
     "confidence": 56,
@@ -2925,7 +3078,7 @@
     "weightedMean": 9451427.046390789
   },
   "HURRICANE_BOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 650000.0,
     "median": 650000.0,
     "sampleCount": 1,
@@ -2943,7 +3096,7 @@
     "weightedMean": 3283488.0
   },
   "HYPER_CLEAVER": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1599000.0,
     "median": 1599000.0,
     "sampleCount": 1,
@@ -2961,7 +3114,7 @@
     "weightedMean": 2199000.0
   },
   "ICY_SINKER": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 99000.0,
     "median": 99000.0,
     "sampleCount": 1,
@@ -2970,13 +3123,13 @@
     "weightedMean": 99000.0
   },
   "IMPLOSION_BELT": {
-    "confidence": 56,
-    "fairPrice": 1600000.0,
+    "confidence": 60,
+    "fairPrice": 1634112.4847677355,
     "median": 1600000.0,
-    "sampleCount": 2,
-    "stddev": 0.0,
-    "volumePerWeek": 2,
-    "weightedMean": 1600000.0
+    "sampleCount": 3,
+    "stddev": 94280.43275368556,
+    "volumePerWeek": 3,
+    "weightedMean": 1672315.7462653054
   },
   "INFERNO_ROD|ench:angler6|ench:blessing5|ench:caster6|ench:charm5|ench:frail6|ench:impaling5|ench:looting4|ench:luck_of_the_sea6|ench:lure6|ench:magmarizer5|ench:magnet6|ench:piscary5|ench:spiked_hook6|gem:AQUAMARINE_0:FINE|reforge:pitchin": {
     "confidence": 54,
@@ -2985,10 +3138,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 25988000.0
+    "weightedMean": 25987999.999999996
   },
   "INTIMIDATION_RELIC": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 13889000.0,
     "median": 13889000.0,
     "sampleCount": 1,
@@ -2997,7 +3150,7 @@
     "weightedMean": 13889000.0
   },
   "ITEM_SPIRIT_BOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 3899100.6000454607,
     "median": 3898499.5,
     "sampleCount": 2,
@@ -3015,13 +3168,22 @@
     "weightedMean": 2200000.0
   },
   "JUJU_SHORTBOW|ench:aiming5|ench:chance3|ench:cubism5|ench:dragon_hunter3|ench:flame1|ench:impaling5|ench:infinite_quiver10|ench:overload5|ench:piercing1|ench:power6|ench:snipe3|ench:ultimate_soul_eater5|potato:10|recomb:applied|reforge:spiritual": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 43100000.0,
     "median": 43100000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 43100000.0
+    "weightedMean": 43099999.99999999
+  },
+  "JUJU_SHORTBOW|ench:aiming5|ench:chance3|ench:cubism5|ench:dragon_hunter5|ench:flame2|ench:impaling5|ench:infinite_quiver5|ench:piercing1|ench:power5|ench:punch2|ench:snipe3|reforge:deadly": {
+    "confidence": 57,
+    "fairPrice": 15000000.0,
+    "median": 15000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 15000000.0
   },
   "JUJU_SHORTBOW|ench:aiming5|ench:chance3|ench:cubism5|ench:flame1|ench:impaling3|ench:infinite_quiver10|ench:overload5|ench:piercing1|ench:power6|ench:snipe3|ench:telekinesis1|ench:ultimate_soul_eater5|potato:15|recomb:applied|reforge:spiritual|stars:5": {
     "confidence": 56,
@@ -3042,13 +3204,13 @@
     "weightedMean": 5800000.0
   },
   "JUMBO_BACKPACK_UPGRADE": {
-    "confidence": 56,
-    "fairPrice": 4645333.106572202,
+    "confidence": 61,
+    "fairPrice": 4645333.106572203,
     "median": 4645000.0,
     "sampleCount": 3,
     "stddev": 943.0448322087109,
     "volumePerWeek": 3,
-    "weightedMean": 4645666.348409483
+    "weightedMean": 4645666.348409484
   },
   "JUNGLE_AMULET": {
     "confidence": 58,
@@ -3066,10 +3228,10 @@
     "sampleCount": 4,
     "stddev": 10231.721516318747,
     "volumePerWeek": 4,
-    "weightedMean": 18669.41057391282
+    "weightedMean": 18669.410573912824
   },
   "JUNGLE_PICKAXE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 899994.0,
     "median": 899994.0,
     "sampleCount": 1,
@@ -3078,7 +3240,7 @@
     "weightedMean": 899994.0
   },
   "JUNK_ARTIFACT": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 2999997.0,
     "median": 2999997.0,
     "sampleCount": 1,
@@ -3105,40 +3267,40 @@
     "weightedMean": 557428.5987027171
   },
   "KAT_BOUQUET": {
-    "confidence": 75,
+    "confidence": 74,
     "fairPrice": 2612154.8740494726,
     "median": 2629999.5,
     "sampleCount": 10,
     "stddev": 293502.88993493747,
     "volumePerWeek": 10,
-    "weightedMean": 2589760.8832217176
+    "weightedMean": 2589760.883221718
   },
   "KAT_FLOWER": {
-    "confidence": 72,
-    "fairPrice": 570049.5281640884,
-    "median": 565000.0,
-    "sampleCount": 9,
-    "stddev": 74833.43232180206,
-    "volumePerWeek": 9,
-    "weightedMean": 576600.0454656387
+    "confidence": 75,
+    "fairPrice": 566117.5561890516,
+    "median": 571000.0,
+    "sampleCount": 10,
+    "stddev": 46440.41236304863,
+    "volumePerWeek": 10,
+    "weightedMean": 560355.3424434636
   },
   "KITSUNE_TIKI_MASK": {
-    "confidence": 57,
-    "fairPrice": 7754329.52335349,
+    "confidence": 56,
+    "fairPrice": 7754329.523353491,
     "median": 7750000.0,
     "sampleCount": 2,
     "stddev": 250000.0,
     "volumePerWeek": 2,
-    "weightedMean": 7758947.681597212
+    "weightedMean": 7758947.681597213
   },
   "KRAMPUS_HELMET": {
     "confidence": 55,
-    "fairPrice": 846722.0102177375,
+    "fairPrice": 846722.0102177376,
     "median": 850000.0,
     "sampleCount": 2,
     "stddev": 150000.0,
     "volumePerWeek": 2,
-    "weightedMean": 842039.1676716483
+    "weightedMean": 842039.1676716486
   },
   "KUUDRAS_LUNG": {
     "confidence": 54,
@@ -3168,13 +3330,13 @@
     "weightedMean": 130000.0
   },
   "LAPIS_ARMOR_BOOTS": {
-    "confidence": 41,
+    "confidence": 40,
     "fairPrice": 120223.28866026079,
     "median": 120000.0,
     "sampleCount": 2,
     "stddev": 105000.0,
     "volumePerWeek": 2,
-    "weightedMean": 123572.6185641727
+    "weightedMean": 123572.61856417269
   },
   "LAPIS_ARMOR_CHESTPLATE": {
     "confidence": 54,
@@ -3186,7 +3348,7 @@
     "weightedMean": 149000.0
   },
   "LAPIS_ARMOR_HELMET": {
-    "confidence": 38,
+    "confidence": 37,
     "fairPrice": 260113.56329290252,
     "median": 259999.0,
     "sampleCount": 2,
@@ -3201,7 +3363,7 @@
     "sampleCount": 2,
     "stddev": 0.5,
     "volumePerWeek": 2,
-    "weightedMean": 19998.500026760503
+    "weightedMean": 19998.500026760506
   },
   "LAPIS_PICKAXE": {
     "confidence": 53,
@@ -3210,7 +3372,7 @@
     "sampleCount": 2,
     "stddev": 29010.0,
     "volumePerWeek": 2,
-    "weightedMean": 348160.8233390215
+    "weightedMean": 348160.8233390214
   },
   "LAPIS_PICKAXE|ench:efficiency5": {
     "confidence": 56,
@@ -3222,13 +3384,13 @@
     "weightedMean": 130000.0
   },
   "LARGE_BACKPACK": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 600197.6143791066,
     "median": 593999.0,
     "sampleCount": 3,
     "stddev": 16966.320107790023,
     "volumePerWeek": 3,
-    "weightedMean": 606753.3166244813
+    "weightedMean": 606753.3166244812
   },
   "LARGE_FISH_BOWL": {
     "confidence": 63,
@@ -3239,6 +3401,15 @@
     "volumePerWeek": 4,
     "weightedMean": 5124101.369459949
   },
+  "LARGE_FISH_BOWL|recomb:applied": {
+    "confidence": 57,
+    "fairPrice": 13000000.0,
+    "median": 13000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 13000000.0
+  },
   "LAVA_TALISMAN": {
     "confidence": 56,
     "fairPrice": 249492.87055984937,
@@ -3246,7 +3417,7 @@
     "sampleCount": 2,
     "stddev": 500.0,
     "volumePerWeek": 2,
-    "weightedMean": 249485.71248740898
+    "weightedMean": 249485.71248740892
   },
   "LEGGINGS_OF_THE_PACK": {
     "confidence": 47,
@@ -3276,7 +3447,7 @@
     "weightedMean": 8500000.0
   },
   "LOTUS_BELT": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 599000.0,
     "median": 599000.0,
     "sampleCount": 1,
@@ -3285,16 +3456,16 @@
     "weightedMean": 599000.0
   },
   "LOTUS_BELT|ench:green_thumb3|recomb:applied|reforge:squeaky": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 13000000.0,
     "median": 13000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 13000000.0
+    "weightedMean": 13000000.000000002
   },
   "LOTUS_BELT|ench:green_thumb4|recomb:applied|reforge:rooted": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 19210000.0,
     "median": 19210000.0,
     "sampleCount": 1,
@@ -3303,16 +3474,16 @@
     "weightedMean": 19210000.0
   },
   "LOTUS_BRACELET": {
-    "confidence": 39,
+    "confidence": 38,
     "fairPrice": 225044.63202993412,
     "median": 225050.0,
     "sampleCount": 2,
     "stddev": 224950.0,
     "volumePerWeek": 2,
-    "weightedMean": 200888.76673348396
+    "weightedMean": 200888.766733484
   },
   "LOTUS_CLOAK|ench:green_thumb3|recomb:applied|reforge:rooted": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 15000000.0,
     "median": 15000000.0,
     "sampleCount": 1,
@@ -3330,16 +3501,16 @@
     "weightedMean": 2100000.0
   },
   "LOTUS_NECKLACE": {
-    "confidence": 58,
-    "fairPrice": 898788.2657466535,
+    "confidence": 57,
+    "fairPrice": 898788.2657466534,
     "median": 900000.0,
     "sampleCount": 3,
     "stddev": 41233.75100839387,
     "volumePerWeek": 3,
-    "weightedMean": 897460.1232158996
+    "weightedMean": 897460.1232158995
   },
   "LOTUS_NECKLACE|ench:green_thumb3|recomb:applied|reforge:rooted": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 14500000.0,
     "median": 14500000.0,
     "sampleCount": 1,
@@ -3384,7 +3555,7 @@
     "weightedMean": 292006.0146979523
   },
   "LUMINOUS_BRACELET": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 277998.0,
     "median": 277998.0,
     "sampleCount": 1,
@@ -3393,16 +3564,16 @@
     "weightedMean": 277998.0
   },
   "LUSH_ARTIFACT": {
-    "confidence": 59,
-    "fairPrice": 2625246.085317941,
-    "median": 2600000.0,
-    "sampleCount": 3,
-    "stddev": 126578.91697365016,
-    "volumePerWeek": 3,
-    "weightedMean": 2653011.62787365
+    "confidence": 62,
+    "fairPrice": 2565304.835557052,
+    "median": 2575000.0,
+    "sampleCount": 4,
+    "stddev": 191752.14796759773,
+    "volumePerWeek": 4,
+    "weightedMean": 2554047.919162534
   },
   "LUSH_RING": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 600000.0,
     "median": 600000.0,
     "sampleCount": 1,
@@ -3411,7 +3582,7 @@
     "weightedMean": 600000.0
   },
   "MACHINE_GUN_BOW|ench:infinite_quiver5|ench:piercing1|ench:power5|ench:snipe3|reforge:unreal": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 20000.0,
     "median": 20000.0,
     "sampleCount": 1,
@@ -3456,7 +3627,7 @@
     "weightedMean": 300000000.0
   },
   "MAGMA_ROD|ench:angler6|ench:blessing6|ench:caster6|ench:charm5|ench:corruption5|ench:expertise6|ench:frail6|ench:impaling5|ench:looting3|ench:luck_of_the_sea6|ench:lure6|ench:magmarizer5|ench:magnet6|ench:piscary5|ench:quick_bite1|ench:spiked_hook6|ench:ultimate_flash1|gem:AQUAMARINE_0:FINE|reforge:pitchin": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 20000000.0,
     "median": 20000000.0,
     "sampleCount": 1,
@@ -3465,7 +3636,7 @@
     "weightedMean": 20000000.0
   },
   "MAGNETIC_TALISMAN": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 107743.08450548038,
     "median": 106500.0,
     "sampleCount": 4,
@@ -3474,25 +3645,25 @@
     "weightedMean": 109436.18283283141
   },
   "MANGROVE_GRIPPERS": {
-    "confidence": 61,
-    "fairPrice": 2648107.974367773,
-    "median": 2649876.0,
-    "sampleCount": 3,
-    "stddev": 5156.471144752646,
-    "volumePerWeek": 3,
-    "weightedMean": 2646333.045058657
+    "confidence": 63,
+    "fairPrice": 2639232.3346411344,
+    "median": 2644438.0,
+    "sampleCount": 4,
+    "stddev": 20578.695488295656,
+    "volumePerWeek": 4,
+    "weightedMean": 2633944.7097741705
   },
   "MANGROVE_LOCKET": {
-    "confidence": 58,
-    "fairPrice": 370621.1908846024,
+    "confidence": 57,
+    "fairPrice": 370621.19088460243,
     "median": 369999.5,
     "sampleCount": 2,
     "stddev": 19999.5,
     "volumePerWeek": 2,
-    "weightedMean": 371313.93037975684
+    "weightedMean": 371313.9303797569
   },
   "MANGROVE_VINE": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 1272679.058406862,
     "median": 1274999.5,
     "sampleCount": 2,
@@ -3501,7 +3672,7 @@
     "weightedMean": 1270068.5635482827
   },
   "MANTI_CORE": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 50000000.0,
     "median": 50000000.0,
     "sampleCount": 1,
@@ -3510,7 +3681,7 @@
     "weightedMean": 50000000.0
   },
   "MASTER_SKULL_TIER_1": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 799999.0,
     "median": 799999.0,
     "sampleCount": 1,
@@ -3525,28 +3696,28 @@
     "sampleCount": 4,
     "stddev": 64952.9156519359,
     "volumePerWeek": 4,
-    "weightedMean": 1933838.5279705324
+    "weightedMean": 1933838.5279705322
   },
   "MASTER_SKULL_TIER_4": {
-    "confidence": 56,
-    "fairPrice": 8367796.6599146705,
+    "confidence": 55,
+    "fairPrice": 8367796.659914669,
     "median": 8380000.0,
     "sampleCount": 3,
     "stddev": 41962.20428750933,
     "volumePerWeek": 3,
-    "weightedMean": 8355470.127760762
+    "weightedMean": 8355470.1277607605
   },
   "MASTER_SKULL_TIER_5": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 37249508.32891743,
     "median": 37249499.5,
     "sampleCount": 2,
     "stddev": 1249500.5,
     "volumePerWeek": 2,
-    "weightedMean": 37249517.770709135
+    "weightedMean": 37249517.77070914
   },
   "MASTER_SKULL_TIER_5|recomb:applied": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 40000000.0,
     "median": 40000000.0,
     "sampleCount": 1,
@@ -3555,7 +3726,7 @@
     "weightedMean": 40000000.0
   },
   "MASTIFF_HELMET": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2550000.0,
     "median": 2550000.0,
     "sampleCount": 1,
@@ -3573,7 +3744,7 @@
     "weightedMean": 1100000.0
   },
   "MEDIUM_FISH_BOWL": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1230000.0,
     "median": 1230000.0,
     "sampleCount": 1,
@@ -3582,7 +3753,7 @@
     "weightedMean": 1230000.0
   },
   "MEDIUM_POCKET_BLACK_HOLE": {
-    "confidence": 65,
+    "confidence": 64,
     "fairPrice": 2114702.353316583,
     "median": 2124444.0,
     "sampleCount": 5,
@@ -3591,7 +3762,7 @@
     "weightedMean": 2104305.183594749
   },
   "MEDIUM_SCAFFOLDING": {
-    "confidence": 37,
+    "confidence": 36,
     "fairPrice": 300005.20516010514,
     "median": 300005.0,
     "sampleCount": 2,
@@ -3609,7 +3780,7 @@
     "weightedMean": 2074444.0
   },
   "MENDER_HELMET": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 450000.0,
     "median": 450000.0,
     "sampleCount": 1,
@@ -3618,7 +3789,7 @@
     "weightedMean": 450000.0
   },
   "MERCENARY_AXE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 447748.0,
     "median": 447748.0,
     "sampleCount": 1,
@@ -3633,7 +3804,7 @@
     "sampleCount": 5,
     "stddev": 168135.18370644498,
     "volumePerWeek": 5,
-    "weightedMean": 336262.0154228652
+    "weightedMean": 336262.0154228651
   },
   "MIDAS_SWORD": {
     "confidence": 53,
@@ -3645,7 +3816,7 @@
     "weightedMean": 11000000.0
   },
   "MIDAS_SWORD|ench:bane_of_arthropods5|ench:cleave5|ench:critical5|ench:cubism5|ench:ender_slayer6|ench:execute5|ench:first_strike4|ench:giant_killer5|ench:lethality5|ench:looting4|ench:luck5|ench:scavenger3|ench:sharpness6|ench:smite5|ench:syphon3|ench:thunderlord5|reforge:gilded": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 50000000.0,
     "median": 50000000.0,
     "sampleCount": 1,
@@ -3654,7 +3825,7 @@
     "weightedMean": 50000000.0
   },
   "MIDAS_SWORD|ench:cleave5|ench:critical5|ench:cubism5|ench:dragon_hunter5|ench:ender_slayer5|ench:execute5|ench:experience3|ench:fire_aspect2|ench:giant_killer5|ench:impaling5|ench:knockback2|ench:lethality5|ench:looting3|ench:luck5|ench:magmarizer5|ench:scavenger3|ench:sharpness5|ench:syphon3|ench:thunderlord5|ench:triple_strike4|ench:ultimate_soul_eater1|ench:vampirism5|ench:venomous5|reforge:legendary": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 25000000.0,
     "median": 25000000.0,
     "sampleCount": 1,
@@ -3663,16 +3834,16 @@
     "weightedMean": 25000000.0
   },
   "MINERAL_BOOTS": {
-    "confidence": 55,
-    "fairPrice": 837153.2798524438,
-    "median": 841221.5,
-    "sampleCount": 2,
-    "stddev": 106778.5,
-    "volumePerWeek": 2,
-    "weightedMean": 831902.1266657658
+    "confidence": 59,
+    "fairPrice": 808962.4736183945,
+    "median": 800000.0,
+    "sampleCount": 3,
+    "stddev": 89323.5768913598,
+    "volumePerWeek": 3,
+    "weightedMean": 820094.024391139
   },
   "MINERAL_CHESTPLATE": {
-    "confidence": 60,
+    "confidence": 61,
     "fairPrice": 1330739.8743607737,
     "median": 1330000.0,
     "sampleCount": 3,
@@ -3681,25 +3852,34 @@
     "weightedMean": 1331494.6460095053
   },
   "MINERAL_HELMET": {
-    "confidence": 58,
-    "fairPrice": 967590.4725092102,
-    "median": 987777.0,
+    "confidence": 61,
+    "fairPrice": 996869.1963717402,
+    "median": 998000.0,
     "sampleCount": 3,
-    "stddev": 60692.98307785579,
+    "stddev": 5353.207325208567,
     "volumePerWeek": 3,
-    "weightedMean": 944648.8130619777
+    "weightedMean": 995726.1624356855
   },
   "MINERAL_LEGGINGS": {
-    "confidence": 55,
-    "fairPrice": 1423930.2481199913,
-    "median": 1433888.5,
-    "sampleCount": 2,
-    "stddev": 246111.5,
-    "volumePerWeek": 2,
-    "weightedMean": 1409845.2278186935
+    "confidence": 58,
+    "fairPrice": 1633866.700394018,
+    "median": 1680000.0,
+    "sampleCount": 3,
+    "stddev": 277544.45558985084,
+    "volumePerWeek": 3,
+    "weightedMean": 1567908.5229477813
+  },
+  "MINERAL_TALISMAN": {
+    "confidence": 57,
+    "fairPrice": 1300000.0,
+    "median": 1300000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 1300000.0
   },
   "MINERAL_TALISMAN|reforge:none": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1040000.0,
     "median": 1040000.0,
     "sampleCount": 1,
@@ -3708,7 +3888,7 @@
     "weightedMean": 1040000.0
   },
   "MINING_1_TRAVEL_SCROLL": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 349999.0,
     "median": 349999.0,
     "sampleCount": 1,
@@ -3717,16 +3897,16 @@
     "weightedMean": 349999.0
   },
   "MINING_2_PORTAL": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 428500.0,
     "median": 428500.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 428500.00000000006
+    "weightedMean": 428500.0
   },
   "MINING_2_TRAVEL_SCROLL": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 300000.0,
     "median": 300000.0,
     "sampleCount": 1,
@@ -3735,25 +3915,25 @@
     "weightedMean": 300000.0
   },
   "MINOS_RELIC": {
-    "confidence": 57,
-    "fairPrice": 32049780.86425258,
+    "confidence": 61,
+    "fairPrice": 32049780.864252575,
     "median": 32000000.0,
     "sampleCount": 3,
     "stddev": 141420.88483278872,
     "volumePerWeek": 3,
-    "weightedMean": 32100002.302156344
+    "weightedMean": 32100002.302156337
   },
   "MITHRIL_BELT": {
-    "confidence": 54,
-    "fairPrice": 221160.4049828341,
-    "median": 200000.0,
-    "sampleCount": 3,
-    "stddev": 89566.85895029601,
-    "volumePerWeek": 3,
-    "weightedMean": 264134.81079819764
+    "confidence": 57,
+    "fairPrice": 295037.0830007602,
+    "median": 294500.0,
+    "sampleCount": 4,
+    "stddev": 94750.65962831076,
+    "volumePerWeek": 4,
+    "weightedMean": 296083.0573658878
   },
   "MITHRIL_CLOAK": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 247871.58963394933,
     "median": 238570.0,
     "sampleCount": 4,
@@ -3780,13 +3960,22 @@
     "weightedMean": 150000.0
   },
   "MITHRIL_DRILL_1": {
-    "confidence": 61,
+    "confidence": 60,
     "fairPrice": 8571679.421667617,
     "median": 8500000.0,
     "sampleCount": 3,
     "stddev": 246331.2099597252,
     "volumePerWeek": 3,
     "weightedMean": 8647559.77731834
+  },
+  "MITHRIL_DRILL_2|ench:efficiency5|ench:experience3|ench:fortune3|ench:ultimate_flowstate3|reforge:excellent": {
+    "confidence": 57,
+    "fairPrice": 14000000.0,
+    "median": 14000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 14000000.0
   },
   "MITHRIL_DRILL_2|reforge:fortunate|ench:efficiency5,experience3,fortune3,smelting_touch1,ultimate_flowstate3": {
     "confidence": 50,
@@ -3798,7 +3987,7 @@
     "weightedMean": 8000000.0
   },
   "MITHRIL_DRILL_ENGINE": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 19000000.0,
     "median": 19000000.0,
     "sampleCount": 1,
@@ -3808,24 +3997,24 @@
   },
   "MITHRIL_FUEL_TANK": {
     "confidence": 65,
-    "fairPrice": 14931696.068611063,
+    "fairPrice": 14931696.068611061,
     "median": 14900000.0,
     "sampleCount": 5,
     "stddev": 224499.12249396433,
     "volumePerWeek": 5,
-    "weightedMean": 14964357.932689164
+    "weightedMean": 14964357.93268916
   },
   "MITHRIL_GAUNTLET": {
-    "confidence": 55,
-    "fairPrice": 245041.46844215554,
-    "median": 228999.0,
-    "sampleCount": 3,
-    "stddev": 91203.23093813923,
-    "volumePerWeek": 3,
-    "weightedMean": 277180.2365536025
+    "confidence": 60,
+    "fairPrice": 324422.5031153762,
+    "median": 330000.0,
+    "sampleCount": 5,
+    "stddev": 86672.48791075517,
+    "volumePerWeek": 5,
+    "weightedMean": 314511.9069485692
   },
   "MITHRIL_LANTERN": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1050000.0,
     "median": 1050000.0,
     "sampleCount": 1,
@@ -3834,13 +4023,13 @@
     "weightedMean": 1050000.0
   },
   "MITHRIL_NECKLACE": {
-    "confidence": 68,
-    "fairPrice": 199999.84501273683,
+    "confidence": 75,
+    "fairPrice": 199999.84092263525,
     "median": 200000.0,
-    "sampleCount": 6,
+    "sampleCount": 9,
     "stddev": 0.4714045207910317,
-    "volumePerWeek": 6,
-    "weightedMean": 199999.69002474306
+    "volumePerWeek": 9,
+    "weightedMean": 199999.68184452064
   },
   "MOBYS_SHEARS": {
     "confidence": 64,
@@ -3853,12 +4042,12 @@
   },
   "MOBY_DUCK": {
     "confidence": 52,
-    "fairPrice": 1287501.6961953517,
+    "fairPrice": 1287501.6961953514,
     "median": 1287500.0,
     "sampleCount": 2,
     "stddev": 287500.0,
     "volumePerWeek": 2,
-    "weightedMean": 1287504.3677030308
+    "weightedMean": 1287504.3677030306
   },
   "MOB_THE_FISH": {
     "confidence": 50,
@@ -3870,13 +4059,13 @@
     "weightedMean": 215000.0
   },
   "MOLTEN_BRACELET": {
-    "confidence": 57,
-    "fairPrice": 656906.508540237,
+    "confidence": 56,
+    "fairPrice": 656906.5085402371,
     "median": 656500.0,
     "sampleCount": 2,
     "stddev": 23500.0,
     "volumePerWeek": 2,
-    "weightedMean": 657343.2001790381
+    "weightedMean": 657343.2001790382
   },
   "MOLTEN_CLOAK|reforge:strengthened": {
     "confidence": 55,
@@ -3897,7 +4086,7 @@
     "weightedMean": 47000.0
   },
   "MOONGLADE_ARTIFACT": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1190000.0,
     "median": 1190000.0,
     "sampleCount": 1,
@@ -3915,16 +4104,16 @@
     "weightedMean": 6000000.0
   },
   "MURKWATER_TRAVEL_SCROLL": {
-    "confidence": 53,
-    "fairPrice": 448720.1554045903,
+    "confidence": 52,
+    "fairPrice": 448720.15540459024,
     "median": 449499.0,
     "sampleCount": 2,
     "stddev": 49499.0,
     "volumePerWeek": 2,
-    "weightedMean": 447748.5506660397
+    "weightedMean": 447748.55066603963
   },
   "MUSHED_MUSHROOM_MIXIN": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1996999.4999655546,
     "median": 1996999.5,
     "sampleCount": 2,
@@ -3951,13 +4140,13 @@
     "weightedMean": 3400000.0
   },
   "NECRON_HANDLE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 478000000.0,
     "median": 478000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 478000000.00000006
+    "weightedMean": 478000000.0
   },
   "NETHERRACK_LOOKING_SUNSHADE": {
     "confidence": 54,
@@ -3968,8 +4157,17 @@
     "volumePerWeek": 1,
     "weightedMean": 10000.0
   },
+  "NETHERRACK_LOOKING_SUNSHADE|recomb:applied": {
+    "confidence": 57,
+    "fairPrice": 3000000.0,
+    "median": 3000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 3000000.0
+  },
   "NETHER_FORTRESS_BOSS_TRAVEL_SCROLL": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 417222.1227905053,
     "median": 417222.0,
     "sampleCount": 2,
@@ -3984,7 +4182,7 @@
     "sampleCount": 7,
     "stddev": 0.0,
     "volumePerWeek": 7,
-    "weightedMean": 340000.00000000006
+    "weightedMean": 340000.0
   },
   "NEW_YEAR_CAKE": {
     "confidence": 56,
@@ -3996,7 +4194,7 @@
     "weightedMean": 2000000.0
   },
   "NEW_YEAR_CAKE_BAG": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 572000.0,
     "median": 572000.0,
     "sampleCount": 1,
@@ -4014,7 +4212,7 @@
     "weightedMean": 6109051.206236131
   },
   "NEX_TITANUM|ench:arcane5|reforge:rugged": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 6466665.0,
     "median": 6466665.0,
     "sampleCount": 1,
@@ -4029,25 +4227,25 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 195555.00000000003
+    "weightedMean": 195555.0
   },
   "NIGHT_CRYSTAL": {
-    "confidence": 52,
-    "fairPrice": 447163.87651047955,
+    "confidence": 51,
+    "fairPrice": 447163.8765104795,
     "median": 400000.0,
     "sampleCount": 3,
     "stddev": 283078.7091173682,
     "volumePerWeek": 3,
-    "weightedMean": 578671.3861958154
+    "weightedMean": 578671.3861958153
   },
   "NIGHT_SAVER": {
-    "confidence": 51,
-    "fairPrice": 218269.97081726295,
-    "median": 199000.0,
+    "confidence": 59,
+    "fairPrice": 176178.08547308954,
+    "median": 175000.0,
     "sampleCount": 3,
-    "stddev": 129941.30213377971,
+    "stddev": 17988.045419110993,
     "volumePerWeek": 3,
-    "weightedMean": 273813.9494941309
+    "weightedMean": 177623.83283731563
   },
   "NIGHT_VISION_CHARM": {
     "confidence": 37,
@@ -4083,16 +4281,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 500000.0
+    "weightedMean": 500000.00000000006
   },
   "OBSIDIAN_CHESTPLATE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 363220.7869899747,
     "median": 379999.0,
     "sampleCount": 3,
     "stddev": 63769.95112816764,
     "volumePerWeek": 3,
-    "weightedMean": 338695.78169358347
+    "weightedMean": 338695.7816935835
   },
   "OLD_DRAGON_BOOTS|ench:growth5|ench:protection5|reforge:reinforced": {
     "confidence": 56,
@@ -4110,16 +4308,16 @@
     "sampleCount": 2,
     "stddev": 2500.5,
     "volumePerWeek": 2,
-    "weightedMean": 797230.9004667683
+    "weightedMean": 797230.9004667684
   },
   "OLD_DRAGON_HELMET": {
-    "confidence": 58,
-    "fairPrice": 625813.2642086586,
+    "confidence": 57,
+    "fairPrice": 625813.2642086584,
     "median": 624499.0,
     "sampleCount": 2,
     "stddev": 25501.0,
     "volumePerWeek": 2,
-    "weightedMean": 627239.4321351424
+    "weightedMean": 627239.4321351422
   },
   "OLD_DRAGON_LEGGINGS": {
     "confidence": 56,
@@ -4137,37 +4335,37 @@
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 1230000.0
+    "weightedMean": 1229999.9999999998
   },
   "OVERFLUX_CAPACITOR": {
-    "confidence": 56,
-    "fairPrice": 33399999.0,
-    "median": 33399999.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 33399999.0
+    "confidence": 58,
+    "fairPrice": 31684549.855347686,
+    "median": 31699499.5,
+    "sampleCount": 2,
+    "stddev": 1700499.5,
+    "volumePerWeek": 2,
+    "weightedMean": 31667905.363316696
   },
   "OVERFLUX_POWER_ORB": {
-    "confidence": 56,
-    "fairPrice": 58755542.87927173,
+    "confidence": 55,
+    "fairPrice": 58755542.87927174,
     "median": 58749999.0,
     "sampleCount": 2,
     "stddev": 249999.0,
     "volumePerWeek": 2,
-    "weightedMean": 58761134.14193745
+    "weightedMean": 58761134.14193746
   },
   "OXFORD_SHOES": {
-    "confidence": 52,
-    "fairPrice": 320000.8360736858,
+    "confidence": 51,
+    "fairPrice": 320000.8360736857,
     "median": 320000.0,
     "sampleCount": 2,
     "stddev": 20000.0,
     "volumePerWeek": 2,
-    "weightedMean": 320001.78362386295
+    "weightedMean": 320001.7836238629
   },
   "PANDA_SPIRIT": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 250000000.0,
     "median": 250000000.0,
     "sampleCount": 1,
@@ -4176,7 +4374,7 @@
     "weightedMean": 250000000.0
   },
   "PARTY_HAT_CRAB_ANIMATED": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 11520000.0,
     "median": 11520000.0,
     "sampleCount": 1,
@@ -4203,7 +4401,7 @@
     "weightedMean": 1300000.0
   },
   "PERFECTLY_CUT_FUEL_TANK": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 112397668.0,
     "median": 112397668.0,
     "sampleCount": 1,
@@ -4218,37 +4416,37 @@
     "sampleCount": 3,
     "stddev": 86329.22682768952,
     "volumePerWeek": 3,
-    "weightedMean": 1004784.7034180481
+    "weightedMean": 1004784.703418048
   },
   "PERSONAL_COMPACTOR_5000": {
     "confidence": 60,
-    "fairPrice": 1732108.0556377391,
+    "fairPrice": 1732108.055637739,
     "median": 1700000.0,
     "sampleCount": 3,
     "stddev": 94755.35517085857,
     "volumePerWeek": 3,
-    "weightedMean": 1767857.003507538
+    "weightedMean": 1767857.0035075378
   },
   "PERSONAL_COMPACTOR_7000": {
     "confidence": 62,
-    "fairPrice": 3826764.618892251,
+    "fairPrice": 3826764.6188922515,
     "median": 3843500.0,
     "sampleCount": 4,
     "stddev": 212165.2342519563,
     "volumePerWeek": 4,
-    "weightedMean": 3808047.8860404682
+    "weightedMean": 3808047.8860404687
   },
   "PESTHUNTERS_BELT": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 909115.5033778735,
     "median": 909499.5,
     "sampleCount": 2,
     "stddev": 9499.5,
     "volumePerWeek": 2,
-    "weightedMean": 908723.4005870537
+    "weightedMean": 908723.4005870536
   },
   "PESTHUNTERS_GLOVES": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 630000.0,
     "median": 630000.0,
     "sampleCount": 1,
@@ -4257,16 +4455,16 @@
     "weightedMean": 630000.0
   },
   "PESTHUNTER_RELIC": {
-    "confidence": 52,
-    "fairPrice": 4700000.0,
-    "median": 4700000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 4700000.0
+    "confidence": 57,
+    "fairPrice": 4281041.174598393,
+    "median": 4300000.0,
+    "sampleCount": 2,
+    "stddev": 400000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 4258193.359370815
   },
   "PEST_REPELLENT_MAX": {
-    "confidence": 63,
+    "confidence": 62,
     "fairPrice": 207745.4083143365,
     "median": 200000.0,
     "sampleCount": 5,
@@ -4281,34 +4479,34 @@
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 745000.0000000001
+    "weightedMean": 745000.0
   },
   "PEST_VEST": {
-    "confidence": 60,
-    "fairPrice": 5813951.299439192,
+    "confidence": 59,
+    "fairPrice": 5813951.299439193,
     "median": 5969997.0,
     "sampleCount": 3,
     "stddev": 464494.2721830797,
     "volumePerWeek": 3,
-    "weightedMean": 5629985.74469703
+    "weightedMean": 5629985.744697031
   },
   "PET": {
     "confidence": 79,
-    "fairPrice": 2999990.0,
-    "median": 2999990.0,
-    "sampleCount": 125,
-    "stddev": 8124562.416982555,
-    "volumePerWeek": 125,
-    "weightedMean": 6490171.849168564
+    "fairPrice": 3499999.0,
+    "median": 3499999.0,
+    "sampleCount": 139,
+    "stddev": 8864222.011161998,
+    "volumePerWeek": 139,
+    "weightedMean": 7349506.069956685
   },
   "PET_ITEM_ALL_SKILLS_BOOST_COMMON": {
-    "confidence": 56,
-    "fairPrice": 63963.19861886389,
+    "confidence": 55,
+    "fairPrice": 63963.1986188639,
     "median": 63838.0,
     "sampleCount": 2,
     "stddev": 3838.0,
     "volumePerWeek": 2,
-    "weightedMean": 64104.414314367765
+    "weightedMean": 64104.41431436777
   },
   "PET_ITEM_COMBAT_SKILL_BOOST_EPIC": {
     "confidence": 55,
@@ -4320,7 +4518,7 @@
     "weightedMean": 9399999.0
   },
   "PET_ITEM_COMBAT_SKILL_BOOST_RARE": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 779947.3901503085,
     "median": 779500.0,
     "sampleCount": 2,
@@ -4329,7 +4527,7 @@
     "weightedMean": 780405.8197978324
   },
   "PET_ITEM_EXP_SHARE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1840000.0,
     "median": 1840000.0,
     "sampleCount": 1,
@@ -4347,7 +4545,7 @@
     "weightedMean": 1690774.0696184216
   },
   "PET_ITEM_FARMING_SKILL_BOOST_RARE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 554999.0,
     "median": 554999.0,
     "sampleCount": 1,
@@ -4374,7 +4572,7 @@
     "weightedMean": 449999.0
   },
   "PET_ITEM_FISHING_SKILL_BOOST_UNCOMMON": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 98999.0,
     "median": 98999.0,
     "sampleCount": 1,
@@ -4416,19 +4614,19 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 2390000.0
+    "weightedMean": 2390000.0000000005
   },
   "PET_ITEM_MINING_SKILL_BOOST_RARE": {
     "confidence": 64,
-    "fairPrice": 65847.91478536416,
+    "fairPrice": 65847.91478536418,
     "median": 67676.0,
     "sampleCount": 7,
     "stddev": 14376.963329278842,
     "volumePerWeek": 7,
-    "weightedMean": 62937.7193001118
+    "weightedMean": 62937.71930011181
   },
   "PET_ITEM_QUICK_CLAW": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 76000000.0,
     "median": 76000000.0,
     "sampleCount": 1,
@@ -4437,7 +4635,7 @@
     "weightedMean": 76000000.0
   },
   "PET_ITEM_SPOOKY_CUPCAKE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 39350.0846375275,
     "median": 39249.5,
     "sampleCount": 2,
@@ -4455,22 +4653,22 @@
     "weightedMean": 1100000.0
   },
   "PET_ITEM_TIER_BOOST": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 160145099.0,
     "median": 160145099.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 160145099.0
+    "weightedMean": 160145098.99999997
   },
   "PET_SIZED_CUPCAKE": {
     "confidence": 62,
-    "fairPrice": 386842061.3241654,
+    "fairPrice": 386842061.32416534,
     "median": 387000000.0,
     "sampleCount": 6,
     "stddev": 1382555.0380847612,
     "volumePerWeek": 6,
-    "weightedMean": 386682989.17730105
+    "weightedMean": 386682989.177301
   },
   "PET_SKIN_BLACK_CAT_CATGIRL": {
     "confidence": 54,
@@ -4491,7 +4689,7 @@
     "weightedMean": 100000.0
   },
   "PET_SKIN_GIRAFFE_WARPED": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 7680000.0,
     "median": 7680000.0,
     "sampleCount": 1,
@@ -4501,12 +4699,12 @@
   },
   "PET_SKIN_HEDGEHOG_RAMBUTAN": {
     "confidence": 59,
-    "fairPrice": 24501652.71879221,
+    "fairPrice": 24501652.718792208,
     "median": 24500000.0,
     "sampleCount": 3,
     "stddev": 404172.68036763143,
     "volumePerWeek": 3,
-    "weightedMean": 24503360.873854067
+    "weightedMean": 24503360.873854063
   },
   "PET_SKIN_JADE_DRAGON_BABY": {
     "confidence": 59,
@@ -4527,7 +4725,7 @@
     "weightedMean": 10000000.0
   },
   "PET_SKIN_MONKEY_SUNGLASSES": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 890000.0,
     "median": 890000.0,
     "sampleCount": 1,
@@ -4536,7 +4734,7 @@
     "weightedMean": 890000.0
   },
   "PET_SKIN_PRECURSOR_DRONE_PASTEL": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2600000.0,
     "median": 2600000.0,
     "sampleCount": 1,
@@ -4545,7 +4743,7 @@
     "weightedMean": 2600000.0
   },
   "PET_SKIN_ROCK_NORTH_STAR": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1000000.0,
     "median": 1000000.0,
     "sampleCount": 1,
@@ -4554,13 +4752,13 @@
     "weightedMean": 1000000.0
   },
   "PET_SKIN_ROSE_DRAGON_PETAL": {
-    "confidence": 59,
-    "fairPrice": 55387330.009627976,
+    "confidence": 58,
+    "fairPrice": 55387330.00962798,
     "median": 55357499.5,
     "sampleCount": 2,
     "stddev": 632500.5,
     "volumePerWeek": 2,
-    "weightedMean": 55417850.06928244
+    "weightedMean": 55417850.06928245
   },
   "PET_SKIN_TYRANNOSAURUS_BABY": {
     "confidence": 54,
@@ -4572,13 +4770,13 @@
     "weightedMean": 39000000.0
   },
   "PHANTOM_HOOK": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 1046263.3982041255,
     "median": 1047249.5,
     "sampleCount": 2,
     "stddev": 47249.5,
     "volumePerWeek": 2,
-    "weightedMean": 1045184.1107746428
+    "weightedMean": 1045184.1107746427
   },
   "PICKONIMBUS": {
     "confidence": 70,
@@ -4591,15 +4789,15 @@
   },
   "PIGGY_BANK": {
     "confidence": 60,
-    "fairPrice": 305805.5307569666,
+    "fairPrice": 305805.53075696656,
     "median": 297000.0,
     "sampleCount": 4,
     "stddev": 49230.558347305996,
     "volumePerWeek": 4,
-    "weightedMean": 317864.1195246655
+    "weightedMean": 317864.11952466547
   },
   "PIGGY_BANK|reforge:none": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 249999.0,
     "median": 249999.0,
     "sampleCount": 1,
@@ -4617,7 +4815,7 @@
     "weightedMean": 6000000.0
   },
   "POCKET_ESPRESSO_MACHINE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 290000.0,
     "median": 290000.0,
     "sampleCount": 1,
@@ -4644,16 +4842,16 @@
     "weightedMean": 15000000.0
   },
   "POTION": {
-    "confidence": 64,
-    "fairPrice": 79999.0,
-    "median": 79999.0,
-    "sampleCount": 13,
-    "stddev": 565953.2589022027,
-    "volumePerWeek": 13,
-    "weightedMean": 404078.42687593866
+    "confidence": 80,
+    "fairPrice": 1040819.0425998266,
+    "median": 1089025.0,
+    "sampleCount": 19,
+    "stddev": 569328.6728081263,
+    "volumePerWeek": 19,
+    "weightedMean": 644757.3695097024
   },
   "POWER_WITHER_BOOTS|ench:depth_strider3|ench:feather_falling10|ench:growth6|ench:mana_vampire6|ench:protection6|ench:rejuvenate5|ench:sugar_rush3|ench:thorns3|ench:ultimate_last_stand5|potato:11|reforge:ancient": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 26000000.0,
     "median": 26000000.0,
     "sampleCount": 1,
@@ -4671,7 +4869,7 @@
     "weightedMean": 26200000.0
   },
   "POWER_WITHER_CHESTPLATE|ench:growth5|ench:protection6|ench:rejuvenate5|ench:ultimate_legion5|potato:15|recomb:applied|reforge:ancient": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 90199000.0,
     "median": 90199000.0,
     "sampleCount": 1,
@@ -4680,7 +4878,7 @@
     "weightedMean": 90199000.0
   },
   "POWER_WITHER_CHESTPLATE|ench:growth6|ench:protection6|ench:rejuvenate5|ench:thorns3|ench:true_protection1|ench:ultimate_last_stand5|potato:15|recomb:applied|reforge:ancient": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 4222222.0,
     "median": 4222222.0,
     "sampleCount": 1,
@@ -4704,7 +4902,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 19500000.0
+    "weightedMean": 19499999.999999996
+  },
+  "PRESSURE_ARTIFACT|recomb:applied": {
+    "confidence": 57,
+    "fairPrice": 17000000.0,
+    "median": 17000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 17000000.0
   },
   "PRESSURE_RING": {
     "confidence": 53,
@@ -4716,16 +4923,16 @@
     "weightedMean": 2700000.0
   },
   "PRESTIGE_CHOCOLATE_REALM": {
-    "confidence": 59,
-    "fairPrice": 504965.51185322437,
-    "median": 500000.0,
-    "sampleCount": 7,
-    "stddev": 290213.5912934275,
-    "volumePerWeek": 7,
-    "weightedMean": 521539.0616577919
+    "confidence": 62,
+    "fairPrice": 481467.01382250123,
+    "median": 474500.0,
+    "sampleCount": 8,
+    "stddev": 275307.09415805107,
+    "volumePerWeek": 8,
+    "weightedMean": 504035.66392719327
   },
   "PRIMORDIAL_BOOTS|ench:growth5|ench:protection5|ench:rejuvenate5|ench:thorns3|ench:ultimate_last_stand5|potato:10|reforge:ancient": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 23000000.0,
     "median": 23000000.0,
     "sampleCount": 1,
@@ -4743,7 +4950,7 @@
     "weightedMean": 149000000.0
   },
   "PRIMORDIAL_HELMET|ench:aqua_affinity1|ench:growth5|ench:protection5|ench:rejuvenate5|ench:respiration3|ench:thorns3|reforge:fierce": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 22899998.0,
     "median": 22899998.0,
     "sampleCount": 1,
@@ -4761,7 +4968,7 @@
     "weightedMean": 34720000.0
   },
   "PRISMARINE_BOW": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 251019.90985346003,
     "median": 250874.5,
     "sampleCount": 2,
@@ -4797,7 +5004,7 @@
     "weightedMean": 700000.0
   },
   "PROTECTOR_DRAGON_HELMET": {
-    "confidence": 65,
+    "confidence": 64,
     "fairPrice": 620769.4172441938,
     "median": 625000.0,
     "sampleCount": 5,
@@ -4815,7 +5022,7 @@
     "weightedMean": 390000.0
   },
   "PULSE_RING": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 3417328.324572264,
     "median": 3417410.0,
     "sampleCount": 2,
@@ -4839,7 +5046,7 @@
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 90000.00000000001
+    "weightedMean": 89999.99999999999
   },
   "RABBIT_HELMET": {
     "confidence": 53,
@@ -4857,10 +5064,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 338999.99999999994
+    "weightedMean": 339000.00000000006
   },
   "RAGGEDY_SHARK_TOOTH_NECKLACE": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 198000.0,
     "median": 198000.0,
     "sampleCount": 1,
@@ -4869,15 +5076,15 @@
     "weightedMean": 198000.0
   },
   "RAGNAROCK_AXE": {
-    "confidence": 55,
-    "fairPrice": 718900.7720662395,
-    "median": 719500.0,
-    "sampleCount": 2,
-    "stddev": 29500.0,
-    "volumePerWeek": 2,
-    "weightedMean": 718250.3058019109
+    "confidence": 57,
+    "fairPrice": 791420.0809549463,
+    "median": 749000.0,
+    "sampleCount": 3,
+    "stddev": 176308.44184742452,
+    "volumePerWeek": 3,
+    "weightedMean": 856276.3793323324
   },
-  "RANCHERS_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|gem:PERIDOT_0:FINE|gem:PERIDOT_1:FINE": {
+  "RANCHERS_BOOTS": {
     "confidence": 57,
     "fairPrice": 5000000.0,
     "median": 5000000.0,
@@ -4886,8 +5093,17 @@
     "volumePerWeek": 1,
     "weightedMean": 5000000.0
   },
+  "RANCHERS_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|gem:PERIDOT_0:FINE|gem:PERIDOT_1:FINE": {
+    "confidence": 56,
+    "fairPrice": 5000000.0,
+    "median": 5000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 5000000.0
+  },
   "RAZOR_SHARP_SHARK_TOOTH_NECKLACE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 15322004.0,
     "median": 15322004.0,
     "sampleCount": 1,
@@ -4905,7 +5121,7 @@
     "weightedMean": 10500000.0
   },
   "REAPER_SCYTHE|ench:bane_of_arthropods5|ench:critical5|ench:ender_slayer5|ench:first_strike4|ench:looting3|ench:sharpness5|ench:thunderlord5|ench:ultimate_wise5|reforge:heroic": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 28000000.0,
     "median": 28000000.0,
     "sampleCount": 1,
@@ -4923,7 +5139,7 @@
     "weightedMean": 28500000.0
   },
   "REAPER_SWORD|ench:PROSECUTE5|ench:cleave5|ench:critical6|ench:experience3|ench:fire_aspect2|ench:first_strike4|ench:giant_killer6|ench:life_steal4|ench:looting4|ench:luck6|ench:scavenger5|ench:sharpness6|ench:smite6|ench:thunderlord5|ench:ultimate_swarm2|ench:venomous5|potato:10|reforge:sharp": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 5000000.0,
     "median": 5000000.0,
     "sampleCount": 1,
@@ -4932,7 +5148,7 @@
     "weightedMean": 5000000.0
   },
   "RECALL_POTION": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 70000.0,
     "median": 70000.0,
     "sampleCount": 1,
@@ -4941,7 +5157,7 @@
     "weightedMean": 70000.0
   },
   "RECLUSE_FANG": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 300000.0,
     "median": 300000.0,
     "sampleCount": 1,
@@ -4958,8 +5174,17 @@
     "volumePerWeek": 1,
     "weightedMean": 897999.0
   },
+  "RED_CLAW_RING": {
+    "confidence": 59,
+    "fairPrice": 2199999.0,
+    "median": 2199999.0,
+    "sampleCount": 2,
+    "stddev": 0.0,
+    "volumePerWeek": 2,
+    "weightedMean": 2199998.9999999995
+  },
   "RED_CLAW_TALISMAN": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 135000.0,
     "median": 135000.0,
     "sampleCount": 1,
@@ -4986,16 +5211,16 @@
     "weightedMean": 2237259.374824525
   },
   "REKINDLED_EMBER_BOOTS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1899000.0,
     "median": 1899000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 1899000.0
+    "weightedMean": 1898999.9999999998
   },
   "REKINDLED_EMBER_HELMET": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1899000.0,
     "median": 1899000.0,
     "sampleCount": 1,
@@ -5004,7 +5229,7 @@
     "weightedMean": 1899000.0
   },
   "REKINDLED_EMBER_LEGGINGS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1899000.0,
     "median": 1899000.0,
     "sampleCount": 1,
@@ -5022,16 +5247,16 @@
     "weightedMean": 116481.36705841198
   },
   "RESPIRATION_ARTIFACT": {
-    "confidence": 58,
-    "fairPrice": 3313206.3717672834,
-    "median": 3315000.0,
-    "sampleCount": 2,
-    "stddev": 65000.0,
-    "volumePerWeek": 2,
-    "weightedMean": 3311340.9984052586
+    "confidence": 61,
+    "fairPrice": 3243492.9079611665,
+    "median": 3250000.0,
+    "sampleCount": 3,
+    "stddev": 114406.68201153676,
+    "volumePerWeek": 3,
+    "weightedMean": 3236509.9627671344
   },
   "RETIA_BASICA": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 149999.17474141403,
     "median": 149999.0,
     "sampleCount": 3,
@@ -5064,7 +5289,7 @@
     "sampleCount": 4,
     "stddev": 102653.72375369536,
     "volumePerWeek": 4,
-    "weightedMean": 1220831.2491363636
+    "weightedMean": 1220831.2491363634
   },
   "REVENANT_SWORD": {
     "confidence": 54,
@@ -5076,7 +5301,7 @@
     "weightedMean": 1100000.0
   },
   "REVIVED_HEART": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2839000.0,
     "median": 2839000.0,
     "sampleCount": 1,
@@ -5085,7 +5310,7 @@
     "weightedMean": 2839000.0
   },
   "RIFT_WIZARD_TOWER_TRAVEL_SCROLL": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 500000.0,
     "median": 500000.0,
     "sampleCount": 1,
@@ -5093,8 +5318,17 @@
     "volumePerWeek": 1,
     "weightedMean": 500000.0
   },
+  "ROD_OF_THE_SEA|ench:angler5|ench:blessing5|ench:caster5|ench:frail5|ench:impaling3|ench:looting3|ench:luck_of_the_sea5|ench:lure5|ench:magnet5|ench:piscary5|ench:spiked_hook5|potato:10|reforge:pitchin": {
+    "confidence": 57,
+    "fairPrice": 22300000.0,
+    "median": 22300000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 22300000.0
+  },
   "ROD_OF_THE_SEA|reforge:pitchin": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 17599999.0,
     "median": 17599999.0,
     "sampleCount": 1,
@@ -5121,13 +5355,22 @@
     "weightedMean": 200000.0
   },
   "RUNAANS_BOW": {
-    "confidence": 53,
-    "fairPrice": 871492.3509516057,
-    "median": 869999.5,
-    "sampleCount": 2,
-    "stddev": 70000.5,
-    "volumePerWeek": 2,
-    "weightedMean": 873246.4530123697
+    "confidence": 60,
+    "fairPrice": 820747.493976076,
+    "median": 800000.0,
+    "sampleCount": 3,
+    "stddev": 65996.86861426751,
+    "volumePerWeek": 3,
+    "weightedMean": 845002.9249111238
+  },
+  "RUNAANS_BOW|ench:aiming5|ench:chance3|ench:cubism5|ench:dragon_hunter3|ench:flame1|ench:impaling3|ench:infinite_quiver5|ench:piercing1|ench:power5|ench:snipe3|ench:telekinesis1|reforge:rapid": {
+    "confidence": 57,
+    "fairPrice": 800000.0,
+    "median": 800000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 800000.0
   },
   "RUNAANS_BOW|reforge:unreal|potato:15|recomb|ench:aiming5,cubism5,dragon_hunter5,impaling3,infinite_quiver10,piercing1,power6,snipe3,telekinesis1": {
     "confidence": 51,
@@ -5136,28 +5379,28 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 15000000.000000002
+    "weightedMean": 15000000.0
   },
   "RUNE": {
-    "confidence": 61,
-    "fairPrice": 1172198.6097984272,
-    "median": 1100000.0,
-    "sampleCount": 11,
-    "stddev": 1950111.8611696514,
-    "volumePerWeek": 11,
-    "weightedMean": 2158235.6199543397
+    "confidence": 65,
+    "fairPrice": 2617171.5895209503,
+    "median": 2650000.0,
+    "sampleCount": 12,
+    "stddev": 1945149.2027177503,
+    "volumePerWeek": 12,
+    "weightedMean": 2356446.806081917
   },
   "RUNEBLADE_ARTIFACT": {
-    "confidence": 58,
-    "fairPrice": 4188737.653830906,
+    "confidence": 57,
+    "fairPrice": 4188737.6538309064,
     "median": 4200000.0,
     "sampleCount": 2,
     "stddev": 200000.0,
     "volumePerWeek": 2,
-    "weightedMean": 4176349.0730449026
+    "weightedMean": 4176349.073044903
   },
   "RUNEBLADE_ARTIFACT|recomb:applied": {
-    "confidence": 61,
+    "confidence": 60,
     "fairPrice": 7927511.018930174,
     "median": 7940000.0,
     "sampleCount": 4,
@@ -5181,16 +5424,16 @@
     "sampleCount": 3,
     "stddev": 0.0,
     "volumePerWeek": 3,
-    "weightedMean": 500.0
+    "weightedMean": 500.00000000000006
   },
   "RUNEBOOK": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 750000.0,
     "median": 750000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 750000.0
+    "weightedMean": 749999.9999999999
   },
   "RUNIC_STAFF": {
     "confidence": 58,
@@ -5201,6 +5444,24 @@
     "volumePerWeek": 2,
     "weightedMean": 827360.7281907358
   },
+  "SALMON_BOOTS_NEW|reforge:wise": {
+    "confidence": 57,
+    "fairPrice": 99999.0,
+    "median": 99999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 99999.0
+  },
+  "SALMON_CHESTPLATE_NEW|reforge:light": {
+    "confidence": 57,
+    "fairPrice": 99999.0,
+    "median": 99999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 99999.0
+  },
   "SALMON_HELMET_NEW|reforge:wise": {
     "confidence": 53,
     "fairPrice": 99999.0,
@@ -5210,6 +5471,24 @@
     "volumePerWeek": 1,
     "weightedMean": 99999.0
   },
+  "SALMON_LEGGINGS_NEW|reforge:light": {
+    "confidence": 57,
+    "fairPrice": 99999.0,
+    "median": 99999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 99999.0
+  },
+  "SAPPHIRE_CLOAK": {
+    "confidence": 57,
+    "fairPrice": 61999999.0,
+    "median": 61999999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 61999999.0
+  },
   "SAPPHIRE_POLISHED_DRILL_ENGINE": {
     "confidence": 55,
     "fairPrice": 150000000.0,
@@ -5217,10 +5496,19 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 150000000.0
+    "weightedMean": 150000000.00000003
+  },
+  "SAPPHIRE_POWER_SCROLL": {
+    "confidence": 57,
+    "fairPrice": 1479992.0,
+    "median": 1479992.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 1479992.0
   },
   "SAVANA_BOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 120000.0,
     "median": 120000.0,
     "sampleCount": 1,
@@ -5229,16 +5517,16 @@
     "weightedMean": 120000.0
   },
   "SCARE_FRAGMENT": {
-    "confidence": 36,
-    "fairPrice": 6125031.731620022,
-    "median": 6125000.0,
-    "sampleCount": 2,
-    "stddev": 5075000.0,
-    "volumePerWeek": 2,
-    "weightedMean": 6125370.202233586
+    "confidence": 68,
+    "fairPrice": 1492499.0,
+    "median": 1492499.0,
+    "sampleCount": 6,
+    "stddev": 0.0,
+    "volumePerWeek": 6,
+    "weightedMean": 1492498.9999999998
   },
   "SCARF_GRIMOIRE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 29900000.0,
     "median": 29900000.0,
     "sampleCount": 1,
@@ -5247,7 +5535,7 @@
     "weightedMean": 29900000.0
   },
   "SCARF_STUDIES": {
-    "confidence": 71,
+    "confidence": 70,
     "fairPrice": 1467756.7725956726,
     "median": 1475000.0,
     "sampleCount": 8,
@@ -5262,7 +5550,7 @@
     "sampleCount": 5,
     "stddev": 175699.41696021645,
     "volumePerWeek": 5,
-    "weightedMean": 7270407.3941290565
+    "weightedMean": 7270407.394129057
   },
   "SCORPION_BOW": {
     "confidence": 59,
@@ -5274,7 +5562,7 @@
     "weightedMean": 690834.2559269959
   },
   "SCORPION_FOIL|ench:PROSECUTE5|ench:bane_of_arthropods6|ench:cleave5|ench:critical6|ench:experience4|ench:fire_aspect3|ench:first_strike4|ench:giant_killer5|ench:life_steal4|ench:looting4|ench:scavenger5|ench:sharpness5|ench:vampirism5|ench:venomous6|gem:COMBAT_0:ONYX:FINE|reforge:fabled": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 19900000.0,
     "median": 19900000.0,
     "sampleCount": 1,
@@ -5283,7 +5571,7 @@
     "weightedMean": 19900000.0
   },
   "SEAL_TALISMAN": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 5290000.0,
     "median": 5290000.0,
     "sampleCount": 1,
@@ -5298,10 +5586,10 @@
     "sampleCount": 3,
     "stddev": 1414.213562373095,
     "volumePerWeek": 3,
-    "weightedMean": 397054.35504502687
+    "weightedMean": 397054.3550450268
   },
   "SEA_CREATURE_ARTIFACT|recomb:applied": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 9000000.0,
     "median": 9000000.0,
     "sampleCount": 1,
@@ -5316,7 +5604,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 1500000.0
+    "weightedMean": 1499999.9999999998
   },
   "SERIOUSLY_DAMAGED_AXE": {
     "confidence": 53,
@@ -5328,13 +5616,13 @@
     "weightedMean": 245000.0
   },
   "SHADOW_ASSASSIN_BOOTS": {
-    "confidence": 57,
-    "fairPrice": 94094.67140041343,
+    "confidence": 56,
+    "fairPrice": 94094.67140041341,
     "median": 94249.5,
     "sampleCount": 2,
     "stddev": 5249.5,
     "volumePerWeek": 2,
-    "weightedMean": 93921.5782450172
+    "weightedMean": 93921.57824501718
   },
   "SHADOW_ASSASSIN_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
     "confidence": 56,
@@ -5346,16 +5634,16 @@
     "weightedMean": 25000.0
   },
   "SHADOW_ASSASSIN_CHESTPLATE": {
-    "confidence": 61,
-    "fairPrice": 6345927.270370148,
+    "confidence": 60,
+    "fairPrice": 6345927.270370149,
     "median": 6350000.0,
     "sampleCount": 3,
     "stddev": 122474.48713915891,
     "volumePerWeek": 3,
-    "weightedMean": 6341694.346945302
+    "weightedMean": 6341694.346945303
   },
   "SHADOW_ASSASSIN_HELMET": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 600000.0,
     "median": 600000.0,
     "sampleCount": 1,
@@ -5364,13 +5652,13 @@
     "weightedMean": 600000.0
   },
   "SHADOW_ASSASSIN_LEGGINGS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 3700000.0,
     "median": 3700000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 3700000.0000000005
+    "weightedMean": 3700000.0
   },
   "SHADOW_ASSASSIN_LEGGINGS|ench:growth5|ench:protection5|reforge:titanic": {
     "confidence": 55,
@@ -5382,7 +5670,7 @@
     "weightedMean": 4000000.0
   },
   "SHADOW_FURY|ench:sharpness6|potato:10": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 19201268.0,
     "median": 19201268.0,
     "sampleCount": 1,
@@ -5391,7 +5679,7 @@
     "weightedMean": 19201268.0
   },
   "SHARP_SHARK_TOOTH_NECKLACE": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 959999.0,
     "median": 959999.0,
     "sampleCount": 1,
@@ -5427,31 +5715,31 @@
     "weightedMean": 100000.0
   },
   "SHRIVELED_WASP": {
-    "confidence": 63,
-    "fairPrice": 17643403.453377616,
+    "confidence": 62,
+    "fairPrice": 17643403.45337762,
     "median": 17700000.0,
     "sampleCount": 4,
     "stddev": 424264.0687119285,
     "volumePerWeek": 4,
-    "weightedMean": 17584010.88319722
+    "weightedMean": 17584010.883197222
   },
   "SIGNAL_ENHANCER": {
-    "confidence": 55,
-    "fairPrice": 119327.50218260578,
-    "median": 119500.0,
-    "sampleCount": 2,
-    "stddev": 20500.0,
-    "volumePerWeek": 2,
-    "weightedMean": 119083.5658751796
+    "confidence": 59,
+    "fairPrice": 93076.29503382774,
+    "median": 89500.0,
+    "sampleCount": 4,
+    "stddev": 24498.72445659161,
+    "volumePerWeek": 4,
+    "weightedMean": 98981.17960920237
   },
   "SILENT_DEATH|ench:execute5|ench:experience3|ench:first_strike4|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|reforge:fast": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 350000.0,
     "median": 350000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 350000.0
+    "weightedMean": 350000.00000000006
   },
   "SILVA_DOMINUS": {
     "confidence": 53,
@@ -5463,13 +5751,22 @@
     "weightedMean": 500000.0
   },
   "SIRIUS_PERSONAL_PHONE_NUMBER": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 14999997.0,
     "median": 14999997.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 14999997.0
+  },
+  "SKELETON_GRUNT_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
+    "confidence": 57,
+    "fairPrice": 198999.0,
+    "median": 198999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 198999.0
   },
   "SKELETON_GRUNT_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:wise": {
     "confidence": 53,
@@ -5506,6 +5803,15 @@
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 80000.0
+  },
+  "SKELETON_GRUNT_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:pure": {
+    "confidence": 57,
+    "fairPrice": 70000.0,
+    "median": 70000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 70000.0
   },
   "SKELETON_GRUNT_HELMET|reforge:pure|ench:growth5,protection5,thorns3": {
     "confidence": 51,
@@ -5562,7 +5868,7 @@
     "weightedMean": 999999.0
   },
   "SKELETON_MASTER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:titanic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 30000.0,
     "median": 30000.0,
     "sampleCount": 1,
@@ -5580,7 +5886,7 @@
     "weightedMean": 21690000.000000004
   },
   "SKELETON_MASTER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:titanic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 94522.0,
     "median": 94522.0,
     "sampleCount": 1,
@@ -5589,7 +5895,7 @@
     "weightedMean": 94522.0
   },
   "SKELETON_MASTER_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 40000.0,
     "median": 40000.0,
     "sampleCount": 1,
@@ -5598,7 +5904,7 @@
     "weightedMean": 40000.0
   },
   "SKELETON_MASTER_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 69000.0,
     "median": 69000.0,
     "sampleCount": 1,
@@ -5613,7 +5919,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 49998.99999999999
+    "weightedMean": 49999.0
   },
   "SKELETON_SOLDIER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:clean": {
     "confidence": 53,
@@ -5622,7 +5928,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 39999.99999999999
+    "weightedMean": 40000.0
   },
   "SKELETON_SOLDIER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:wise": {
     "confidence": 54,
@@ -5640,7 +5946,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 29999.0
+    "weightedMean": 29999.000000000004
   },
   "SKELETON_SOLDIER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:pure": {
     "confidence": 53,
@@ -5676,7 +5982,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 11000.000000000002
+    "weightedMean": 11000.0
   },
   "SKELETON_SOLDIER_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
     "confidence": 56,
@@ -5705,6 +6011,15 @@
     "volumePerWeek": 1,
     "weightedMean": 35000.0
   },
+  "SKELETOR_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:clean": {
+    "confidence": 57,
+    "fairPrice": 70000.0,
+    "median": 70000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 70000.0
+  },
   "SKELETOR_BOOTS|reforge:clean|ench:depth_strider3,feather_falling5,growth5,protection5,thorns3": {
     "confidence": 51,
     "fairPrice": 49850.0,
@@ -5713,6 +6028,33 @@
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 49850.0
+  },
+  "SKELETOR_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
+    "confidence": 57,
+    "fairPrice": 1000000.0,
+    "median": 1000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 1000000.0
+  },
+  "SKELETOR_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
+    "confidence": 57,
+    "fairPrice": 69000.0,
+    "median": 69000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 69000.0
+  },
+  "SKELETOR_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
+    "confidence": 57,
+    "fairPrice": 100000.0,
+    "median": 100000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 100000.0
   },
   "SKELETOR_LEGGINGS|reforge:clean|ench:growth5,protection5,thorns3": {
     "confidence": 51,
@@ -5724,7 +6066,7 @@
     "weightedMean": 89000.0
   },
   "SLIME_BOW": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 2800000.0,
     "median": 2800000.0,
     "sampleCount": 1,
@@ -5733,7 +6075,7 @@
     "weightedMean": 2800000.0
   },
   "SLUG_BOOTS": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 39502.118279746224,
     "median": 39499.5,
     "sampleCount": 2,
@@ -5742,7 +6084,7 @@
     "weightedMean": 39504.80376372913
   },
   "SMOOTH_CHOCOLATE_BAR": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 145000.0,
     "median": 145000.0,
     "sampleCount": 1,
@@ -5775,10 +6117,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 399999.99999999994
+    "weightedMean": 400000.0
   },
   "SNOW_CLOAK": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 350000.0,
     "median": 350000.0,
     "sampleCount": 1,
@@ -5793,7 +6135,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 49000.0
+    "weightedMean": 49000.00000000001
   },
   "SNOW_SUIT_CHESTPLATE": {
     "confidence": 50,
@@ -5802,28 +6144,37 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 63000.00000000001
+    "weightedMean": 63000.0
   },
   "SNOW_SUIT_HELMET": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 99000.0,
     "median": 99000.0,
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 98999.99999999999
+    "weightedMean": 99000.00000000001
   },
   "SNOW_SUIT_LEGGINGS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 79000.0,
     "median": 79000.0,
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 79000.0
+    "weightedMean": 79000.00000000001
+  },
+  "SORROW_BOOTS|ench:depth_strider3|ench:feather_falling10|ench:growth5|ench:protection5|gem:AMBER_0:ROUGH|gem:JADE_0:ROUGH|gem:UNIVERSAL_0:TOPAZ:ROUGH|reforge:dimensional": {
+    "confidence": 57,
+    "fairPrice": 5300000.0,
+    "median": 5300000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 5300000.0
   },
   "SORROW_BOOTS|gem:AMBER_0:FINE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 3990000.0,
     "median": 3990000.0,
     "sampleCount": 1,
@@ -5832,7 +6183,7 @@
     "weightedMean": 3990000.0
   },
   "SORROW_BOOTS|reforge:dimensional": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 3990000.0,
     "median": 3990000.0,
     "sampleCount": 1,
@@ -5841,7 +6192,7 @@
     "weightedMean": 3990000.0
   },
   "SORROW_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:jaded": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 11230544.719933294,
     "median": 11245000.0,
     "sampleCount": 2,
@@ -5850,7 +6201,7 @@
     "weightedMean": 11214008.651220191
   },
   "SORROW_HELMET": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 5199999.0,
     "median": 5199999.0,
     "sampleCount": 1,
@@ -5859,13 +6210,13 @@
     "weightedMean": 5199999.0
   },
   "SORROW_HELMET|ench:aqua_affinity1|ench:growth5|ench:protection5|ench:rejuvenate5|ench:respiration3|ench:thorns3|gem:AMBER_0:FINE|gem:JADE_0:FINE|gem:UNIVERSAL_0:TOPAZ:FINE|potato:10|reforge:dimensional": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 10000000.0,
     "median": 10000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 10000000.000000002
+    "weightedMean": 10000000.0
   },
   "SORROW_HELMET|ench:growth5|ench:protection2|gem:AMBER_0:FINE|gem:JADE_0:FINE|gem:UNIVERSAL_0:TOPAZ:FINE": {
     "confidence": 54,
@@ -5877,7 +6228,7 @@
     "weightedMean": 5000000.0
   },
   "SOULS_REBOUND": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 3000000.0,
     "median": 3000000.0,
     "sampleCount": 1,
@@ -5886,22 +6237,22 @@
     "weightedMean": 3000000.0
   },
   "SOULWEAVER_GLOVES": {
-    "confidence": 50,
-    "fairPrice": 4899000.0,
-    "median": 4899000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 4899000.0
+    "confidence": 58,
+    "fairPrice": 4686461.066166529,
+    "median": 4699500.0,
+    "sampleCount": 2,
+    "stddev": 199500.0,
+    "volumePerWeek": 2,
+    "weightedMean": 4672266.013533157
   },
   "SOULWEAVER_GLOVES|reforge:waxed": {
-    "confidence": 49,
+    "confidence": 48,
     "fairPrice": 9399523.126457978,
     "median": 9399499.5,
     "sampleCount": 2,
     "stddev": 4599500.5,
     "volumePerWeek": 2,
-    "weightedMean": 9399592.032052593
+    "weightedMean": 9399592.032052591
   },
   "SOUL_WHIP": {
     "confidence": 54,
@@ -5913,7 +6264,7 @@
     "weightedMean": 15199999.0
   },
   "SOUL_WHIP|ench:PROSECUTE5|ench:critical5|ench:ender_slayer5|ench:fire_aspect2|ench:giant_killer5|ench:lethality6|ench:looting3|ench:mana_steal3|ench:scavenger3|ench:sharpness5|ench:thunderlord5|ench:venomous5|reforge:fabled": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 16879800.0,
     "median": 16879800.0,
     "sampleCount": 1,
@@ -5958,7 +6309,7 @@
     "weightedMean": 389000.0
   },
   "SPEED_RING": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 350000.0,
     "median": 350000.0,
     "sampleCount": 1,
@@ -5967,7 +6318,7 @@
     "weightedMean": 350000.0
   },
   "SPEED_WITHER_BOOTS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 3300000.0,
     "median": 3300000.0,
     "sampleCount": 1,
@@ -6003,7 +6354,7 @@
     "weightedMean": 20000000.0
   },
   "SPIDERS_DEN_TOP_TRAVEL_SCROLL": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 18999.0,
     "median": 18999.0,
     "sampleCount": 1,
@@ -6057,16 +6408,16 @@
     "weightedMean": 2634557.0147274616
   },
   "SPONGE_BOOTS": {
-    "confidence": 56,
-    "fairPrice": 998999.0,
-    "median": 998999.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 998999.0
+    "confidence": 58,
+    "fairPrice": 1024853.8476337763,
+    "median": 1024499.5,
+    "sampleCount": 2,
+    "stddev": 25500.5,
+    "volumePerWeek": 2,
+    "weightedMean": 1025226.285459505
   },
   "SPONGE_CHESTPLATE": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1100000.0,
     "median": 1100000.0,
     "sampleCount": 1,
@@ -6075,7 +6426,7 @@
     "weightedMean": 1100000.0
   },
   "SPONGE_LEGGINGS": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 986000.0,
     "median": 986000.0,
     "sampleCount": 1,
@@ -6093,16 +6444,16 @@
     "weightedMean": 488000.0
   },
   "SQUEAKY_MOUSEMAT": {
-    "confidence": 56,
-    "fairPrice": 1278535.3726055024,
-    "median": 1275000.0,
-    "sampleCount": 2,
-    "stddev": 95000.0,
-    "volumePerWeek": 2,
-    "weightedMean": 1282640.00012206
+    "confidence": 59,
+    "fairPrice": 1366742.47529215,
+    "median": 1370000.0,
+    "sampleCount": 3,
+    "stddev": 131402.68896284682,
+    "volumePerWeek": 3,
+    "weightedMean": 1362782.4256368093
   },
   "SQUID_BOOTS": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 79000.0,
     "median": 79000.0,
     "sampleCount": 1,
@@ -6117,10 +6468,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 2893.0
+    "weightedMean": 2892.9999999999995
   },
   "STAFF_OF_THE_VOLCANO": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 284788.14604906715,
     "median": 290000.0,
     "sampleCount": 3,
@@ -6128,8 +6479,17 @@
     "volumePerWeek": 3,
     "weightedMean": 276633.50853408076
   },
-  "STARLIGHT_BOOTS": {
+  "STARFALL_SEASONING": {
     "confidence": 57,
+    "fairPrice": 2990000.0,
+    "median": 2990000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 2990000.0
+  },
+  "STARLIGHT_BOOTS": {
+    "confidence": 56,
     "fairPrice": 174000.0,
     "median": 174000.0,
     "sampleCount": 1,
@@ -6138,7 +6498,7 @@
     "weightedMean": 174000.0
   },
   "STARLIGHT_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:pure": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 248000.0,
     "median": 248000.0,
     "sampleCount": 1,
@@ -6147,7 +6507,7 @@
     "weightedMean": 248000.0
   },
   "STARLIGHT_HELMET": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 339999.0,
     "median": 339999.0,
     "sampleCount": 1,
@@ -6156,7 +6516,7 @@
     "weightedMean": 339999.0
   },
   "STARLIGHT_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:smart": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 198000.0,
     "median": 198000.0,
     "sampleCount": 1,
@@ -6183,31 +6543,49 @@
     "weightedMean": 2000000.0
   },
   "STARRED_BONE_NECKLACE|reforge:menacing": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 13999999.0,
     "median": 13999999.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 13999999.0
+    "weightedMean": 13999998.999999998
+  },
+  "STARRED_BONZO_STAFF": {
+    "confidence": 57,
+    "fairPrice": 4999999.0,
+    "median": 4999999.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 4999999.0
   },
   "STARRED_GLACIAL_SCYTHE|ench:ultimate_wise5|reforge:heroic": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 48000000.0,
     "median": 48000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 48000000.0
+    "weightedMean": 48000000.00000001
   },
   "STARRED_ITEM_SPIRIT_BOW|ench:chance3|ench:cubism5|ench:flame2|ench:infinite_quiver5|ench:power5|ench:snipe3|reforge:rapid": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 4799999.0,
     "median": 4799999.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 4799999.0
+  },
+  "STARRED_SHADOW_ASSASSIN_BOOTS|ench:depth_strider3|ench:feather_falling10|ench:growth5|ench:protection5|ench:rejuvenate3|ench:thorns3|reforge:ancient": {
+    "confidence": 57,
+    "fairPrice": 3150000.0,
+    "median": 3150000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 3150000.0
   },
   "STARRED_SHADOW_ASSASSIN_BOOTS|ench:depth_strider3|ench:feather_falling10|ench:growth5|ench:protection5|ench:rejuvenate5|ench:sugar_rush3|ench:thorns3|potato:10|reforge:ancient": {
     "confidence": 55,
@@ -6216,7 +6594,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 6000000.0
+    "weightedMean": 6000000.000000001
   },
   "STARRED_SHADOW_ASSASSIN_BOOTS|ench:depth_strider3|ench:growth5|ench:protection5|ench:rejuvenate5|reforge:ancient": {
     "confidence": 54,
@@ -6237,7 +6615,7 @@
     "weightedMean": 2800000.0
   },
   "STARRED_SHADOW_ASSASSIN_BOOTS|ench:growth5|ench:protection5|reforge:ancient": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2900000.0,
     "median": 2900000.0,
     "sampleCount": 1,
@@ -6246,22 +6624,31 @@
     "weightedMean": 2900000.0
   },
   "STARRED_SHADOW_ASSASSIN_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|ench:ultimate_last_stand5|reforge:fierce|stars:2": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 10000000.0,
     "median": 10000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 9999999.999999998
+    "weightedMean": 10000000.0
   },
   "STARRED_SHADOW_ASSASSIN_CLOAK|reforge:menacing": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 7772939.785904519,
     "median": 7800000.0,
     "sampleCount": 2,
     "stddev": 1200000.0,
     "volumePerWeek": 2,
     "weightedMean": 7736039.4939561365
+  },
+  "STARRED_SHADOW_ASSASSIN_HELMET|ench:aqua_affinity1|ench:growth5|ench:protection5|ench:rejuvenate5|ench:respiration3|reforge:ancient": {
+    "confidence": 57,
+    "fairPrice": 4910000.0,
+    "median": 4910000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 4910000.0
   },
   "STARRED_SPIRIT_MASK|reforge:ancient|potato:15|recomb|ench:aqua_affinity1,growth6,hardened_mana6,hecatomb5,protection6,rejuvenate5,respiration3,thorns3,transylvanian5,ultimate_last_stand5": {
     "confidence": 51,
@@ -6273,13 +6660,13 @@
     "weightedMean": 193333333.0
   },
   "STEAMED_CHOCOLATE_FISH": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 500000.0,
     "median": 500000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 500000.0
+    "weightedMean": 500000.00000000006
   },
   "STICK": {
     "confidence": 55,
@@ -6291,16 +6678,16 @@
     "weightedMean": 536.0
   },
   "STINGY_SINKER": {
-    "confidence": 57,
-    "fairPrice": 2000000.0,
-    "median": 2000000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 2000000.0
+    "confidence": 55,
+    "fairPrice": 2501826.9471622184,
+    "median": 2500000.0,
+    "sampleCount": 2,
+    "stddev": 500000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 2504567.3679055464
   },
   "STONE": {
-    "confidence": 42,
+    "confidence": 41,
     "fairPrice": 56.24512714176172,
     "median": 56.0,
     "sampleCount": 2,
@@ -6319,12 +6706,12 @@
   },
   "STRETCHING_STICKS": {
     "confidence": 54,
-    "fairPrice": 127023.81748901488,
+    "fairPrice": 127023.8174890149,
     "median": 120000.0,
     "sampleCount": 5,
     "stddev": 84941.04748824328,
     "volumePerWeek": 5,
-    "weightedMean": 152568.15757373368
+    "weightedMean": 152568.1575737337
   },
   "STRONG_DRAGON_BOOTS": {
     "confidence": 53,
@@ -6334,6 +6721,15 @@
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 1749000.0
+  },
+  "STRONG_DRAGON_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
+    "confidence": 57,
+    "fairPrice": 2184160.0,
+    "median": 2184160.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 2184160.0
   },
   "STRONG_DRAGON_CHESTPLATE": {
     "confidence": 49,
@@ -6363,22 +6759,31 @@
     "weightedMean": 1500000.0
   },
   "STRONG_DRAGON_LEGGINGS|ench:growth5|ench:protection5|reforge:fierce": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 2850000.0,
     "median": 2850000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 2850000.0
+    "weightedMean": 2849999.9999999995
   },
   "SUNDIAL": {
     "confidence": 60,
-    "fairPrice": 3356366.8545425003,
+    "fairPrice": 3356366.8545425013,
     "median": 3330000.0,
     "sampleCount": 3,
     "stddev": 79667.36401368435,
     "volumePerWeek": 3,
-    "weightedMean": 3384004.2201183033
+    "weightedMean": 3384004.2201183042
+  },
+  "SUNFLOWER_HEAD": {
+    "confidence": 57,
+    "fairPrice": 240000.0,
+    "median": 240000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 240000.0
   },
   "SUNSHINE_CRYSTAL": {
     "confidence": 56,
@@ -6390,7 +6795,7 @@
     "weightedMean": 4947998.0
   },
   "SUPERIOR_DRAGON_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:fierce": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 4700000.0,
     "median": 4700000.0,
     "sampleCount": 1,
@@ -6399,7 +6804,7 @@
     "weightedMean": 4700000.0
   },
   "SUPERIOR_DRAGON_BOOTS|ench:growth5|ench:protection5|ench:rejuvenate3|reforge:ancient": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 4000000.0,
     "median": 4000000.0,
     "sampleCount": 1,
@@ -6414,16 +6819,25 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 5600000.0
+    "weightedMean": 5600000.000000001
   },
   "SUPER_CLEAVER": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 298999.0,
     "median": 298999.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
     "weightedMean": 298999.0
+  },
+  "SUPER_HEAVY_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
+    "confidence": 57,
+    "fairPrice": 41310.0,
+    "median": 41310.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 41310.0
   },
   "SWAMP_THE_FISH": {
     "confidence": 56,
@@ -6435,7 +6849,7 @@
     "weightedMean": 228999.0
   },
   "SWORD_OF_BAD_HEALTH|recomb:applied": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1000000.0,
     "median": 1000000.0,
     "sampleCount": 1,
@@ -6444,7 +6858,7 @@
     "weightedMean": 1000000.0
   },
   "TALISMAN_ENRICHMENT_CRITICAL_DAMAGE": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 5000000.0,
     "median": 5000000.0,
     "sampleCount": 1,
@@ -6486,16 +6900,16 @@
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 5900000.0
+    "weightedMean": 5900000.000000001
   },
   "TALISMAN_ENRICHMENT_MAGIC_FIND": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 5749790.634578448,
     "median": 5800000.0,
     "sampleCount": 3,
     "stddev": 215409.11875931962,
     "volumePerWeek": 3,
-    "weightedMean": 5695636.810629337
+    "weightedMean": 5695636.810629336
   },
   "TALISMAN_ENRICHMENT_SEA_CREATURE_CHANCE": {
     "confidence": 57,
@@ -6504,10 +6918,10 @@
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 5900000.0
+    "weightedMean": 5899999.999999999
   },
   "TALISMAN_ENRICHMENT_SWAPPER": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 242742.82262472855,
     "median": 250000.0,
     "sampleCount": 3,
@@ -6515,8 +6929,17 @@
     "volumePerWeek": 3,
     "weightedMean": 234082.7295732648
   },
+  "TANK_MINER_BOOTS": {
+    "confidence": 57,
+    "fairPrice": 10000.0,
+    "median": 10000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 10000.0
+  },
   "TANK_MINER_BOOTS|ench:protection5": {
-    "confidence": 45,
+    "confidence": 44,
     "fairPrice": 2317.998503801325,
     "median": 2016.0,
     "sampleCount": 3,
@@ -6543,7 +6966,7 @@
     "weightedMean": 50000.0
   },
   "TANK_MINER_HELMET|ench:protection5": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2016.0,
     "median": 2016.0,
     "sampleCount": 1,
@@ -6558,10 +6981,10 @@
     "sampleCount": 2,
     "stddev": 12380.5,
     "volumePerWeek": 2,
-    "weightedMean": 16322.839074682772
+    "weightedMean": 16322.839074682768
   },
   "TARANTULA_BOOTS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2800000.0,
     "median": 2800000.0,
     "sampleCount": 1,
@@ -6570,7 +6993,7 @@
     "weightedMean": 2800000.0
   },
   "TARANTULA_CHESTPLATE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 2499999.0,
     "median": 2499999.0,
     "sampleCount": 1,
@@ -6578,8 +7001,17 @@
     "volumePerWeek": 1,
     "weightedMean": 2499999.0
   },
+  "TARANTULA_HELMET|ench:growth5|ench:protection5|ench:rejuvenate5|ench:ultimate_last_stand5|potato:10|reforge:ancient": {
+    "confidence": 57,
+    "fairPrice": 3000000.0,
+    "median": 3000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 3000000.0
+  },
   "TARANTULA_LEGGINGS": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1500000.0,
     "median": 1500000.0,
     "sampleCount": 1,
@@ -6589,24 +7021,24 @@
   },
   "TARANTULA_TALISMAN": {
     "confidence": 59,
-    "fairPrice": 182820.62088586704,
+    "fairPrice": 182820.620885867,
     "median": 179999.0,
     "sampleCount": 3,
     "stddev": 8485.988490839867,
     "volumePerWeek": 3,
-    "weightedMean": 185912.01627625534
+    "weightedMean": 185912.0162762553
   },
   "TAURUS_HELMET": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 219999.0,
     "median": 219999.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 219998.99999999997
+    "weightedMean": 219999.0
   },
   "TERMINATOR|ench:aiming5|ench:chance4|ench:cubism5|ench:dragon_hunter5|ench:flame2|ench:impaling5|ench:infinite_quiver10|ench:overload5|ench:piercing1|ench:power6|ench:snipe3|ench:toxophilite10|ench:ultimate_reiterate5|potato:10|recomb:applied|reforge:hasty": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 534999999.0,
     "median": 534999999.0,
     "sampleCount": 1,
@@ -6615,25 +7047,25 @@
     "weightedMean": 534999999.0
   },
   "TERROR_BOOTS": {
-    "confidence": 60,
-    "fairPrice": 385844.60774864524,
+    "confidence": 59,
+    "fairPrice": 385844.6077486452,
     "median": 390000.0,
     "sampleCount": 3,
     "stddev": 21296.54119543568,
     "volumePerWeek": 3,
-    "weightedMean": 381195.3374740551
+    "weightedMean": 381195.33747405506
   },
   "TERROR_CHESTPLATE": {
     "confidence": 59,
-    "fairPrice": 305080.8522074486,
+    "fairPrice": 305080.85220744857,
     "median": 300000.0,
     "sampleCount": 3,
     "stddev": 16863.863423176655,
     "volumePerWeek": 3,
-    "weightedMean": 310743.98285665637
+    "weightedMean": 310743.9828566563
   },
   "TERROR_CHESTPLATE|ench:growth5|ench:protection5|reforge:ancient": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 3000000.0,
     "median": 3000000.0,
     "sampleCount": 1,
@@ -6642,13 +7074,13 @@
     "weightedMean": 3000000.0
   },
   "TERROR_HELMET": {
-    "confidence": 57,
-    "fairPrice": 362233.4094512419,
+    "confidence": 56,
+    "fairPrice": 362233.40945124195,
     "median": 362498.5,
     "sampleCount": 4,
     "stddev": 108690.25658033934,
     "volumePerWeek": 4,
-    "weightedMean": 361734.9546051421
+    "weightedMean": 361734.95460514224
   },
   "TERROR_LEGGINGS": {
     "confidence": 58,
@@ -6657,7 +7089,7 @@
     "sampleCount": 3,
     "stddev": 84983.8546797109,
     "volumePerWeek": 3,
-    "weightedMean": 677931.3003048224
+    "weightedMean": 677931.3003048223
   },
   "THE_PRIMORDIAL|reforge:blood_shot|recomb": {
     "confidence": 51,
@@ -6669,7 +7101,7 @@
     "weightedMean": 320000000.0
   },
   "THUNDER_BOOTS": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 474000.0,
     "median": 474000.0,
     "sampleCount": 1,
@@ -6678,16 +7110,16 @@
     "weightedMean": 474000.0
   },
   "THUNDER_CHESTPLATE": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 849000.0,
     "median": 849000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 849000.0
+    "weightedMean": 849000.0000000001
   },
   "THUNDER_IN_A_BOTTLE_EMPTY": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 153303.34000420268,
     "median": 147999.0,
     "sampleCount": 3,
@@ -6711,7 +7143,16 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 239000000.00000003
+    "weightedMean": 239000000.0
+  },
+  "TIKI_MASK|ench:ultimate_bobbin_time5|gem:AQUAMARINE_0:PERFECT|gem:COMBAT_0:SAPPHIRE:FINE|gem:COMBAT_1:SAPPHIRE:FINE|recomb:applied|reforge:submerged": {
+    "confidence": 57,
+    "fairPrice": 420000000.0,
+    "median": 420000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 420000000.0
   },
   "TITANIUM_BELT": {
     "confidence": 59,
@@ -6729,10 +7170,10 @@
     "sampleCount": 2,
     "stddev": 110000.0,
     "volumePerWeek": 2,
-    "weightedMean": 4084895.903572153
+    "weightedMean": 4084895.9035721524
   },
   "TITANIUM_CLOAK|reforge:blazing": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 5021513.112135354,
     "median": 4988752.0,
     "sampleCount": 2,
@@ -6747,10 +7188,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 469999998.99999994
+    "weightedMean": 469999999.0
   },
   "TITANIUM_DRILL_ENGINE": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 35750002.12371884,
     "median": 35750000.0,
     "sampleCount": 2,
@@ -6759,43 +7200,43 @@
     "weightedMean": 35750004.27734921
   },
   "TITANIUM_FUEL_TANK": {
-    "confidence": 55,
-    "fairPrice": 32000000.0,
-    "median": 32000000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 32000000.0
+    "confidence": 59,
+    "fairPrice": 32509568.28159102,
+    "median": 32500000.0,
+    "sampleCount": 2,
+    "stddev": 500000.0,
+    "volumePerWeek": 2,
+    "weightedMean": 32519435.571981754
   },
   "TITANIUM_GAUNTLET": {
-    "confidence": 60,
-    "fairPrice": 4199538.6432513865,
-    "median": 4199999.0,
-    "sampleCount": 3,
-    "stddev": 94162.94388039397,
-    "volumePerWeek": 3,
-    "weightedMean": 4199057.119376435
+    "confidence": 63,
+    "fairPrice": 4238971.379212888,
+    "median": 4249999.5,
+    "sampleCount": 4,
+    "stddev": 94439.18016473619,
+    "volumePerWeek": 4,
+    "weightedMean": 4227438.057656468
   },
   "TITANIUM_GAUNTLET|reforge:blazing": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 4178003.0,
     "median": 4178003.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 4178002.9999999995
+    "weightedMean": 4178003.0
   },
   "TITANIUM_NECKLACE": {
-    "confidence": 54,
-    "fairPrice": 4888094.419731011,
-    "median": 4894499.5,
-    "sampleCount": 2,
-    "stddev": 294500.5,
-    "volumePerWeek": 2,
-    "weightedMean": 4880869.209135141
+    "confidence": 60,
+    "fairPrice": 4644158.727218954,
+    "median": 4599999.0,
+    "sampleCount": 3,
+    "stddev": 335232.05196831777,
+    "volumePerWeek": 3,
+    "weightedMean": 4695056.468547303
   },
   "TITANIUM_NECKLACE|reforge:blazing": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 4599999.0,
     "median": 4599999.0,
     "sampleCount": 1,
@@ -6804,7 +7245,7 @@
     "weightedMean": 4599999.0
   },
   "TITANIUM_PICKAXE": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 800000.0,
     "median": 800000.0,
     "sampleCount": 1,
@@ -6814,24 +7255,24 @@
   },
   "TOKEN_OF_THE_CENTURY": {
     "confidence": 95,
-    "fairPrice": 444621.2704426639,
+    "fairPrice": 444621.27044266404,
     "median": 450000.0,
     "sampleCount": 23,
     "stddev": 69254.59501289972,
     "volumePerWeek": 23,
-    "weightedMean": 443632.1914583842
+    "weightedMean": 443632.19145838433
   },
   "TRAINING_WEIGHTS": {
-    "confidence": 48,
-    "fairPrice": 323.99941955089105,
+    "confidence": 47,
+    "fairPrice": 323.999419550891,
     "median": 324.0,
     "sampleCount": 2,
     "stddev": 174.0,
     "volumePerWeek": 2,
-    "weightedMean": 323.9974924598491
+    "weightedMean": 323.99749245984907
   },
   "TRAPPER_CREST": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 9000000.0,
     "median": 9000000.0,
     "sampleCount": 1,
@@ -6840,31 +7281,40 @@
     "weightedMean": 9000000.0
   },
   "TREASURE_TALISMAN": {
-    "confidence": 67,
-    "fairPrice": 877784.6637404211,
+    "confidence": 66,
+    "fairPrice": 877784.663740421,
     "median": 888888.0,
     "sampleCount": 7,
     "stddev": 64395.993547577105,
     "volumePerWeek": 7,
-    "weightedMean": 864899.2483674133
+    "weightedMean": 864899.2483674131
   },
   "TREECAPITATOR_AXE": {
-    "confidence": 61,
-    "fairPrice": 149998.30529457107,
+    "confidence": 63,
+    "fairPrice": 153790.09374823593,
     "median": 149999.0,
-    "sampleCount": 3,
-    "stddev": 1.8856180831641267,
-    "volumePerWeek": 3,
-    "weightedMean": 149997.61057167564
+    "sampleCount": 5,
+    "stddev": 19704.08899289688,
+    "volumePerWeek": 5,
+    "weightedMean": 158649.13726594983
+  },
+  "TREECAPITATOR_AXE|ench:arcane5|ench:efficiency5": {
+    "confidence": 55,
+    "fairPrice": 365000.5036349888,
+    "median": 364999.5,
+    "sampleCount": 2,
+    "stddev": 64999.5,
+    "volumePerWeek": 2,
+    "weightedMean": 365001.9421751273
   },
   "TRIO_CONTACTS_ADDON": {
     "confidence": 60,
-    "fairPrice": 7289999.999999999,
+    "fairPrice": 7290000.0,
     "median": 7290000.0,
     "sampleCount": 3,
     "stddev": 0.0,
     "volumePerWeek": 3,
-    "weightedMean": 7289999.999999998
+    "weightedMean": 7290000.0
   },
   "TROPICAL_BIRD_2_PERSONALITY": {
     "confidence": 56,
@@ -6885,7 +7335,7 @@
     "weightedMean": 58250000.0
   },
   "ULTIMATE_CARROT_CANDY_UPGRADE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 9500000.0,
     "median": 9500000.0,
     "sampleCount": 1,
@@ -6894,7 +7344,7 @@
     "weightedMean": 9500000.0
   },
   "UNDEAD_BOW": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 338999.0,
     "median": 338999.0,
     "sampleCount": 1,
@@ -6903,7 +7353,7 @@
     "weightedMean": 338999.0
   },
   "UNSTABLE_DRAGON_BOOTS": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 797195.7012509264,
     "median": 795000.0,
     "sampleCount": 2,
@@ -6912,7 +7362,7 @@
     "weightedMean": 800818.6083149548
   },
   "UNSTABLE_DRAGON_BOOTS|ench:growth5|ench:protection5": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 775000.0,
     "median": 775000.0,
     "sampleCount": 1,
@@ -6922,15 +7372,15 @@
   },
   "UNSTABLE_DRAGON_CHESTPLATE": {
     "confidence": 46,
-    "fairPrice": 2349003.603332387,
+    "fairPrice": 2349003.6033323864,
     "median": 2375000.0,
     "sampleCount": 2,
     "stddev": 1525000.0,
     "volumePerWeek": 2,
-    "weightedMean": 2229726.018622161
+    "weightedMean": 2229726.0186221604
   },
   "UNSTABLE_DRAGON_HELMET": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 677999.0,
     "median": 677999.0,
     "sampleCount": 1,
@@ -6948,7 +7398,7 @@
     "weightedMean": 600000.0
   },
   "UNSTABLE_DRAGON_LEGGINGS": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 1200000.0,
     "median": 1200000.0,
     "sampleCount": 1,
@@ -6957,7 +7407,7 @@
     "weightedMean": 1200000.0
   },
   "VANQUISHED_BLAZE_BELT": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 3799000.0,
     "median": 3799000.0,
     "sampleCount": 1,
@@ -6972,7 +7422,7 @@
     "sampleCount": 2,
     "stddev": 724500.0,
     "volumePerWeek": 2,
-    "weightedMean": 3733541.811698209
+    "weightedMean": 3733541.8116982095
   },
   "VANQUISHED_GHAST_CLOAK|reforge:strengthened|recomb": {
     "confidence": 50,
@@ -6984,7 +7434,7 @@
     "weightedMean": 16969696.0
   },
   "VANQUISHED_GLOWSTONE_GAUNTLET": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 1899999.0,
     "median": 1899999.0,
     "sampleCount": 1,
@@ -7008,7 +7458,7 @@
     "sampleCount": 2,
     "stddev": 98499.5,
     "volumePerWeek": 2,
-    "weightedMean": 1395412.7870340622
+    "weightedMean": 1395412.7870340624
   },
   "VANQUISHED_MAGMA_NECKLACE|reforge:glistening|recomb": {
     "confidence": 50,
@@ -7026,7 +7476,7 @@
     "sampleCount": 2,
     "stddev": 199669.5,
     "volumePerWeek": 2,
-    "weightedMean": 219368.9827770673
+    "weightedMean": 219368.98277706726
   },
   "VENATOR_GENESIS": {
     "confidence": 50,
@@ -7047,7 +7497,7 @@
     "weightedMean": 5800000.0
   },
   "VINERIP_LASSO": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 269996.0,
     "median": 269996.0,
     "sampleCount": 1,
@@ -7062,37 +7512,37 @@
     "sampleCount": 8,
     "stddev": 9568.9275783653,
     "volumePerWeek": 8,
-    "weightedMean": 56809.48688349391
+    "weightedMean": 56809.48688349392
   },
   "VINYL_BUZZIN_BEATS": {
-    "confidence": 65,
-    "fairPrice": 55968.76061724073,
+    "confidence": 64,
+    "fairPrice": 55968.76061724074,
     "median": 55000.0,
     "sampleCount": 6,
     "stddev": 9493.474432764622,
     "volumePerWeek": 6,
-    "weightedMean": 57323.35655110761
+    "weightedMean": 57323.35655110762
   },
   "VINYL_CICADA_SYMPHONY": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 49999.82042977441,
     "median": 50000.0,
     "sampleCount": 3,
     "stddev": 0.4714045207910317,
     "volumePerWeek": 3,
-    "weightedMean": 49999.640856162754
+    "weightedMean": 49999.64085616276
   },
   "VINYL_CRICKET_CHOIR": {
     "confidence": 63,
-    "fairPrice": 49999.86111069977,
+    "fairPrice": 49999.86111069976,
     "median": 50000.0,
     "sampleCount": 4,
     "stddev": 0.4330127018922193,
     "volumePerWeek": 4,
-    "weightedMean": 49999.72221899388
+    "weightedMean": 49999.72221899387
   },
   "VINYL_DYNAMITES": {
-    "confidence": 64,
+    "confidence": 63,
     "fairPrice": 50000.0,
     "median": 50000.0,
     "sampleCount": 5,
@@ -7101,22 +7551,22 @@
     "weightedMean": 50000.0
   },
   "VINYL_EARTHWORM_ENSEMBLE": {
-    "confidence": 68,
+    "confidence": 67,
     "fairPrice": 52251.8179796265,
     "median": 50000.0,
     "sampleCount": 7,
     "stddev": 6333.990027894691,
     "volumePerWeek": 7,
-    "weightedMean": 55091.52688409112
+    "weightedMean": 55091.526884091116
   },
   "VINYL_FIREFLY": {
     "confidence": 63,
-    "fairPrice": 52893.934267867386,
+    "fairPrice": 52893.93426786738,
     "median": 50000.0,
     "sampleCount": 5,
     "stddev": 7348.38759456794,
     "volumePerWeek": 5,
-    "weightedMean": 56662.08110401672
+    "weightedMean": 56662.0811040167
   },
   "VINYL_IMAGINE_DRAGONFLIES": {
     "confidence": 57,
@@ -7134,7 +7584,7 @@
     "sampleCount": 3,
     "stddev": 2760.652137126701,
     "volumePerWeek": 3,
-    "weightedMean": 70904.18559471847
+    "weightedMean": 70904.18559471848
   },
   "VINYL_PRETTY_FLY": {
     "confidence": 64,
@@ -7146,7 +7596,7 @@
     "weightedMean": 53011.07696656337
   },
   "VINYL_RODENT_REVOLUTION": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 49265.815987229915,
     "median": 49999.0,
     "sampleCount": 3,
@@ -7155,7 +7605,7 @@
     "weightedMean": 48457.46447419672
   },
   "VINYL_SLOW_AND_GROOVY": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 72102.42090240856,
     "median": 75000.0,
     "sampleCount": 3,
@@ -7173,16 +7623,16 @@
     "weightedMean": 70000.0
   },
   "VOIDEDGE_KATANA": {
-    "confidence": 57,
-    "fairPrice": 1037281.393342884,
-    "median": 1039000.0,
-    "sampleCount": 2,
-    "stddev": 41000.0,
-    "volumePerWeek": 2,
-    "weightedMean": 1035421.5785235601
+    "confidence": 60,
+    "fairPrice": 1008797.0993467548,
+    "median": 998000.0,
+    "sampleCount": 3,
+    "stddev": 39381.32665222045,
+    "volumePerWeek": 3,
+    "weightedMean": 1020457.5993331079
   },
   "VOIDWALKER_KATANA|ench:ender_slayer5|ench:experience3|ench:fire_aspect2|ench:first_strike4|ench:life_steal3|ench:looting3|ench:luck5|ench:sharpness5": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 200000.0,
     "median": 200000.0,
     "sampleCount": 1,
@@ -7191,7 +7641,7 @@
     "weightedMean": 200000.0
   },
   "WAND_OF_MENDING": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 200000.0,
     "median": 200000.0,
     "sampleCount": 1,
@@ -7200,22 +7650,22 @@
     "weightedMean": 200000.0
   },
   "WAND_OF_STRENGTH": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 1500000.0,
     "median": 1500000.0,
     "sampleCount": 2,
     "stddev": 0.0,
     "volumePerWeek": 2,
-    "weightedMean": 1500000.0000000002
+    "weightedMean": 1499999.9999999998
   },
   "WARDEN_HELMET|ench:aqua_affinity1|ench:growth6|ench:protection6|ench:rejuvenate5|ench:respiration3|ench:thorns3|ench:ultimate_last_stand5|potato:10|recomb:applied|reforge:ancient": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 110000000.0,
     "median": 110000000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 110000000.0
+    "weightedMean": 109999999.99999999
   },
   "WASHED_UP_SOUVENIR": {
     "confidence": 61,
@@ -7224,16 +7674,16 @@
     "sampleCount": 3,
     "stddev": 1.8856180831641267,
     "volumePerWeek": 3,
-    "weightedMean": 329998.6076043531
+    "weightedMean": 329998.60760435305
   },
   "WATER_HYDRA_HEAD": {
-    "confidence": 59,
-    "fairPrice": 2925767.5925951386,
+    "confidence": 60,
+    "fairPrice": 3057361.284019148,
     "median": 3000000.0,
     "sampleCount": 3,
-    "stddev": 235702.26039551586,
+    "stddev": 164991.5822768611,
     "volumePerWeek": 3,
-    "weightedMean": 2838063.8755788333
+    "weightedMean": 3121135.285387711
   },
   "WEIRD_TUBA": {
     "confidence": 50,
@@ -7245,7 +7695,7 @@
     "weightedMean": 4300000.0
   },
   "WHITE_GIFT_TALISMAN": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 63902.05105897722,
     "median": 63999.5,
     "sampleCount": 2,
@@ -7281,7 +7731,7 @@
     "weightedMean": 2250000.0
   },
   "WISE_WITHER_LEGGINGS|stars:2": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 18599996.0,
     "median": 18599996.0,
     "sampleCount": 1,
@@ -7290,16 +7740,16 @@
     "weightedMean": 18599996.0
   },
   "WITCH_MASK": {
-    "confidence": 54,
-    "fairPrice": 400000.0,
-    "median": 400000.0,
-    "sampleCount": 1,
-    "stddev": 0.0,
-    "volumePerWeek": 1,
-    "weightedMean": 400000.0
+    "confidence": 53,
+    "fairPrice": 578796.1629486624,
+    "median": 574998.5,
+    "sampleCount": 2,
+    "stddev": 174998.5,
+    "volumePerWeek": 2,
+    "weightedMean": 585916.752494932
   },
   "WITCH_TALISMAN": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 699000.0,
     "median": 699000.0,
     "sampleCount": 1,
@@ -7326,7 +7776,7 @@
     "weightedMean": 1190000.0
   },
   "WITHER_BOW": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 59000.0,
     "median": 59000.0,
     "sampleCount": 1,
@@ -7335,7 +7785,7 @@
     "weightedMean": 59000.0
   },
   "WITHER_CHESTPLATE": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": 11513098.359115316,
     "median": 10900000.0,
     "sampleCount": 3,
@@ -7344,7 +7794,7 @@
     "weightedMean": 12403243.076046387
   },
   "WITHER_CLOAK|ench:bane_of_arthropods1,sharpness1,smite5": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 3399999.0,
     "median": 3399999.0,
     "sampleCount": 1,
@@ -7353,7 +7803,7 @@
     "weightedMean": 3399999.0
   },
   "WITHER_CLOAK|ench:ultimate_wise5": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 6999999.0,
     "median": 6999999.0,
     "sampleCount": 1,
@@ -7362,7 +7812,7 @@
     "weightedMean": 6999999.0
   },
   "WITHER_GOGGLES|ench:aqua_affinity1|ench:growth6|ench:mana_vampire7|ench:protection6|ench:rejuvenate5|ench:respiration3|ench:transylvanian5|ench:ultimate_wisdom5|potato:15|recomb:applied|reforge:necrotic": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 39000000.0,
     "median": 39000000.0,
     "sampleCount": 1,
@@ -7370,14 +7820,23 @@
     "volumePerWeek": 1,
     "weightedMean": 39000000.0
   },
+  "WITHER_GOGGLES|ench:growth5|ench:protection5|ench:rejuvenate5|ench:transylvanian5|ench:ultimate_wisdom5|potato:15|recomb:applied|reforge:necrotic": {
+    "confidence": 57,
+    "fairPrice": 25000000.0,
+    "median": 25000000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 25000000.0
+  },
   "WITHER_HELMET": {
     "confidence": 57,
-    "fairPrice": 2760477.713348175,
+    "fairPrice": 2760477.7133481745,
     "median": 2750000.0,
     "sampleCount": 4,
     "stddev": 86112.71828394456,
     "volumePerWeek": 4,
-    "weightedMean": 2771627.3763663936
+    "weightedMean": 2771627.376366393
   },
   "WITHER_LEGGINGS": {
     "confidence": 56,
@@ -7386,7 +7845,7 @@
     "sampleCount": 2,
     "stddev": 850000.5,
     "volumePerWeek": 2,
-    "weightedMean": 5794203.665830629
+    "weightedMean": 5794203.66583063
   },
   "WOLF_RING|recomb:applied": {
     "confidence": 54,
@@ -7415,14 +7874,23 @@
     "volumePerWeek": 3,
     "weightedMean": 72816.26094471118
   },
+  "YETI_SWORD": {
+    "confidence": 57,
+    "fairPrice": 12500000.0,
+    "median": 12500000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 12500000.0
+  },
   "YOUNG_DRAGON_CHESTPLATE": {
     "confidence": 61,
-    "fairPrice": 893858.5575581392,
+    "fairPrice": 893858.5575581391,
     "median": 894998.0,
     "sampleCount": 3,
     "stddev": 3770.529081648298,
     "volumePerWeek": 3,
-    "weightedMean": 892709.444880976
+    "weightedMean": 892709.4448809759
   },
   "YOUNG_DRAGON_HELMET|reforge:fierce|ench:aqua_affinity1,growth5,protection5,respiration3,thorns3": {
     "confidence": 51,
@@ -7434,7 +7902,7 @@
     "weightedMean": 850000.0
   },
   "YOUNG_DRAGON_LEGGINGS": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1102171.6458672732,
     "median": 1097499.5,
     "sampleCount": 2,
@@ -7443,7 +7911,7 @@
     "weightedMean": 1107806.4003149942
   },
   "YOUNG_DRAGON_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 1200000.0,
     "median": 1200000.0,
     "sampleCount": 1,
@@ -7469,6 +7937,15 @@
     "volumePerWeek": 1,
     "weightedMean": 100000.0
   },
+  "ZOMBIE_COMMANDER_WHIP|ench:critical5|ench:execute5|ench:experience3|ench:first_strike4|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|ench:vampirism5|reforge:sharp": {
+    "confidence": 57,
+    "fairPrice": 300000.0,
+    "median": 300000.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 300000.0
+  },
   "ZOMBIE_COMMANDER_WHIP|ench:critical5|ench:experience3|ench:first_strike4|ench:giant_killer5|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|reforge:fair": {
     "confidence": 54,
     "fairPrice": 388999.0,
@@ -7485,28 +7962,28 @@
     "sampleCount": 7,
     "stddev": 0.0,
     "volumePerWeek": 7,
-    "weightedMean": 419999.0
+    "weightedMean": 419999.00000000006
   },
   "ZOMBIE_KNIGHT_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 95000.0,
     "median": 95000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 95000.0
+    "weightedMean": 94999.99999999999
   },
   "ZOMBIE_KNIGHT_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:pure": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 84999.0,
     "median": 84999.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 84999.00000000001
+    "weightedMean": 84999.0
   },
   "ZOMBIE_KNIGHT_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:clean": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 94998.0,
     "median": 94998.0,
     "sampleCount": 1,
@@ -7515,7 +7992,7 @@
     "weightedMean": 94998.0
   },
   "ZOMBIE_KNIGHT_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 87877.0,
     "median": 87877.0,
     "sampleCount": 1,
@@ -7524,16 +8001,16 @@
     "weightedMean": 87877.0
   },
   "ZOMBIE_KNIGHT_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:titanic": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 100000.0,
     "median": 100000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 100000.0
+    "weightedMean": 100000.00000000001
   },
   "ZOMBIE_KNIGHT_SWORD|ench:experience3|ench:first_strike4|ench:giant_killer5|ench:life_steal3|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|ench:vampirism5|reforge:fast": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 68999.0,
     "median": 68999.0,
     "sampleCount": 1,
@@ -7551,7 +8028,7 @@
     "weightedMean": 49000.0
   },
   "ZOMBIE_LORD_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
-    "confidence": 56,
+    "confidence": 55,
     "fairPrice": 500000.0,
     "median": 500000.0,
     "sampleCount": 1,
@@ -7566,10 +8043,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 119999.99999999999
+    "weightedMean": 120000.0
   },
   "ZOMBIE_RING|reforge:none": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 575.0,
     "median": 575.0,
     "sampleCount": 1,
@@ -7578,7 +8055,7 @@
     "weightedMean": 575.0
   },
   "ZOMBIE_SOLDIER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|recomb:applied|reforge:light": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 270000.0,
     "median": 270000.0,
     "sampleCount": 1,
@@ -7587,7 +8064,7 @@
     "weightedMean": 270000.0
   },
   "ZOMBIE_SOLDIER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:clean": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 59998.0,
     "median": 59998.0,
     "sampleCount": 1,
@@ -7605,7 +8082,7 @@
     "weightedMean": 249000.0
   },
   "ZOMBIE_SOLDIER_BOOTS|ench:depth_strider3|ench:feather_falling5|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 40000.0,
     "median": 40000.0,
     "sampleCount": 1,
@@ -7623,7 +8100,7 @@
     "weightedMean": 30000.0
   },
   "ZOMBIE_SOLDIER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|recomb:applied|reforge:heavy": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 59999.0,
     "median": 59999.0,
     "sampleCount": 1,
@@ -7632,7 +8109,7 @@
     "weightedMean": 59999.0
   },
   "ZOMBIE_SOLDIER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:heavy": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 29998.987502458724,
     "median": 29999.0,
     "sampleCount": 2,
@@ -7641,16 +8118,16 @@
     "weightedMean": 29998.97500408422
   },
   "ZOMBIE_SOLDIER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:mythic": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 198000.0,
     "median": 198000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 198000.00000000003
+    "weightedMean": 198000.0
   },
   "ZOMBIE_SOLDIER_CHESTPLATE|ench:growth5|ench:protection5|ench:thorns3|reforge:titanic": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 45000.0,
     "median": 45000.0,
     "sampleCount": 1,
@@ -7659,7 +8136,7 @@
     "weightedMean": 45000.0
   },
   "ZOMBIE_SOLDIER_CUTLASS|ench:critical5|ench:experience3|ench:first_strike4|ench:giant_killer5|ench:looting3|ench:luck5|ench:scavenger5|ench:sharpness5|reforge:heroic": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 34000.0,
     "median": 34000.0,
     "sampleCount": 1,
@@ -7695,7 +8172,7 @@
     "weightedMean": 40000.0
   },
   "ZOMBIE_SOLDIER_HELMET|ench:growth5|ench:protection5|ench:thorns3|recomb:applied|reforge:fierce": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 99999.0,
     "median": 99999.0,
     "sampleCount": 1,
@@ -7704,16 +8181,16 @@
     "weightedMean": 99999.0
   },
   "ZOMBIE_SOLDIER_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:heavy": {
-    "confidence": 52,
+    "confidence": 51,
     "fairPrice": 60077.11696004511,
     "median": 59500.0,
     "sampleCount": 2,
     "stddev": 20500.0,
     "volumePerWeek": 2,
-    "weightedMean": 61260.94662167612
+    "weightedMean": 61260.946621676114
   },
   "ZOMBIE_SOLDIER_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 49999.0,
     "median": 49999.0,
     "sampleCount": 1,
@@ -7731,7 +8208,7 @@
     "weightedMean": 35000.0
   },
   "ZOMBIE_SOLDIER_HELMET|ench:growth5|ench:protection5|ench:thorns3|reforge:titanic": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 20000.0,
     "median": 20000.0,
     "sampleCount": 1,
@@ -7758,7 +8235,7 @@
     "weightedMean": 249000.0
   },
   "ZOMBIE_SOLDIER_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:light": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 45000.0,
     "median": 45000.0,
     "sampleCount": 1,
@@ -7767,16 +8244,16 @@
     "weightedMean": 45000.0
   },
   "ZOMBIE_SOLDIER_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:smart": {
-    "confidence": 43,
+    "confidence": 42,
     "fairPrice": 175979.47873010772,
     "median": 174999.5,
     "sampleCount": 2,
     "stddev": 124999.5,
     "volumePerWeek": 2,
-    "weightedMean": 181859.33151117945
+    "weightedMean": 181859.33151117942
   },
   "ZOMBIE_SOLDIER_LEGGINGS|ench:growth5|ench:protection5|ench:thorns3|reforge:wise": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 68000.0,
     "median": 68000.0,
     "sampleCount": 1,
@@ -7794,12 +8271,12 @@
     "weightedMean": 999998.0
   },
   "ZORROS_CAPE": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 427784.73779202683,
     "median": 398999.0,
     "sampleCount": 3,
     "stddev": 93810.20674508481,
     "volumePerWeek": 3,
-    "weightedMean": 471107.4079513291
+    "weightedMean": 471107.407951329
   }
 }
