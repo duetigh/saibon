@@ -15,6 +15,27 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.0 - 2026-07-17
+
+### Added
+- `/saibonflips`'s Auction House finder now prices gemstones, accessory
+  enrichment, ability scrolls, Art of War/Art of Peace, Wood Singularity,
+  and Farming for Dummies, on top of the existing reforge/hot-potato-books/
+  recombobulator/dungeon-stars/enchant coverage — see `AuctionItemDecoder`'s
+  new `itemModifiers()`.
+- New modifier-value estimation tier: a listing whose exact full upgrade
+  combo hasn't sold enough times to trust directly is no longer excluded
+  from Auction House pricing outright. Instead `ModifierValueModel`
+  estimates its value as the item's plain fair price plus each individual
+  upgrade's own learned value-add (an item-specific delta where enough
+  sales exist, falling back to a value pooled across every item that
+  upgrade has been seen on) — the flip detail panel labels these
+  "estimated" and shows a correspondingly lower confidence score.
+- New server-side `data/modifier_values.json` dataset (published by
+  `scripts/aggregate_fair_prices.py` alongside the existing `fair_prices`
+  snapshot) gives a fresh install pooled modifier values on day one, before
+  its own local sales polling has gathered any.
+
 ## v0.12.0 - 2026-07-17
 
 ### Added
