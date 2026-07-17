@@ -92,7 +92,13 @@ object InventorySearchOverlay {
             toggle = SearchToggleWidget(barX, barY, barWidth, BAR_HEIGHT) {
                 toggle.visible = false
                 toggle.active = false
-                expand(screen, barX, barY, barWidth, focus = true)
+                // Deferred a tick: this callback runs inside the screen's own
+                // mouseClicked dispatch, which — after a child's click handler
+                // returns true — sets focus to *that* child (the toggle)
+                // itself. Focusing the new box synchronously here would just
+                // get overwritten by that follow-up call, leaving the box
+                // looking expanded but unfocused until a second click.
+                Minecraft.getInstance().execute { expand(screen, barX, barY, barWidth, focus = true) }
             }
             Screens.getWidgets(screen).add(toggle)
         }

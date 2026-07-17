@@ -19,10 +19,18 @@ object FlipEngineSettings {
                 toggle("Bazaar margin flips", { config.bazaarMarginFlipsEnabled }) { config.bazaarMarginFlipsEnabled = it; Saibon.config.save() }
                 toggle("NPC flips", { config.npcFlipsEnabled }) { config.npcFlipsEnabled = it; Saibon.config.save() }
                 toggle("Craft flips", { config.craftFlipsEnabled }) { config.craftFlipsEnabled = it; Saibon.config.save() }
+                toggle("Craft vs BIN flips (needs no sales history — usable right away)", { config.craftVsBinFlipsEnabled }) {
+                    config.craftVsBinFlipsEnabled = it
+                    Saibon.config.save()
+                }
                 dropdown("Scan interval", SCAN_INTERVALS, { config.scanIntervalSeconds }, { "${it}s" }) {
                     config.scanIntervalSeconds = it
                     Saibon.config.save()
                     FlipEngine.rescheduleScan()
+                }
+                toggle("Exclude soulbound items (can't be relisted on the AH)", { config.excludeSoulbound }) {
+                    config.excludeSoulbound = it
+                    Saibon.config.save()
                 }
                 label("Alerts (flip-alert HUD toast)")
                 toggle("Show alert toast for high-confidence flips", { config.alertEnabled }) { config.alertEnabled = it; Saibon.config.save() }

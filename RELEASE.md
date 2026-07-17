@@ -15,6 +15,64 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.11.0 - 2026-07-16
+
+### Added
+- Fair-price engine: `/saibonflips`'s Auction House finder now computes a
+  real weighted fair price (recency-decayed, IQR outlier-stripped,
+  median-blended) instead of a flat unweighted median, with a genuine
+  0-100 confidence score and a sales/week volume figure shown in the flip
+  detail panel — see new `FairPriceCalculator`.
+- Sales history now persists to disk
+  (`config/saibon/market/sales-history.json`) and survives client restarts
+  instead of resetting to empty every session.
+- New "Craft vs BIN" flip finder: flags live AH listings priced below an
+  item's recursive craft cost. Needs no sales history at all — usable
+  within minutes of a fresh install. On by default.
+- New server-side fair-price aggregator (`scripts/aggregate_fair_prices.py`,
+  scheduled via `.github/workflows/aggregate-fair-prices.yml`): polls
+  Hypixel's `auctions_ended` endpoint continuously and publishes a
+  `fair_prices` dataset to the data repo, the same way `items.json`/
+  `recipes.json` ship, so a brand-new install gets real historical AH data
+  immediately instead of waiting on its own local polling.
+- Craft-cost calculation (`CraftFlipRanking`) now does a real buy-vs-craft
+  comparison at every level of the recipe tree (takes the cheaper of buying
+  an ingredient outright or crafting it) instead of always preferring a
+  direct market price, and can now price AH-only ingredients via the
+  fair-price engine instead of silently dropping any recipe that needs one.
+- `excludeSoulbound` setting (on by default) filters soulbound items out of
+  the Auction House and Craft vs BIN finders, since they can't actually be
+  relisted.
+
+### Changed
+- Auction House sale tax (`AuctionHouseTax`) now models the real
+  listing-fee brackets (1% under 10M, 2% 10M-100M, 2.5% above 100M) plus
+  the flat 1% claim tax (capped so payout never drops below 1M), instead of
+  a single flat estimated percentage. The old flat-rate setting is now a
+  manual override (set above 0 in Flip Finder settings) rather than the
+  only option.
+- `MarketConfig.ahAutoRefresh`, `MarketConfig.salesHistoryAutoRefresh`, and
+  `FlipConfig.auctionFlipsEnabled` are now on by default so a fresh install
+  actually shows Auction House flips immediately, instead of requiring a
+  manual settings visit first.
+
+### Fixed
+- `data/index.json`'s checksum/version for the `items` dataset now matches
+  the real recipe/item-texture data shipped in v0.10.0 — it had been left
+  stale in that release, which meant the data-repo pipeline's checksum
+  verification would have rejected the new content.
+- `fabric.mod.json` widens the supported Minecraft range back to
+  `>=26.1.2 <26.3`; new `McCompat` looks up "current screen" (`Gui.screen()`
+  on 26.2+, `Minecraft.screen` on 26.1.2) via reflection so the same jar
+  works on both instead of throwing `NoSuchMethodError`/`NoSuchFieldError`
+  on whichever version it wasn't built against.
+- Inventory search overlay's toggle-click no longer leaves the expanded
+  search box unfocused until a second click — the focus request now runs a
+  tick later, after the screen's own click-dispatch finishes reassigning
+  focus to the toggle widget itself.
+
+---
+
 ## v0.10.0 - 2026-07-16
 
 ### Added

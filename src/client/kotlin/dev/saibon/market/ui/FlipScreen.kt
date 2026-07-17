@@ -9,6 +9,7 @@ import dev.saibon.market.flip.FlipEngine
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.util.ColorCodes
+import dev.saibon.util.McCompat
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Button
@@ -175,6 +176,14 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         detailLabels += DetailLabel(detailX, y, "(${"%.1f".format(candidate.marginPercent)}% margin)", profitColor)
         y += ROW_HEIGHT + MARGIN
 
+        detailLabels += DetailLabel(detailX, y, "Confidence: ${candidate.confidence}/100", MUTED_TEXT_COLOR)
+        y += ROW_HEIGHT
+        candidate.volumePerWeek?.let { volume ->
+            detailLabels += DetailLabel(detailX, y, "Volume: ~$volume sales/week", MUTED_TEXT_COLOR)
+            y += ROW_HEIGHT
+        }
+        y += MARGIN
+
         detailLabels += DetailLabel(detailX, y, "Why:", MUTED_TEXT_COLOR)
         y += ROW_HEIGHT
         detailLabels += DetailLabel(detailX, y, candidate.reason, MUTED_TEXT_COLOR)
@@ -196,7 +205,7 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
         PlayerNameResolver.resolve(sellerUuid).thenAccept { name ->
             Minecraft.getInstance().execute {
-                if (selected !== forCandidate || Minecraft.getInstance().gui.screen() !== this@FlipScreen) return@execute
+                if (selected !== forCandidate || McCompat.currentScreen() !== this@FlipScreen) return@execute
                 copyButton?.let { removeWidget(it) }
                 val resolvedButton = if (name != null) {
                     Button.builder(Component.literal("Open $name's AH")) {

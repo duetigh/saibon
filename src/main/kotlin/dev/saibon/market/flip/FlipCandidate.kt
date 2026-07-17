@@ -18,8 +18,10 @@ data class FlipCandidate(
     val estimatedValue: Double,
     val estimatedProfit: Double,
     val marginPercent: Double,
-    /** Sample count or other confidence signal a finder used to compute [estimatedValue] — shown next to `reason`, not a 0-1 score, so the player sees the actual evidence. */
+    /** 0-100 confidence score where the finder has one (see [dev.saibon.market.FairPriceCalculator]) — otherwise a flat 100 for finders with no statistical basis (Bazaar/NPC/craft flips price off a live quote, not a sample). */
     val confidence: Int,
+    /** Sales/week for the reference price backing this candidate, or null for finders with no sales-history basis. Shown next to [confidence] so the player can judge liquidity, not just price accuracy. */
+    val volumePerWeek: Int? = null,
     val sourceFinder: String,
     val reason: String,
     /** The specific listing [cost]/[estimatedValue] were computed from, for a `/viewauction <uuid>` command — only set by finders backed by one real, non-fungible auction listing (`AuctionFlipFinder`). Bazaar/craft/NPC flips have no single listing to point at, so this stays null there. */

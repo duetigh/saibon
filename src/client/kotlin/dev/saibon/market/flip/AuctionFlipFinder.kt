@@ -21,12 +21,12 @@ object AuctionFlipFinder : FlipFinder {
     override fun scan(): List<FlipCandidate> {
         val marketConfig = Saibon.config.data.market
         val flipConfig = Saibon.config.data.flip
+        val sellableItems = DataRepository.allItems().filter { !flipConfig.excludeSoulbound || !it.soulbound }
 
         val itemLevel = AuctionFlipRanking.bestFlips(
-            DataRepository.allItems(),
+            sellableItems,
             lowestBinOf = { AuctionPriceRepository.lowestBin(it.id)?.lowestBin?.toDouble() },
-            referenceMedianOf = { AuctionSalesHistoryRepository.saleReference(it.id)?.median },
-            sampleCountOf = { AuctionSalesHistoryRepository.saleReference(it.id)?.sampleCount ?: 0 },
+            fairPriceOf = { AuctionSalesHistoryRepository.saleReference(it.id) },
             taxRatePercent = marketConfig.ahTaxRatePercent,
             minSamples = marketConfig.salesHistoryMinSamples
         ).map { flip ->
@@ -34,18 +34,19 @@ object AuctionFlipFinder : FlipFinder {
                 item = flip.item,
                 modifierSignature = "",
                 cost = flip.lowestBin,
-                estimatedValue = flip.referenceMedian,
+                estimatedValue = flip.fairPrice.fairPrice,
                 estimatedProfit = flip.estimatedProfit,
                 marginPercent = flip.profitPercent,
-                confidence = flip.sampleCount,
+                confidence = flip.fairPrice.confidence,
+                volumePerWeek = flip.fairPrice.volumePerWeek,
                 sourceFinder = name,
-                reason = "median of ${flip.sampleCount} recent sales of this item",
+                reason = "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()})",
                 auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() },
                 sellerUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinSeller?.takeIf { it.isNotEmpty() }
             )
         }
 
-        val itemsById = DataRepository.allItems().associateBy { it.id.uppercase() }
+        val itemsById = sellableItems.associateBy { it.id.uppercase() }
         val signatureLevel = AuctionSalesHistoryRepository.allSignatureReferences().mapNotNull { (key, reference) ->
             if (reference.sampleCount < flipConfig.modifierMatchMinSamples) return@mapNotNull null
             val lowestBin = AuctionPriceRepository.allSignatureLowestBins()[key] ?: return@mapNotNull null
@@ -54,20 +55,21 @@ object AuctionFlipFinder : FlipFinder {
 
             val itemId = key.substringBefore('|')
             val signature = key.substringAfter('|')
-            val item = itemsById[itemId] ?: return@mapNotNull null
+            val item = itemsById[itemId] ?: return@mapNotNull null // also excludes soulbound items, filtered out of sellableItems above
 
-            val netValue = AuctionHouseTax.netOfTax(reference.median, marketConfig.ahTaxRatePercent)
+            val netValue = AuctionHouseTax.netOfTax(reference.fairPrice, marketConfig.ahTaxRatePercent)
             val profit = netValue - cost
             FlipCandidate(
                 item = item,
                 modifierSignature = signature,
                 cost = cost,
-                estimatedValue = reference.median,
+                estimatedValue = reference.fairPrice,
                 estimatedProfit = profit,
                 marginPercent = profit / cost * 100.0,
-                confidence = reference.sampleCount,
+                confidence = reference.confidence,
+                volumePerWeek = reference.volumePerWeek,
                 sourceFinder = name,
-                reason = "median of ${reference.sampleCount} recent sales matching modifiers ($signature)",
+                reason = "fair price from ${reference.sampleCount} recent sales matching modifiers ($signature)",
                 auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() },
                 sellerUuid = lowestBin.lowestBinSeller.takeIf { it.isNotEmpty() }
             )

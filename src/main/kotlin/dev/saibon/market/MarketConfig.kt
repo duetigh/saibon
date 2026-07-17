@@ -4,8 +4,8 @@ package dev.saibon.market
 data class MarketConfig(
     var autoRefresh: Boolean = true,
     var refreshIntervalSeconds: Int = 60,
-    /** Off by default — a full lowest-BIN sweep pages through Hypixel's entire active-auction list (tens of MB). */
-    var ahAutoRefresh: Boolean = false,
+    /** On by default — [dev.saibon.market.flip.CraftVsBinFinder] needs this sweep to find anything at all, and it's the one flip signal that's useful within minutes of a fresh install (no sales-history warm-up). Costs a full lowest-BIN sweep of Hypixel's entire active-auction list (tens of MB) on [ahRefreshIntervalSeconds]. */
+    var ahAutoRefresh: Boolean = true,
     var ahRefreshIntervalSeconds: Int = 600,
     /** Multiplier over the known lowest-BIN price above which a real AH listing is flagged as overpriced. */
     var overpayWarningThreshold: Double = 1.5,
@@ -15,15 +15,15 @@ data class MarketConfig(
     var menuOverlayEnabled: Boolean = false,
     /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. Off by default — the real AH menu stays a plain highlight/dim overlay unless explicitly opted into. */
     var ahOverlayPanelEnabled: Boolean = false,
-    /** Powers `/saibonflips`' Auction House finder's reference-sale-price engine — see AuctionSalesHistoryRepository. Off by default, same rationale as [ahAutoRefresh]: not everyone wants the extra polling. */
-    var salesHistoryAutoRefresh: Boolean = false,
+    /** Powers `/saibonflips`' Auction House finder's reference-sale-price engine — see AuctionSalesHistoryRepository. On by default so that finder actually produces candidates out of the box; local samples are also seeded from the bundled `fair_prices` server snapshot ([dev.saibon.data.DataRepository.fairPriceSnapshot]) so it isn't starting from zero. */
+    var salesHistoryAutoRefresh: Boolean = true,
     var salesHistoryRefreshIntervalSeconds: Int = 300,
-    /** Bounded per-item rolling-median ring buffer size. */
-    var salesHistoryMaxSamplesPerItem: Int = 50,
+    /** Bounded per-item rolling sample ring buffer size — sized to support a real sales/week volume figure ([dev.saibon.market.FairPriceCalculator]), not just a short price window. */
+    var salesHistoryMaxSamplesPerItem: Int = 300,
     /** An item needs at least this many recent sales observed before it's ranked as a flip — avoids ranking on a single troll/outlier sale. */
     var salesHistoryMinSamples: Int = 3,
-    /** User-overridable estimate of Hypixel's AH sale tax — see AuctionHouseTax. */
-    var ahTaxRatePercent: Double = 1.5,
+    /** 0 (default) uses AuctionHouseTax's real listing-fee + claim-tax bracket model; set above 0 to override with one flat percentage instead. */
+    var ahTaxRatePercent: Double = 0.0,
     /** The category-tabbed browse/flip panel drawn beside the real Bazaar menu — see BazaarMenuOverlay. */
     var bazaarOverlayEnabled: Boolean = true,
     /** Minimum profit percent (vs. cost) for the "instant-buy on the Bazaar, sell to an NPC" flip ranking. */

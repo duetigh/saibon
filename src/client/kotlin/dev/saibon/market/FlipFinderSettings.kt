@@ -44,9 +44,9 @@ object FlipFinderSettings {
                     Saibon.config.save()
                 }
                 slider(
-                    "Estimated AH tax rate",
+                    "AH tax rate override (0 = use real listing fee + claim tax brackets)",
                     0f, 5f, { config.ahTaxRatePercent.toFloat() },
-                    { "%.1f%%".format(it) }
+                    { if (it <= 0f) "Auto (brackets)" else "%.1f%%".format(it) }
                 ) {
                     config.ahTaxRatePercent = it.toDouble()
                     Saibon.config.save()

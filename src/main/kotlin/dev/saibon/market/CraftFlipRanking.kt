@@ -29,8 +29,8 @@ object CraftFlipRanking {
         sellPriceOf: (item: SkyblockItem) -> Double?,
         minMarginPercent: Double
     ): List<CraftFlip> = items.mapNotNull { item ->
-        val recipe = recipeOf(item.id) ?: return@mapNotNull null
-        val cost = craftCost(recipe, recipeOf, marketCostOf, mutableSetOf(item.id.uppercase()), 0) ?: return@mapNotNull null
+        recipeOf(item.id) ?: return@mapNotNull null // craft flips only apply to items with an actual recipe, not any item with a market price
+        val cost = craftCostOf(item.id, recipeOf, marketCostOf) ?: return@mapNotNull null
         val sell = sellPriceOf(item) ?: return@mapNotNull null
         if (cost <= 0) return@mapNotNull null
         val profit = sell - cost
@@ -39,8 +39,42 @@ object CraftFlipRanking {
         CraftFlip(item, cost, sell, profit, percent)
     }.sortedByDescending { it.profit }
 
-    /** Per-unit cost to produce whatever [recipe] crafts, preferring a direct market price per ingredient and only recursing into a sub-recipe when no market price is available. */
-    private fun craftCost(
+    /**
+     * Per-unit cost to *acquire* [itemId] — the cheaper of buying it directly
+     * via [marketCostOf] or crafting it from its recipe's ingredients (each
+     * priced the same way, recursively). Spec §5.2's `min(buy, craft)` rule:
+     * crafting isn't always assumed optimal, an oversupplied ingredient can
+     * make buying the finished item outright cheaper. Public/reusable single-
+     * item entry point — used by [bestFlips] above and by
+     * [dev.saibon.market.flip.CraftVsBinFinder], which needs a cost without
+     * `bestFlips`'s "must sell for more than it costs" framing.
+     */
+    fun craftCostOf(
+        itemId: String,
+        recipeOf: (itemId: String) -> Recipe?,
+        marketCostOf: (itemId: String) -> Double?
+    ): Double? = resolve(itemId.uppercase(), recipeOf, marketCostOf, mutableSetOf(), 0)
+
+    private fun resolve(
+        id: String,
+        recipeOf: (String) -> Recipe?,
+        marketCostOf: (String) -> Double?,
+        visiting: MutableSet<String>,
+        depth: Int
+    ): Double? {
+        val marketCost = marketCostOf(id)
+        // Depth cap or a cycle back to an ingredient already being resolved: stop recursing
+        // and fall back to whatever direct market price is available for this id, if any.
+        if (depth > MAX_DEPTH || !visiting.add(id)) return marketCost
+
+        val craftCost = recipeOf(id)?.let { craftCostFromRecipe(it, recipeOf, marketCostOf, visiting, depth) }
+        visiting.remove(id)
+
+        return if (marketCost != null && craftCost != null) minOf(marketCost, craftCost) else marketCost ?: craftCost
+    }
+
+    /** Sums [recipe]'s ingredient costs (each resolved via [resolve], so a sub-ingredient's own buy-vs-craft choice is made independently) plus any NPC coin component, per unit produced. */
+    private fun craftCostFromRecipe(
         recipe: Recipe,
         recipeOf: (String) -> Recipe?,
         marketCostOf: (String) -> Double?,
@@ -48,32 +82,14 @@ object CraftFlipRanking {
         depth: Int
     ): Double? {
         if (recipe.type == RecipeType.NPC) return recipe.npcCost
-        if (depth > MAX_DEPTH) return null
 
         // For FORGE recipes, npcCost (if present) is an extra coin cost alongside
         // the ingredients (e.g. Travel Scrolls), not an alternative to them.
         var total = if (recipe.type == RecipeType.FORGE) recipe.npcCost ?: 0.0 else 0.0
         for (ingredient in recipe.ingredients) {
-            val id = ingredient.itemId.uppercase()
-            val unitCost = marketCostOf(id) ?: resolveViaSubRecipe(id, recipeOf, marketCostOf, visiting, depth) ?: return null
+            val unitCost = resolve(ingredient.itemId.uppercase(), recipeOf, marketCostOf, visiting, depth + 1) ?: return null
             total += unitCost * ingredient.amount
         }
         return total / recipe.resultCount.coerceAtLeast(1)
-    }
-
-    private fun resolveViaSubRecipe(
-        id: String,
-        recipeOf: (String) -> Recipe?,
-        marketCostOf: (String) -> Double?,
-        visiting: MutableSet<String>,
-        depth: Int
-    ): Double? {
-        if (!visiting.add(id)) return null
-        val subRecipe = recipeOf(id)
-        val resolved = subRecipe?.let { r ->
-            craftCost(r, recipeOf, marketCostOf, visiting, depth + 1)?.let { it / r.resultCount.coerceAtLeast(1) }
-        }
-        visiting.remove(id)
-        return resolved
     }
 }

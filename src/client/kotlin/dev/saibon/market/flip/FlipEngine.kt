@@ -28,7 +28,8 @@ object FlipEngine {
         AuctionFlipFinder to { Saibon.config.data.flip.auctionFlipsEnabled },
         BazaarMarginFlipFinder to { Saibon.config.data.flip.bazaarMarginFlipsEnabled },
         NpcFlipFinder to { Saibon.config.data.flip.npcFlipsEnabled },
-        CraftFlipFinder to { Saibon.config.data.flip.craftFlipsEnabled }
+        CraftFlipFinder to { Saibon.config.data.flip.craftFlipsEnabled },
+        CraftVsBinFinder to { Saibon.config.data.flip.craftVsBinFlipsEnabled }
     )
 
     @Volatile

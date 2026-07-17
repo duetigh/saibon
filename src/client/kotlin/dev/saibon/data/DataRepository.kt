@@ -1,12 +1,14 @@
 package dev.saibon.data
 
 import com.google.gson.Gson
+import com.google.gson.reflect.TypeToken
 import dev.saibon.core.Saibon
 import dev.saibon.data.model.DataCacheMeta
 import dev.saibon.data.model.DataManifest
 import dev.saibon.data.model.DatasetEntry
 import dev.saibon.data.model.Recipe
 import dev.saibon.data.model.SkyblockItem
+import dev.saibon.market.FairPriceResult
 import net.fabricmc.loader.api.FabricLoader
 import java.net.URI
 import java.net.http.HttpClient
@@ -41,6 +43,7 @@ object DataRepository {
     private val INITIAL_DELAY_SECONDS = 3L
 
     private val gson = Gson()
+    private val fairPriceSnapshotType = object : TypeToken<Map<String, FairPriceResult>>() {}.type
     private val cacheDir: Path = FabricLoader.getInstance().configDir.resolve("saibon/data")
     private val metaFile: Path = cacheDir.resolve("cache-meta.json")
 
@@ -53,6 +56,7 @@ object DataRepository {
     private var cachedVersions: Map<String, Int> = emptyMap()
     private var items: Map<String, SkyblockItem> = emptyMap()
     private var recipes: Map<String, List<Recipe>> = emptyMap()
+    private var fairPrices: Map<String, FairPriceResult> = emptyMap()
 
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
@@ -80,6 +84,17 @@ object DataRepository {
 
     /** Every recipe in the repo, for "used in" reverse lookups. */
     fun allRecipes(): Collection<Recipe> = recipes.values.flatten()
+
+    /**
+     * Server-published fair-price snapshot for one SKU key (`"<itemId>"` or
+     * `"<itemId>|<modifierSignature>"`, same format as
+     * [dev.saibon.market.AuctionSalesHistoryRepository]'s buckets), built by
+     * a scheduled aggregator that polls Hypixel continuously so a fresh
+     * install has real historical data on day one instead of waiting on its
+     * own local polling. Null until that aggregator workflow is enabled and
+     * has published at least once.
+     */
+    fun fairPriceSnapshot(skuKey: String): FairPriceResult? = fairPrices[skuKey]
 
     fun refreshNow() {
         if (!Saibon.config.data.dataRepo.autoRefresh) return
@@ -131,6 +146,7 @@ object DataRepository {
         when (name) {
             "items" -> items = gson.fromJson(body, Array<SkyblockItem>::class.java).associateBy { it.id.uppercase() }
             "recipes" -> recipes = gson.fromJson(body, Array<Recipe>::class.java).groupBy { it.itemId.uppercase() }
+            "fair_prices" -> fairPrices = gson.fromJson(body, fairPriceSnapshotType)
             else -> Saibon.logger.warn("Saibon data manifest referenced unknown dataset '{}', ignoring", name)
         }
     }

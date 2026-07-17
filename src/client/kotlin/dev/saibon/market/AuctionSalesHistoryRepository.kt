@@ -2,6 +2,7 @@ package dev.saibon.market
 
 import com.google.gson.Gson
 import dev.saibon.core.Saibon
+import dev.saibon.data.DataRepository
 import dev.saibon.market.model.AuctionsEndedResponse
 import java.net.URI
 import java.net.http.HttpClient
@@ -22,16 +23,26 @@ import java.util.concurrent.atomic.AtomicBoolean
  * recently sold auctions — shape confirmed live, see
  * [dev.saibon.market.model.AuctionsEndedResponse]) well under that window,
  * decodes each sale's item id via the existing [AuctionItemDecoder], and
- * keeps a bounded per-item ring buffer of recent sale prices. Exposes a
- * rolling **median** (robust to one-off troll/outlier listings) plus a
- * sample count, so callers can judge confidence rather than trusting a
- * single sale. This is a statistical item-id-level approximation — it does
- * not bucket by rarity/stars/enchants/reforge, unlike a per-listing
- * appraisal. In-memory only, same shape as [AuctionPriceRepository].
+ * keeps a bounded per-item ring buffer of timestamped recent sale prices.
+ * [saleReference] runs those through [FairPriceCalculator] for a weighted
+ * fair price, a real 0-100 confidence score, and a sales/week volume figure
+ * — not just a flat median + raw count. Buckets are seeded from the
+ * server-published `fair_prices` dataset ([dev.saibon.data.DataRepository])
+ * so a fresh install has a usable reference price before its own local poll
+ * has gathered anything; once a bucket has enough local samples of its own,
+ * local data wins (see [saleReference]). Persisted to disk via
+ * [AuctionSalesHistoryStore] so a client restart doesn't discard local
+ * live-refined history.
  */
 object AuctionSalesHistoryRepository {
     private const val AUCTIONS_ENDED_URL = "https://api.hypixel.net/v2/skyblock/auctions_ended"
     private const val MAX_SEEN_AUCTION_IDS = 20_000
+
+    /** Local samples for a SKU are trusted over the bundled server snapshot once a bucket reaches this many. Below it, the snapshot (built from far more real time than any single client can observe on day one) is more reliable. */
+    private const val LOCAL_TRUST_THRESHOLD = 5
+
+    /** Bounded by both count and age (see [record]) — large enough to derive a real sales/week figure, not just a short price window. */
+    private const val MAX_SAMPLE_AGE_MILLIS = 14L * 24 * 3_600_000
 
     private val gson = Gson()
     private val executor = Executors.newSingleThreadScheduledExecutor { runnable ->
@@ -42,6 +53,7 @@ object AuctionSalesHistoryRepository {
     private val initialized = AtomicBoolean(false)
     private val refreshing = AtomicBoolean(false)
     private var scheduledRefresh: java.util.concurrent.ScheduledFuture<*>? = null
+    private var scheduledPersist: java.util.concurrent.ScheduledFuture<*>? = null
 
     /** Bounded FIFO de-dupe set: `auctions_ended`'s polling window overlaps between consecutive fetches. */
     private val seenAuctionIds: MutableSet<String> = Collections.newSetFromMap(
@@ -51,8 +63,8 @@ object AuctionSalesHistoryRepository {
         }
     )
 
-    private class SaleHistory {
-        val prices = ArrayDeque<Long>()
+    internal class SaleHistory {
+        val samples = ArrayDeque<SaleSample>()
     }
 
     /** Item-id-only bucket — always populated, the pre-existing behavior every caller that omits a modifier signature still gets. */
@@ -65,11 +77,14 @@ object AuctionSalesHistoryRepository {
         private set
     val isRefreshing: Boolean get() = refreshing.get()
 
-    data class SaleReference(val median: Double, val sampleCount: Int)
-
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
+        AuctionSalesHistoryStore.load(history, signatureHistory)
         rescheduleRefresh()
+        scheduledPersist = executor.scheduleWithFixedDelay(
+            { AuctionSalesHistoryStore.save(history, signatureHistory) }, 5, 5, TimeUnit.MINUTES
+        )
+        Runtime.getRuntime().addShutdownHook(Thread { AuctionSalesHistoryStore.save(history, signatureHistory) })
     }
 
     /** Cancels and re-schedules the periodic poll — called after the interval/toggle setting changes. */
@@ -98,33 +113,40 @@ object AuctionSalesHistoryRepository {
     }
 
     /**
-     * Rolling median + sample count for [itemId], or null if no recent sale
-     * has been observed. When [modifierSignature] is non-empty, prefers the
-     * exact item+modifier bucket once it has at least
-     * `FlipConfig.modifierMatchMinSamples` sales (the spec's "fast dictionary
-     * lookup" strategy) and falls back to the item-id-only bucket otherwise —
-     * so a rare enchant combo still gets *a* reference price instead of none.
+     * Fair-price reference for [itemId] (see [FairPriceCalculator]), or null
+     * if neither local history nor the bundled server snapshot has anything
+     * for it. When [modifierSignature] is non-empty, prefers the exact
+     * item+modifier bucket once it has at least
+     * `FlipConfig.modifierMatchMinSamples` *local* samples (the spec's "fast
+     * dictionary lookup" strategy), then the item-id-only local bucket once
+     * it clears [LOCAL_TRUST_THRESHOLD], then falls back to
+     * [dev.saibon.data.DataRepository]'s `fair_prices` snapshot for either
+     * key — so a fresh install still gets a real reference price on day one
+     * instead of nothing while local history is thin, and a rare enchant
+     * combo still gets *a* reference price instead of none.
      */
-    fun saleReference(itemId: String, modifierSignature: String = ""): SaleReference? {
+    fun saleReference(itemId: String, modifierSignature: String = ""): FairPriceResult? {
+        val id = itemId.uppercase()
         if (modifierSignature.isNotEmpty()) {
-            val exact = medianOf(signatureHistory["${itemId.uppercase()}|$modifierSignature"])
+            val signatureKey = "$id|$modifierSignature"
+            val exact = fairPriceOf(signatureHistory[signatureKey])
             val minSamples = Saibon.config.data.flip.modifierMatchMinSamples
             if (exact != null && exact.sampleCount >= minSamples) return exact
+            DataRepository.fairPriceSnapshot(signatureKey)?.let { return it }
         }
-        return medianOf(history[itemId.uppercase()])
+        val local = fairPriceOf(history[id])
+        if (local != null && local.sampleCount >= LOCAL_TRUST_THRESHOLD) return local
+        return DataRepository.fairPriceSnapshot(id) ?: local
     }
 
-    /** Every observed `"<itemId>|<modifierSignature>"` bucket's current median + sample count, for [dev.saibon.market.flip.AuctionFlipFinder] to cross-reference against `AuctionPriceRepository`'s signature lowest-bin buckets. */
-    fun allSignatureReferences(): Map<String, SaleReference> =
-        signatureHistory.keys.mapNotNull { key -> medianOf(signatureHistory[key])?.let { key to it } }.toMap()
+    /** Every observed `"<itemId>|<modifierSignature>"` bucket's current fair price, for [dev.saibon.market.flip.AuctionFlipFinder] to cross-reference against `AuctionPriceRepository`'s signature lowest-bin buckets. Local-only — the bundled snapshot's signature entries are consulted per-key via [saleReference], not enumerated here. */
+    fun allSignatureReferences(): Map<String, FairPriceResult> =
+        signatureHistory.keys.mapNotNull { key -> fairPriceOf(signatureHistory[key])?.let { key to it } }.toMap()
 
-    private fun medianOf(sales: SaleHistory?): SaleReference? {
-        val prices = sales?.prices ?: return null
-        val snapshot = synchronized(prices) { prices.sorted() }
-        if (snapshot.isEmpty()) return null
-        val mid = snapshot.size / 2
-        val median = if (snapshot.size % 2 == 0) (snapshot[mid - 1] + snapshot[mid]) / 2.0 else snapshot[mid].toDouble()
-        return SaleReference(median, snapshot.size)
+    private fun fairPriceOf(sales: SaleHistory?): FairPriceResult? {
+        val samples = sales?.samples ?: return null
+        val snapshot = synchronized(samples) { samples.toList() }
+        return FairPriceCalculator.compute(snapshot)
     }
 
     private fun onResponse(body: String) {
@@ -149,21 +171,24 @@ object AuctionSalesHistoryRepository {
             val decoded = AuctionItemDecoder.decode(sale.item_bytes) ?: continue
             if (sale.price <= 0) continue
             val itemId = decoded.itemId.uppercase()
+            val timestampMillis = if (sale.timestamp > 0) sale.timestamp else System.currentTimeMillis()
 
-            record(history, itemId, sale.price, maxSamples)
+            record(history, itemId, sale.price, timestampMillis, maxSamples)
             if (decoded.modifierSignature.isNotEmpty()) {
-                record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, maxSamples)
+                record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, timestampMillis, maxSamples)
             }
             newSamples++
         }
         Saibon.logger.info("Saibon sales-history poll: {} new sales, {} items tracked", newSamples, history.size)
     }
 
-    private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, maxSamples: Int) {
+    private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, timestampMillis: Long, maxSamples: Int) {
         val entry = bucket.computeIfAbsent(key) { SaleHistory() }
-        synchronized(entry.prices) {
-            entry.prices.addLast(price)
-            while (entry.prices.size > maxSamples) entry.prices.removeFirst()
+        synchronized(entry.samples) {
+            entry.samples.addLast(SaleSample(price, timestampMillis))
+            val cutoff = System.currentTimeMillis() - MAX_SAMPLE_AGE_MILLIS
+            while (entry.samples.isNotEmpty() && entry.samples.first().timestampMillis < cutoff) entry.samples.removeFirst()
+            while (entry.samples.size > maxSamples) entry.samples.removeFirst()
         }
     }
 }

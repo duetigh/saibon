@@ -72,6 +72,9 @@ object AuctionPriceRepository {
 
     fun lowestBin(itemId: String): AuctionPrice? = lowestBins[itemId.uppercase()]
 
+    /** Every observed item id's cheapest active listing, for [dev.saibon.market.flip.CraftVsBinFinder] to scan without one lookup per catalog item. */
+    fun allLowestBins(): Map<String, AuctionPrice> = lowestBins
+
     /** Every observed `"<itemId>|<modifierSignature>"` bucket's cheapest active listing — for [dev.saibon.market.flip.AuctionFlipFinder] to cross-reference against `AuctionSalesHistoryRepository`'s signature sale history. */
     fun allSignatureLowestBins(): Map<String, AuctionPrice> = signatureLowestBins
 
