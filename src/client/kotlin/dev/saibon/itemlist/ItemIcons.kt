@@ -34,9 +34,9 @@ object ItemIcons {
     }
 
     private fun resolvedProfile(itemId: String, texture: String): ResolvableProfile {
-        val properties = PropertyMap(HashMultimap.create())
-        properties.put("textures", Property("textures", texture))
-        val profile = GameProfile(UUID.nameUUIDFromBytes(itemId.toByteArray()), "", properties)
+        val multimap = HashMultimap.create<String, Property>()
+        multimap.put("textures", Property("textures", texture))
+        val profile = GameProfile(UUID.nameUUIDFromBytes(itemId.toByteArray()), "", PropertyMap(multimap))
         return ResolvableProfile.createResolved(profile)
     }
 

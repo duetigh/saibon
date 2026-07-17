@@ -15,6 +15,13 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.9.1 - 2026-07-16
+
+### Changed
+- `ItemIcons.resolvedProfile` now builds its `HashMultimap` with explicit
+  `<String, Property>` type arguments instead of relying on an unchecked raw
+  type inferred from `PropertyMap`'s constructor; no behavior change.
+
 ## v0.9.0 - 2026-07-16
 
 ### Added
