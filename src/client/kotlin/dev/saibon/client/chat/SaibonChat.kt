@@ -6,22 +6,26 @@ import net.minecraft.network.chat.TextColor
 
 /**
  * Every client-authored chat line starts with this "[Saibon] " prefix, with
- * "Saibon" itself rendered as a per-letter red gradient instead of flat text.
+ * "Saibon" itself rendered as a per-letter grey-to-white gradient instead of
+ * flat text. The brackets around it stay flat white regardless of the
+ * gradient's endpoints, so they read as punctuation rather than part of the
+ * name.
  */
 object SaibonChat {
-    private const val GRADIENT_START = 0xFF5555
-    private const val GRADIENT_END = 0x8B0000
+    private const val GRADIENT_START = 0xAAAAAA
+    private const val GRADIENT_END = 0xFFFFFF
+    private const val BRACKET_COLOR = 0xFFFFFF
     private const val NAME = "Saibon"
 
     fun prefix(): MutableComponent {
-        val built = Component.literal("[")
+        val built = Component.literal("[").withStyle { it.withColor(TextColor.fromRgb(BRACKET_COLOR)) }
         NAME.forEachIndexed { index, char ->
             built.append(
                 Component.literal(char.toString())
                     .withStyle { it.withColor(colorAt(index, NAME.length)) }
             )
         }
-        return built.append(Component.literal("] "))
+        return built.append(Component.literal("] ").withStyle { it.withColor(TextColor.fromRgb(BRACKET_COLOR)) })
     }
 
     fun message(text: String): MutableComponent = prefix().append(Component.literal(text))

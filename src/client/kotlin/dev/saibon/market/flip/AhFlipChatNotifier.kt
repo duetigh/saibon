@@ -20,6 +20,8 @@ import java.util.concurrent.atomic.AtomicBoolean
  * for genuinely new candidates, so no extra dedup is needed here).
  */
 object AhFlipChatNotifier {
+    /** Matches `FlipScreen`'s `PRICE_COLOR` so a cost/margin/value figure reads the same whether it's seen in chat or in the flip GUI. */
+    private val NUMBER_COLOR = ChatFormatting.YELLOW
     private val initialized = AtomicBoolean(false)
 
     fun init() {
@@ -42,14 +44,21 @@ object AhFlipChatNotifier {
 
     private fun send(candidate: FlipCandidate, sellerName: String) {
         val player = Minecraft.getInstance().player ?: return
-        player.sendSystemMessage(
-            SaibonChat.message(
-                "${candidate.item.name}: selling for ${format(candidate.cost)} coins " +
-                    "(%.1f%% margin) — sell for ${format(candidate.estimatedValue)} coins".format(candidate.marginPercent)
-            )
-        )
+        player.sendSystemMessage(SaibonChat.message(flipLine(candidate)))
         player.sendSystemMessage(SaibonChat.prefix().append(buyNowLink(sellerName)))
     }
+
+    /** Item name and connecting words stay default white; the figures a player actually scans for (cost, margin, resell price) are pulled out in [NUMBER_COLOR] so they stand out from the sentence around them. */
+    private fun flipLine(candidate: FlipCandidate): Component =
+        Component.literal("${candidate.item.name}: selling for ")
+            .append(number("${format(candidate.cost)} coins"))
+            .append(Component.literal(" ("))
+            .append(number("%.1f%%".format(candidate.marginPercent)))
+            .append(Component.literal(" margin) — sell for "))
+            .append(number("${format(candidate.estimatedValue)} coins"))
+
+    private fun number(text: String): Component =
+        Component.literal(text).withStyle { it.withColor(NUMBER_COLOR) }
 
     private fun buyNowLink(sellerName: String): Component =
         Component.literal("Buy now.").withStyle {

@@ -15,6 +15,32 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.1 - 2026-07-17
+
+### Changed
+- `AuctionFlipFinder`'s AH fair-price estimate for a *plain* item is now
+  capped at its recursive craft cost (via `CraftFlipRanking`) whenever a full
+  recipe price is available, since nobody would rationally pay an AH seller
+  more than it costs to just make one; flip candidates hitting this cap show
+  "capped at craft cost (...)" in place of the raw sales-based reason.
+- `SaibonChat`'s "Saibon" gradient changed from red to grey-to-white; the
+  surrounding brackets now render flat white instead of picking up whichever
+  color sits at the gradient's endpoints.
+- `AhFlipChatNotifier`'s Auction House flip chat line now highlights the
+  cost/margin/resell-price figures in yellow (matching `FlipScreen`'s
+  `PRICE_COLOR`) instead of leaving the whole line default white.
+
+### Fixed
+- `AuctionItemDecoder.modifierSignature()` (and its Python port in
+  `scripts/aggregate_fair_prices.py`) is now derived from the same
+  `itemModifiers()` decomposition used for modifier-value pricing, instead of
+  independently re-checking only reforge/hot-potato/recomb/dungeon-stars/
+  enchants. A sale carrying gems, accessory enrichment, an ability scroll, or
+  any other modifier `itemModifiers()` knows about but the old independent
+  check didn't previously produced an empty signature and was miscounted as
+  a *plain* sale, inflating the published "clean item" fair price for
+  anything commonly sold with one of those upgrades.
+
 ## v0.13.0 - 2026-07-17
 
 ### Added

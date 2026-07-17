@@ -17,13 +17,14 @@ Each run:
      in sync: they must produce byte-identical SKU keys
      (`"<itemId>"` / `"<itemId>|<modifierSignature>"`) or the client's local
      buckets and this snapshot won't line up. `_item_modifiers` is a separate
-     port of the Kotlin file's `itemModifiers()` — likewise kept in sync, and
-     likewise deliberately independent of `_modifier_signature` (see that
-     Kotlin doc comment for why: one collapses everything into one exact-match
-     string, the other decomposes into atomic, individually-priceable upgrades
-     — reforge/potato-books/recomb/dungeon-stars/enchants plus gemstones,
-     accessory enrichment, ability scrolls, Art of War/Peace, Wood
-     Singularity, Farming for Dummies).
+     port of the Kotlin file's `itemModifiers()` — likewise kept in sync; it
+     decomposes an item into atomic, individually-priceable upgrades (reforge/
+     potato-books/recomb/dungeon-stars/enchants plus gemstones, accessory
+     enrichment, ability scrolls, Art of War/Peace, Wood Singularity, Farming
+     for Dummies), and `_modifier_signature` is derived from that same list
+     (each upgrade's `kind:key`, sorted and joined) rather than re-parsing
+     `extra` on its own — so a modifier kind only has to be taught to
+     `_item_modifiers` once to be excluded from "plain item" bucketing too.
   3. Appends new sales into `data/.sales_history_raw.json` (per-SKU) and
      `data/.modifier_deltas_raw.json` (per-modifier, pooled across items —
      see `_apply_modifier_deltas`) — this script's own rolling cross-run
@@ -190,31 +191,8 @@ def decode_item_bytes(item_bytes_b64: str) -> tuple[str, str, list[tuple[str, st
 
 
 def _modifier_signature(extra: dict[str, Any]) -> str:
-    """Exact-match bucketing key — mirrors AuctionItemDecoder.kt's `modifierSignature()` byte-for-byte. Do not change this format; it's a published cache key. Deliberately independent of `_item_modifiers` (see that function's doc comment)."""
-    parts: list[str] = []
-
-    modifier = extra.get("modifier")
-    if modifier:
-        parts.append(f"reforge:{modifier}")
-
-    hot_potato = extra.get("hot_potato_count") or 0
-    if hot_potato > 0:
-        parts.append(f"potato:{hot_potato}")
-
-    rarity_upgrades = extra.get("rarity_upgrades") or 0
-    if rarity_upgrades > 0:
-        parts.append("recomb")
-
-    dungeon_level = extra.get("dungeon_item_level") or 0
-    if dungeon_level > 0:
-        parts.append(f"stars:{dungeon_level}")
-
-    enchantments = extra.get("enchantments") or {}
-    if enchantments:
-        ench_parts = [f"{name}{enchantments[name]}" for name in sorted(enchantments.keys())]
-        parts.append(f"ench:{','.join(ench_parts)}")
-
-    return "|".join(parts)
+    """Exact-match bucketing key — mirrors AuctionItemDecoder.kt's `modifierSignature()` byte-for-byte: derived from `_item_modifiers` (each `(kind, key)` pair's `f"{kind}:{key}"`, sorted and joined), not computed independently. Do not change this format lightly; it's a published cache key. (Previously this re-parsed `extra` on its own checking only reforge/potato/recomb/stars/enchants, so a sale carrying gems/enrichment/an ability scroll/etc. still got an empty signature and was miscounted as a plain sale, inflating the published "clean item" fair price for anything commonly sold upgraded.)"""
+    return "|".join(sorted(f"{kind}:{key}" for kind, key in _item_modifiers(extra)))
 
 
 def _item_modifiers(extra: dict[str, Any]) -> list[tuple[str, str]]:
@@ -404,10 +382,11 @@ def apply_sales(
         item_id = item_id.upper()
         timestamp = sale.get("timestamp") or now_ms
 
-        # Item-level bucket must stay reforge/star/enchant/recomb-free (mirrors
+        # Item-level bucket must stay modifier-free (mirrors
         # AuctionSalesHistoryRepository.kt): a lowest-BIN listing is almost always a
-        # plain copy, so mixing god-rolled sale prices in here inflates the fair
-        # price far above what a plain copy actually sells for.
+        # plain copy, so mixing upgraded (reforged/starred/gemmed/scrolled/...) sale
+        # prices in here inflates the fair price far above what a plain copy
+        # actually sells for.
         if signature:
             _record(raw_state, f"{item_id}|{signature}", price, timestamp)
         else:

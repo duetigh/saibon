@@ -6,6 +6,7 @@ import dev.saibon.market.AuctionFlipRanking
 import dev.saibon.market.AuctionHouseTax
 import dev.saibon.market.AuctionPriceRepository
 import dev.saibon.market.AuctionSalesHistoryRepository
+import dev.saibon.market.CraftFlipRanking
 import dev.saibon.market.ModifierValueModel
 
 /**
@@ -21,6 +22,27 @@ import dev.saibon.market.ModifierValueModel
 object AuctionFlipFinder : FlipFinder {
     override val name = "Auction House"
 
+    /**
+     * A *plain* item's recursive craft cost (Bazaar buy-order prices, walked
+     * through sub-recipes/forge fees via [CraftFlipRanking]) is a hard
+     * ceiling on what its AH sales history should say it's worth — nobody
+     * rationally pays an AH seller more than they'd pay to just make one.
+     * This only applies to the item-level ("plain") tier below: a modified
+     * copy (gems/scrolls/enchants — the `signatureLevel`/`estimatedLevel`
+     * tiers) is legitimately worth more than the base craft cost, so it's
+     * never capped. Returns null when the item has no recipe or the recipe
+     * can't be fully priced, in which case the raw sales-based estimate is
+     * used unchanged, same as before this cap existed.
+     */
+    private fun craftCostCeiling(itemId: String): Double? {
+        DataRepository.recipesFor(itemId).firstOrNull() ?: return null
+        return CraftFlipRanking.craftCostOf(
+            itemId,
+            recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
+            marketCostOf = { id -> IngredientPriceResolver.costOf(id) }
+        )
+    }
+
     override fun scan(): List<FlipCandidate> {
         val marketConfig = Saibon.config.data.market
         val flipConfig = Saibon.config.data.flip
@@ -33,17 +55,25 @@ object AuctionFlipFinder : FlipFinder {
             taxRatePercent = marketConfig.ahTaxRatePercent,
             minSamples = marketConfig.salesHistoryMinSamples
         ).map { flip ->
+            val ceiling = craftCostCeiling(flip.item.id)
+            val rawFairPrice = flip.fairPrice.fairPrice
+            val fairPrice = if (ceiling != null) minOf(rawFairPrice, ceiling) else rawFairPrice
+            val netValue = AuctionHouseTax.netOfTax(fairPrice, marketConfig.ahTaxRatePercent)
+            val profit = netValue - flip.lowestBin
             FlipCandidate(
                 item = flip.item,
                 modifierSignature = "",
                 cost = flip.lowestBin,
-                estimatedValue = flip.fairPrice.fairPrice,
-                estimatedProfit = flip.estimatedProfit,
-                marginPercent = flip.profitPercent,
+                estimatedValue = fairPrice,
+                estimatedProfit = profit,
+                marginPercent = profit / flip.lowestBin * 100.0,
                 confidence = flip.fairPrice.confidence,
                 volumePerWeek = flip.fairPrice.volumePerWeek,
                 sourceFinder = name,
-                reason = "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()})",
+                reason = if (fairPrice < rawFairPrice)
+                    "capped at craft cost (${ceiling!!.toLong()}) — sales history alone suggested ${rawFairPrice.toLong()} from only ${flip.fairPrice.sampleCount} sales"
+                else
+                    "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()})",
                 auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() },
                 sellerUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinSeller?.takeIf { it.isNotEmpty() }
             )
@@ -94,14 +124,12 @@ object AuctionFlipFinder : FlipFinder {
             val estimate = ModifierValueModel.estimate(
                 plain = plain,
                 modifiers = lowestBin.modifiers,
-                // `modifier.poolKey` only lines up with a real signatureHistory bucket for the
-                // kinds AuctionItemDecoder.modifierSignature() itself tracks in that exact
-                // "kind:key" shape (reforge/potato/stars/single-enchant) — recomb's signature
-                // token is the bare string "recomb" (no ":applied"), and gem/enrich/scroll/
-                // book/upgrade aren't in modifierSignature() at all, so those simply find no
-                // bucket and fall through to pooledDelta below. Harmless (never a wrong match,
-                // just a missed per-item optimization for those kinds) — see AuctionItemDecoder's
-                // doc comment on why the two representations are intentionally decoupled.
+                // `modifier.poolKey` lines up with a real signatureHistory bucket for every
+                // modifier kind, since AuctionItemDecoder.modifierSignature() is now derived
+                // from the same itemModifiers() list `poolKey` comes from. A single-modifier
+                // listing's poolKey therefore always matches its own signature bucket key;
+                // multi-modifier listings still commonly miss (their bucket key is the joined
+                // combo, not one modifier's poolKey) and fall through to pooledDelta below.
                 perItemDelta = { modifier ->
                     AuctionSalesHistoryRepository.saleReference(itemId, modifier.poolKey)
                         ?.takeIf { it.sampleCount >= flipConfig.modifierDeltaMinSamples }

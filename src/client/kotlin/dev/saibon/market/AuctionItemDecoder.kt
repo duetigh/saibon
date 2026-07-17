@@ -42,7 +42,9 @@ data class DecodedAuctionItem(
  * checked against a live server response the way the base `id` field was,
  * same caveat as `ScoreboardReader`. Each is isolated behind its own small
  * accessor below so a wrong field name is a one-function fix, not a decoder
- * rewrite.
+ * rewrite. [modifierSignature] is derived from the same [itemModifiers] list
+ * these accessors feed, so a modifier kind only has to be taught here once to
+ * be excluded from "plain item" sale-price bucketing everywhere.
  */
 object AuctionItemDecoder {
     /** Convenience wrapper for callers that only need the item id (e.g. [dev.saibon.market.AuctionPriceRepository]'s lowest-BIN sweep, which isn't modifier-aware). */
@@ -59,34 +61,29 @@ object AuctionItemDecoder {
         Saibon.logger.debug("Saibon failed to decode an auction item_bytes blob, skipping", it)
     }.getOrNull()
 
-    /** Exact-match bucketing key — do not change this format, it's a persisted/published cache key ([AuctionSalesHistoryRepository], [AuctionPriceRepository], `data/fair_prices.json`). Kept independent of [itemModifiers] on purpose (see that function's doc comment). */
-    private fun modifierSignature(extraAttributes: CompoundTag): String {
-        val parts = mutableListOf<String>()
-
-        extraAttributes.getString("modifier").ifPresent { parts += "reforge:$it" }
-
-        val hotPotato = extraAttributes.getIntOr("hot_potato_count", 0)
-        if (hotPotato > 0) parts += "potato:$hotPotato"
-
-        val rarityUpgrades = extraAttributes.getIntOr("rarity_upgrades", 0)
-        if (rarityUpgrades > 0) parts += "recomb"
-
-        val dungeonLevel = extraAttributes.getIntOr("dungeon_item_level", 0)
-        if (dungeonLevel > 0) parts += "stars:$dungeonLevel"
-
-        val enchantments = extraAttributes.getCompoundOrEmpty("enchantments")
-        val enchantParts = enchantments.keySet().sorted().map { name -> "$name${enchantments.getIntOr(name, 0)}" }
-        if (enchantParts.isNotEmpty()) parts += "ench:${enchantParts.joinToString(",")}"
-
-        return parts.joinToString("|")
-    }
+    /**
+     * Exact-match bucketing key — do not change this format lightly, it's a
+     * persisted/published cache key ([AuctionSalesHistoryRepository],
+     * [AuctionPriceRepository], `data/fair_prices.json`). Derived from
+     * [itemModifiers] (each modifier's own `poolKey`, sorted) rather than
+     * re-parsing `extraAttributes` separately: an earlier version of this
+     * function only checked reforge/hot-potato/recomb/stars/enchants, so a
+     * sale carrying gems, talisman enrichment, an ability scroll, or another
+     * modifier added later would still yield an empty signature and get
+     * miscounted as a *plain* sale — silently inflating the "clean item" fair
+     * price for anything commonly sold with one of those upgrades (e.g. a
+     * Juju Shortbow with an Ender Slayer scroll). Deriving from the same
+     * decomposition [itemModifiers] uses guarantees new modifier kinds can't
+     * reintroduce that gap.
+     */
+    private fun modifierSignature(extraAttributes: CompoundTag): String =
+        itemModifiers(extraAttributes).map { it.poolKey }.sorted().joinToString("|")
 
     /**
-     * Atomic per-upgrade decomposition for [dev.saibon.market.ModifierValueModel] —
-     * deliberately NOT derived from/deriving [modifierSignature]: that string
-     * collapses all enchants into one comma-joined token and represents recomb/
-     * gems etc. as bare flags, which is exactly right for an exact-match cache
-     * key but wrong for pricing each upgrade on its own.
+     * Atomic per-upgrade decomposition for [dev.saibon.market.ModifierValueModel]
+     * — [modifierSignature] is derived *from* this list (each modifier's
+     * `poolKey`, sorted and joined), not the other way around, so every kind
+     * handled here automatically participates in exact-match bucketing too.
      */
     private fun itemModifiers(extraAttributes: CompoundTag): List<ItemModifier> {
         val modifiers = mutableListOf<ItemModifier>()
