@@ -22,12 +22,15 @@ internal object AuctionSalesHistoryStore {
 
     private data class StoreFile(
         val history: Map<String, List<SaleSample>> = emptyMap(),
-        val signatureHistory: Map<String, List<SaleSample>> = emptyMap()
+        val signatureHistory: Map<String, List<SaleSample>> = emptyMap(),
+        /** `"<modifierKind>:<modifierKey>"` -> delta samples, see `AuctionSalesHistoryRepository.modifierDeltaHistory`. Absent on files written before this field existed — Gson defaults it to empty, no migration needed. */
+        val modifierDeltaHistory: Map<String, List<SaleSample>> = emptyMap()
     )
 
     fun load(
         history: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>,
-        signatureHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>
+        signatureHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>,
+        modifierDeltaHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>
     ) {
         if (!Files.exists(storeFile)) return
         runCatching {
@@ -37,6 +40,7 @@ internal object AuctionSalesHistoryStore {
         }.onSuccess { stored ->
             apply(stored.history, history)
             apply(stored.signatureHistory, signatureHistory)
+            apply(stored.modifierDeltaHistory, modifierDeltaHistory)
         }.onFailure {
             Saibon.logger.warn("Failed to load Saibon sales-history cache, starting empty", it)
         }
@@ -55,13 +59,15 @@ internal object AuctionSalesHistoryStore {
 
     fun save(
         history: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>,
-        signatureHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>
+        signatureHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>,
+        modifierDeltaHistory: ConcurrentHashMap<String, AuctionSalesHistoryRepository.SaleHistory>
     ) {
         runCatching {
             Files.createDirectories(storeDir)
             val snapshot = StoreFile(
                 history = history.mapValues { (_, v) -> synchronized(v.samples) { v.samples.toList() } },
-                signatureHistory = signatureHistory.mapValues { (_, v) -> synchronized(v.samples) { v.samples.toList() } }
+                signatureHistory = signatureHistory.mapValues { (_, v) -> synchronized(v.samples) { v.samples.toList() } },
+                modifierDeltaHistory = modifierDeltaHistory.mapValues { (_, v) -> synchronized(v.samples) { v.samples.toList() } }
             )
             Files.newBufferedWriter(storeFile).use { writer -> gson.toJson(snapshot, writer) }
         }.onFailure {

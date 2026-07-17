@@ -4,6 +4,7 @@ import com.google.gson.Gson
 import dev.saibon.core.Saibon
 import dev.saibon.data.DataRepository
 import dev.saibon.market.model.AuctionsEndedResponse
+import dev.saibon.market.model.ItemModifier
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -73,18 +74,32 @@ object AuctionSalesHistoryRepository {
     /** `"<itemId>|<modifierSignature>"` bucket — only populated for sales that actually carry a non-empty signature (enchants/hot-potato/recomb/stars/reforge). Lets [saleReference] give a modifier-aware price for common upgraded gear while item-id-only items keep working exactly as before. */
     private val signatureHistory = ConcurrentHashMap<String, SaleHistory>()
 
+    /**
+     * `"<modifierKind>:<modifierKey>"` bucket, pooled across every item that
+     * modifier has been seen on — e.g. `"ench:sharpness7"` regardless of
+     * which sword it sold on. Fed only by sales carrying exactly 1 or 2
+     * modifiers (so the delta can be attributed without a real regression;
+     * see [recordModifierDeltas]), storing `salePrice - thatItem'sPlainFairPrice`
+     * (split evenly across however many modifiers the sale had) rather than a
+     * raw price. This is the cold-start fallback [dev.saibon.market.ModifierValueModel]
+     * uses when an item has never sold with a given modifier alone — the
+     * per-item case doesn't need separate storage, it's just [signatureHistory]
+     * read back for a single-modifier signature (see [dev.saibon.market.flip.AuctionFlipFinder]).
+     */
+    private val modifierDeltaHistory = ConcurrentHashMap<String, SaleHistory>()
+
     var lastRefreshed: Instant? = null
         private set
     val isRefreshing: Boolean get() = refreshing.get()
 
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
-        AuctionSalesHistoryStore.load(history, signatureHistory)
+        AuctionSalesHistoryStore.load(history, signatureHistory, modifierDeltaHistory)
         rescheduleRefresh()
         scheduledPersist = executor.scheduleWithFixedDelay(
-            { AuctionSalesHistoryStore.save(history, signatureHistory) }, 5, 5, TimeUnit.MINUTES
+            { AuctionSalesHistoryStore.save(history, signatureHistory, modifierDeltaHistory) }, 5, 5, TimeUnit.MINUTES
         )
-        Runtime.getRuntime().addShutdownHook(Thread { AuctionSalesHistoryStore.save(history, signatureHistory) })
+        Runtime.getRuntime().addShutdownHook(Thread { AuctionSalesHistoryStore.save(history, signatureHistory, modifierDeltaHistory) })
     }
 
     /** Cancels and re-schedules the periodic poll — called after the interval/toggle setting changes. */
@@ -143,6 +158,22 @@ object AuctionSalesHistoryRepository {
     fun allSignatureReferences(): Map<String, FairPriceResult> =
         signatureHistory.keys.mapNotNull { key -> fairPriceOf(signatureHistory[key])?.let { key to it } }.toMap()
 
+    /**
+     * Pooled, cross-item value-add for one [ItemModifier] (see [modifierDeltaHistory]) —
+     * the cold-start fallback [dev.saibon.market.ModifierValueModel] uses when
+     * [itemId] has never sold with [ItemModifier.kind]/[ItemModifier.key] alone.
+     * Local pooled data wins once it clears `FlipConfig.pooledModifierDeltaMinSamples`;
+     * otherwise falls back to the server-published `modifier_values` snapshot,
+     * same precedence shape as [saleReference].
+     */
+    fun modifierDeltaReference(kind: String, key: String): FairPriceResult? {
+        val poolKey = "$kind:$key"
+        val local = fairPriceOf(modifierDeltaHistory[poolKey])
+        val minSamples = Saibon.config.data.flip.pooledModifierDeltaMinSamples
+        if (local != null && local.sampleCount >= minSamples) return local
+        return DataRepository.modifierValueSnapshot(kind, key) ?: local
+    }
+
     private fun fairPriceOf(sales: SaleHistory?): FairPriceResult? {
         val samples = sales?.samples ?: return null
         val snapshot = synchronized(samples) { samples.toList() }
@@ -180,10 +211,29 @@ object AuctionSalesHistoryRepository {
                 record(history, itemId, sale.price, timestampMillis, maxSamples)
             } else {
                 record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, timestampMillis, maxSamples)
+                recordModifierDeltas(itemId, decoded.modifiers, sale.price, timestampMillis, maxSamples)
             }
             newSamples++
         }
         Saibon.logger.info("Saibon sales-history poll: {} new sales, {} items tracked", newSamples, history.size)
+    }
+
+    /**
+     * Feeds [modifierDeltaHistory] from sales carrying exactly 1 or 2
+     * modifiers, splitting `salePrice - plainFairPrice` evenly across
+     * however many there are. A 3+ modifier sale can't be attributed to any
+     * one modifier without a real regression, so it's left out of the pooled
+     * table entirely — it still counts toward the exact-signature bucket above.
+     * Skipped if this item has no plain-price reference yet (nothing to
+     * compute a delta against).
+     */
+    private fun recordModifierDeltas(itemId: String, modifiers: List<ItemModifier>, price: Long, timestampMillis: Long, maxSamples: Int) {
+        if (modifiers.isEmpty() || modifiers.size > 2) return
+        val plain = fairPriceOf(history[itemId]) ?: return
+        val delta = ((price - plain.fairPrice) / modifiers.size).toLong()
+        for (modifier in modifiers) {
+            record(modifierDeltaHistory, modifier.poolKey, delta, timestampMillis, maxSamples)
+        }
     }
 
     private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, timestampMillis: Long, maxSamples: Int) {

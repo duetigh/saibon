@@ -57,6 +57,7 @@ object DataRepository {
     private var items: Map<String, SkyblockItem> = emptyMap()
     private var recipes: Map<String, List<Recipe>> = emptyMap()
     private var fairPrices: Map<String, FairPriceResult> = emptyMap()
+    private var modifierValues: Map<String, FairPriceResult> = emptyMap()
 
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
@@ -95,6 +96,15 @@ object DataRepository {
      * has published at least once.
      */
     fun fairPriceSnapshot(skuKey: String): FairPriceResult? = fairPrices[skuKey]
+
+    /**
+     * Server-published pooled modifier-value delta for one `"<kind>:<key>"`
+     * ([dev.saibon.market.model.ItemModifier.poolKey]) — the cross-item
+     * cold-start counterpart to [fairPriceSnapshot], built by the same
+     * aggregator (see `scripts/aggregate_fair_prices.py`). Consumed by
+     * [dev.saibon.market.AuctionSalesHistoryRepository.modifierDeltaReference].
+     */
+    fun modifierValueSnapshot(kind: String, key: String): FairPriceResult? = modifierValues["$kind:$key"]
 
     fun refreshNow() {
         if (!Saibon.config.data.dataRepo.autoRefresh) return
@@ -147,6 +157,7 @@ object DataRepository {
             "items" -> items = gson.fromJson(body, Array<SkyblockItem>::class.java).associateBy { it.id.uppercase() }
             "recipes" -> recipes = gson.fromJson(body, Array<Recipe>::class.java).groupBy { it.itemId.uppercase() }
             "fair_prices" -> fairPrices = gson.fromJson(body, fairPriceSnapshotType)
+            "modifier_values" -> modifierValues = gson.fromJson(body, fairPriceSnapshotType)
             else -> Saibon.logger.warn("Saibon data manifest referenced unknown dataset '{}', ignoring", name)
         }
     }

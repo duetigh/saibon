@@ -15,6 +15,10 @@ data class FlipConfig(
     var scanIntervalSeconds: Int = 30,
     /** Bucket sales history by item+modifier signature (enchants/hot potato count/stars) when at least this many samples exist for that exact signature; otherwise fall back to the item-id-only bucket. */
     var modifierMatchMinSamples: Int = 3,
+    /** Trust an item's own single/double-modifier exact-signature bucket (e.g. `"itemId|stars:5"`) as that modifier's per-item value delta once it has at least this many samples — lower than [modifierMatchMinSamples] since a delta only needs to be *directionally* useful as a [dev.saibon.market.ModifierValueModel] input, not a standalone price. */
+    var modifierDeltaMinSamples: Int = 2,
+    /** Trust the pooled, cross-item modifier-delta table (`AuctionSalesHistoryRepository.modifierDeltaHistory`, the cold-start fallback when an item has never sold with that modifier alone) once it has at least this many samples. */
+    var pooledModifierDeltaMinSamples: Int = 5,
     var alertEnabled: Boolean = true,
     var alertMinProfit: Double = 100_000.0,
     var alertMinMarginPercent: Double = 15.0,

@@ -16,17 +16,27 @@ Each run:
      below — a Python port of the mod's `AuctionItemDecoder.kt`. Keep the two
      in sync: they must produce byte-identical SKU keys
      (`"<itemId>"` / `"<itemId>|<modifierSignature>"`) or the client's local
-     buckets and this snapshot won't line up.
-  3. Appends new sales into `data/.sales_history_raw.json` — this script's
-     own rolling cross-run state (bounded the same way as the client's
-     in-memory buffers: 14-day age cap, `MAX_SAMPLES_PER_SKU` count cap).
-     Not published in `data/index.json` — purely working state.
-  4. Recomputes a `FairPriceResult`-shaped entry per SKU with
+     buckets and this snapshot won't line up. `_item_modifiers` is a separate
+     port of the Kotlin file's `itemModifiers()` — likewise kept in sync, and
+     likewise deliberately independent of `_modifier_signature` (see that
+     Kotlin doc comment for why: one collapses everything into one exact-match
+     string, the other decomposes into atomic, individually-priceable upgrades
+     — reforge/potato-books/recomb/dungeon-stars/enchants plus gemstones,
+     accessory enrichment, ability scrolls, Art of War/Peace, Wood
+     Singularity, Farming for Dummies).
+  3. Appends new sales into `data/.sales_history_raw.json` (per-SKU) and
+     `data/.modifier_deltas_raw.json` (per-modifier, pooled across items —
+     see `_apply_modifier_deltas`) — this script's own rolling cross-run
+     state (bounded the same way as the client's in-memory buffers: 14-day
+     age cap, `MAX_SAMPLES_PER_SKU` count cap). Neither is published in
+     `data/index.json` — purely working state.
+  4. Recomputes a `FairPriceResult`-shaped entry per SKU/modifier with
      `compute_fair_price` — a port of `FairPriceCalculator.kt`. Keep the two
      in sync; same reasoning as the decoder.
-  5. Writes the compact client-facing `data/fair_prices.json` and bumps
-     `data/index.json`'s `fair_prices` entry (version/sha256/url) if the
-     content actually changed.
+  5. Writes the compact client-facing `data/fair_prices.json` and
+     `data/modifier_values.json`, bumping each of `data/index.json`'s
+     `fair_prices`/`modifier_values` entries (version/sha256/url) if their
+     content actually changed (see `update_manifest`).
 
 Usage:
     python scripts/aggregate_fair_prices.py [--source path/to/cached-auctions-ended.json] [--dry-run]
@@ -51,6 +61,8 @@ from typing import Any
 REPO_ROOT = Path(__file__).resolve().parent.parent
 RAW_STATE_PATH = REPO_ROOT / "data" / ".sales_history_raw.json"
 FAIR_PRICES_PATH = REPO_ROOT / "data" / "fair_prices.json"
+MODIFIER_DELTAS_RAW_PATH = REPO_ROOT / "data" / ".modifier_deltas_raw.json"
+MODIFIER_VALUES_PATH = REPO_ROOT / "data" / "modifier_values.json"
 INDEX_PATH = REPO_ROOT / "data" / "index.json"
 AUCTIONS_ENDED_URL = "https://api.hypixel.net/v2/skyblock/auctions_ended"
 
@@ -158,8 +170,8 @@ class _NbtReader:
         return self.read_payload(_TAG_COMPOUND)
 
 
-def decode_item_bytes(item_bytes_b64: str) -> tuple[str, str] | None:
-    """Mirrors AuctionItemDecoder.decode: returns (itemId, modifierSignature) or None."""
+def decode_item_bytes(item_bytes_b64: str) -> tuple[str, str, list[tuple[str, str]]] | None:
+    """Mirrors AuctionItemDecoder.decode: returns (itemId, modifierSignature, modifiers) or None."""
     try:
         raw = gzip.decompress(base64.b64decode(item_bytes_b64))
         root = _NbtReader(raw).read_root()
@@ -172,12 +184,13 @@ def decode_item_bytes(item_bytes_b64: str) -> tuple[str, str] | None:
         item_id = extra.get("id")
         if not item_id:
             return None
-        return item_id, _modifier_signature(extra)
+        return item_id, _modifier_signature(extra), _item_modifiers(extra)
     except Exception:
         return None
 
 
 def _modifier_signature(extra: dict[str, Any]) -> str:
+    """Exact-match bucketing key — mirrors AuctionItemDecoder.kt's `modifierSignature()` byte-for-byte. Do not change this format; it's a published cache key. Deliberately independent of `_item_modifiers` (see that function's doc comment)."""
     parts: list[str] = []
 
     modifier = extra.get("modifier")
@@ -202,6 +215,64 @@ def _modifier_signature(extra: dict[str, Any]) -> str:
         parts.append(f"ench:{','.join(ench_parts)}")
 
     return "|".join(parts)
+
+
+def _item_modifiers(extra: dict[str, Any]) -> list[tuple[str, str]]:
+    """Atomic per-upgrade decomposition — mirrors AuctionItemDecoder.kt's `itemModifiers()`. Each `(kind, key)` pair's `f"{kind}:{key}"` join is the pooled cross-item delta-table key (`ItemModifier.poolKey` client-side)."""
+    modifiers: list[tuple[str, str]] = []
+
+    modifier = extra.get("modifier")
+    if modifier:
+        modifiers.append(("reforge", str(modifier)))
+
+    hot_potato = extra.get("hot_potato_count") or 0
+    if hot_potato > 0:
+        modifiers.append(("potato", str(hot_potato)))
+
+    if (extra.get("rarity_upgrades") or 0) > 0:
+        modifiers.append(("recomb", "applied"))
+
+    dungeon_level = extra.get("dungeon_item_level") or 0
+    if dungeon_level > 0:
+        modifiers.append(("stars", str(dungeon_level)))
+
+    enchantments = extra.get("enchantments") or {}
+    for name in sorted(enchantments.keys()):
+        modifiers.append(("ench", f"{name}{enchantments[name]}"))
+
+    gems = extra.get("gems") or {}
+    for slot in sorted(gems.keys()):
+        if slot == "unlocked_slots" or slot.endswith("_gem"):
+            continue
+        quality = gems.get(slot)
+        if not isinstance(quality, str):
+            continue
+        gem_type = gems.get(f"{slot}_gem")
+        key = f"{slot}:{gem_type}:{quality}" if isinstance(gem_type, str) else f"{slot}:{quality}"
+        modifiers.append(("gem", key))
+
+    enrichment = extra.get("talisman_enrichment")
+    if enrichment:
+        modifiers.append(("enrich", str(enrichment)))
+
+    for scroll in extra.get("ability_scroll") or []:
+        if isinstance(scroll, str):
+            modifiers.append(("scroll", scroll))
+
+    if (extra.get("art_of_war_count") or 0) > 0:
+        modifiers.append(("book", "art_of_war"))
+
+    if (extra.get("art_of_peace_applied") or 0) > 0:
+        modifiers.append(("book", "art_of_peace"))
+
+    if (extra.get("wood_singularity_count") or 0) > 0:
+        modifiers.append(("upgrade", "wood_singularity"))
+
+    farming_for_dummies = extra.get("farming_for_dummies_count") or 0
+    if farming_for_dummies > 0:
+        modifiers.append(("upgrade", f"farming_for_dummies:{farming_for_dummies}"))
+
+    return modifiers
 
 
 # --- Fair-price statistics (port of FairPriceCalculator.kt) ----------------
@@ -309,15 +380,19 @@ def fetch_auctions_ended() -> dict[str, Any]:
         return json.loads(response.read())
 
 
-def load_raw_state() -> dict[str, list[list[int]]]:
-    if not RAW_STATE_PATH.exists():
+def load_raw_state(path: Path = RAW_STATE_PATH) -> dict[str, list[list[int]]]:
+    if not path.exists():
         return {}
-    with open(RAW_STATE_PATH, encoding="utf-8") as f:
+    with open(path, encoding="utf-8") as f:
         return json.load(f)
 
 
-def apply_sales(raw_state: dict[str, list[list[int]]], auctions: list[dict[str, Any]], now_ms: int) -> int:
+def apply_sales(
+    raw_state: dict[str, list[list[int]]], auctions: list[dict[str, Any]], now_ms: int
+) -> tuple[int, list[tuple[str, list[tuple[str, str]], int, int]]]:
+    """Returns (applied count, modifier-bearing sales for `apply_modifier_deltas`)."""
     applied = 0
+    modifier_sales: list[tuple[str, list[tuple[str, str]], int, int]] = []
     for sale in auctions:
         price = sale.get("price", 0)
         if price <= 0:
@@ -325,7 +400,7 @@ def apply_sales(raw_state: dict[str, list[list[int]]], auctions: list[dict[str, 
         decoded = decode_item_bytes(sale.get("item_bytes", ""))
         if decoded is None:
             continue
-        item_id, signature = decoded
+        item_id, signature, modifiers = decoded
         item_id = item_id.upper()
         timestamp = sale.get("timestamp") or now_ms
 
@@ -337,6 +412,37 @@ def apply_sales(raw_state: dict[str, list[list[int]]], auctions: list[dict[str, 
             _record(raw_state, f"{item_id}|{signature}", price, timestamp)
         else:
             _record(raw_state, item_id, price, timestamp)
+        if 1 <= len(modifiers) <= 2:
+            modifier_sales.append((item_id, modifiers, price, timestamp))
+        applied += 1
+    return applied, modifier_sales
+
+
+def apply_modifier_deltas(
+    modifier_raw_state: dict[str, list[list[int]]],
+    raw_state: dict[str, list[list[int]]],
+    modifier_sales: list[tuple[str, list[tuple[str, str]], int, int]],
+) -> int:
+    """Mirrors AuctionSalesHistoryRepository.recordModifierDeltas: for each 1-2-modifier
+    sale, splits `salePrice - plainFairPrice` evenly across its modifiers into the pooled,
+    cross-item `"kind:key"` bucket. Uses this *run's final* plain-item snapshot (in `raw_state`,
+    already updated by `apply_sales` above) as the plain-price reference — an accepted
+    approximation of the client's point-in-time online estimate, not a bug: both are proxies
+    for "reference price near time of sale," and a plain item's fair price rarely swings
+    sharply within one aggregator run.
+    """
+    applied = 0
+    plain_price_cache: dict[str, float | None] = {}
+    for item_id, modifiers, price, timestamp in modifier_sales:
+        if item_id not in plain_price_cache:
+            plain_result = compute_fair_price(raw_state.get(item_id, []), timestamp)
+            plain_price_cache[item_id] = plain_result["fairPrice"] if plain_result else None
+        plain_price = plain_price_cache[item_id]
+        if plain_price is None:
+            continue
+        delta = round((price - plain_price) / len(modifiers))
+        for kind, key in modifiers:
+            _record(modifier_raw_state, f"{kind}:{key}", delta, timestamp)
         applied += 1
     return applied
 
@@ -361,7 +467,13 @@ def compute_snapshot(raw_state: dict[str, list[list[int]]], now_ms: int) -> dict
     return snapshot
 
 
-def update_manifest(fair_prices_json: str) -> None:
+def update_manifest(dataset_name: str, filename: str, content_json: str) -> None:
+    """Bumps `data/index.json`'s entry for one dataset (version/sha256/url) if its
+    published content actually changed. Both `fair_prices` and `modifier_values` route
+    through this same function so the version bump stays automatic — this project has
+    twice forgotten to hand-bump `index.json` after a dataset change, so any new
+    published dataset should always go through here rather than a manual edit.
+    """
     import hashlib
 
     if not INDEX_PATH.exists():
@@ -369,14 +481,14 @@ def update_manifest(fair_prices_json: str) -> None:
     with open(INDEX_PATH, encoding="utf-8") as f:
         index = json.load(f)
 
-    sha256 = hashlib.sha256(fair_prices_json.encode("utf-8")).hexdigest()
-    current = index.get("datasets", {}).get("fair_prices", {})
+    sha256 = hashlib.sha256(content_json.encode("utf-8")).hexdigest()
+    current = index.get("datasets", {}).get(dataset_name, {})
     if current.get("sha256") == sha256:
         return  # content unchanged, don't bump the version for no reason
 
-    index.setdefault("datasets", {})["fair_prices"] = {
+    index.setdefault("datasets", {})[dataset_name] = {
         "version": current.get("version", 0) + 1,
-        "url": "https://raw.githubusercontent.com/duetigh/saibon/master/data/fair_prices.json",
+        "url": f"https://raw.githubusercontent.com/duetigh/saibon/master/data/{filename}",
         "sha256": sha256,
     }
     with open(INDEX_PATH, "w", encoding="utf-8") as f:
@@ -401,11 +513,20 @@ def main() -> int:
         return 1
 
     now_ms = int(time.time() * 1000)
-    raw_state = load_raw_state()
-    applied = apply_sales(raw_state, response.get("auctions", []), now_ms)
-    snapshot = compute_snapshot(raw_state, now_ms)
+    raw_state = load_raw_state(RAW_STATE_PATH)
+    modifier_raw_state = load_raw_state(MODIFIER_DELTAS_RAW_PATH)
 
-    print(f"Applied {applied} new sales. Tracking {len(raw_state)} SKUs, {len(snapshot)} with a computed fair price.")
+    applied, modifier_sales = apply_sales(raw_state, response.get("auctions", []), now_ms)
+    deltas_applied = apply_modifier_deltas(modifier_raw_state, raw_state, modifier_sales)
+
+    snapshot = compute_snapshot(raw_state, now_ms)
+    modifier_snapshot = compute_snapshot(modifier_raw_state, now_ms)
+
+    print(
+        f"Applied {applied} new sales ({deltas_applied} contributed a modifier delta). "
+        f"Tracking {len(raw_state)} SKUs ({len(snapshot)} priced), "
+        f"{len(modifier_raw_state)} modifiers ({len(modifier_snapshot)} priced)."
+    )
 
     if args.dry_run:
         return 0
@@ -413,12 +534,18 @@ def main() -> int:
     RAW_STATE_PATH.parent.mkdir(parents=True, exist_ok=True)
     with open(RAW_STATE_PATH, "w", encoding="utf-8") as f:
         json.dump(raw_state, f, separators=(",", ":"))
+    with open(MODIFIER_DELTAS_RAW_PATH, "w", encoding="utf-8") as f:
+        json.dump(modifier_raw_state, f, separators=(",", ":"))
 
     fair_prices_json = json.dumps(snapshot, indent=2, sort_keys=True) + "\n"
     with open(FAIR_PRICES_PATH, "w", encoding="utf-8") as f:
         f.write(fair_prices_json)
+    modifier_values_json = json.dumps(modifier_snapshot, indent=2, sort_keys=True) + "\n"
+    with open(MODIFIER_VALUES_PATH, "w", encoding="utf-8") as f:
+        f.write(modifier_values_json)
 
-    update_manifest(fair_prices_json)
+    update_manifest("fair_prices", "fair_prices.json", fair_prices_json)
+    update_manifest("modifier_values", "modifier_values.json", modifier_values_json)
     return 0
 
 

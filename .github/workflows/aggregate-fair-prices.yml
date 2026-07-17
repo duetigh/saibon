@@ -1,14 +1,18 @@
 name: Aggregate fair prices
 
 # Continuously builds data/fair_prices.json (a per-SKU Auction House
-# fair-price/volume/confidence snapshot — see scripts/aggregate_fair_prices.py)
-# by polling Hypixel's public auctions_ended endpoint on a schedule, running
-# on GitHub's own infrastructure rather than any player's client. Every
-# Saibon client downloads this snapshot on startup (same mechanism as
-# data/items.json/data/recipes.json), so a brand-new install shows real
-# Auction House flips on day one instead of waiting hours for its own local
-# polling to build a sample — Hypixel's API only exposes a rolling ~60s
-# window per request, so there is no way to back-fill that locally.
+# fair-price/volume/confidence snapshot) and data/modifier_values.json (the
+# pooled, cross-item counterpart — how much each individual upgrade like an
+# enchant/gemstone/reforge tends to add, for items whose exact full modifier
+# combo has never sold) — see scripts/aggregate_fair_prices.py — by polling
+# Hypixel's public auctions_ended endpoint on a schedule, running on GitHub's
+# own infrastructure rather than any player's client. Every Saibon client
+# downloads both snapshots on startup (same mechanism as
+# data/items.json/data/recipes.json), so a brand-new install shows real,
+# modifier-aware Auction House flips on day one instead of waiting hours for
+# its own local polling to build a sample — Hypixel's API only exposes a
+# rolling ~60s window per request, so there is no way to back-fill that
+# locally.
 #
 # Runs on a schedule: this workflow makes an automated commit to this repo
 # roughly every 15 minutes, continuously, once merged to master.
@@ -42,6 +46,6 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/fair_prices.json data/.sales_history_raw.json data/index.json
+          git add data/fair_prices.json data/.sales_history_raw.json data/modifier_values.json data/.modifier_deltas_raw.json data/index.json
           git diff --cached --quiet || git commit -m "Update fair-price snapshot"
           git push

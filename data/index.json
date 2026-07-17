@@ -12,9 +12,14 @@
       "sha256": "351255c056462e921ee21b5f18dd053482276b440b236d5acac65d35028c9137"
     },
     "fair_prices": {
-      "version": 1,
+      "version": 2,
       "url": "https://raw.githubusercontent.com/duetigh/saibon/master/data/fair_prices.json",
-      "sha256": "cc219d8eef469202e8e4a27a92707b2e11e4e34272038e05215018dfb90092e0"
+      "sha256": "467b8de6919eead6d83b51a7afc2de976ccd3951f7933761ba912d55a8520622"
+    },
+    "modifier_values": {
+      "version": 1,
+      "url": "https://raw.githubusercontent.com/duetigh/saibon/master/data/modifier_values.json",
+      "sha256": "59eb277b01b33ae63a8e98a9767f34505f709a8a2f73834bbee7e47492c3dd68"
     }
   }
 }
