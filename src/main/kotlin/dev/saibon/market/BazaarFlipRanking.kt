@@ -4,13 +4,19 @@ import dev.saibon.data.model.SkyblockItem
 
 /**
  * Pure Bazaar flip math, parameter-injected (no client dependency) same as
- * [MarketItemMatcher]/[AuctionFlipRanking]. The Bazaar feed only gives us two
- * prices per product (`buyPrice` = current lowest sell order/ask, i.e. what
- * an *instant buy* pays; `sellPrice` = current highest buy order/bid, i.e.
- * what an *instant sell* receives) — there's no separate order-book depth
- * here, so placing your own order is approximated by whichever side of the
- * book you'd be joining: a **buy order** fills near the current bid
- * (`sellPrice`), a **sell offer** fills near the current ask (`buyPrice`).
+ * [MarketItemMatcher]/[AuctionFlipRanking]. `buyPrice`/`sellPrice` (the
+ * `quick_status` volume-weighted averages) approximate what an instant buy
+ * or instant sell of meaningful size actually nets out to, and feed
+ * [instaBuyNpcFlips]/[buyOrderNpcFlips] below, since those really do execute
+ * an instant transaction against the book.
+ *
+ * [marginFlips] is different: placing your own buy order / sell offer only
+ * needs to undercut the current *best* order by a hair, not fill real
+ * volume, so it must be called with the order-book top-of-book prices
+ * (`BazaarPrice.topSellOfferPrice`/`topBuyOrderPrice`) rather than
+ * `quick_status` — for thin, high-value items the weighted average can
+ * diverge sharply from the top order, which previously made the margin
+ * number meaningless. See [dev.saibon.market.model.BazaarPrice] kdoc.
  *
  * Three distinct flip strategies, matching the three ways to move an item
  * through the Bazaar:
@@ -20,9 +26,8 @@ import dev.saibon.data.model.SkyblockItem
  *   vendor — usually cheaper than instant-buying, at the cost of waiting for
  *   the order to fill.
  * - [marginFlips]: place a buy order, then a sell offer — the classic
- *   Bazaar-only flip, profiting off the spread itself (ask minus bid). The
- *   previous implementation computed this backwards (bid minus ask), which
- *   is never profitable since the ask always sits above the bid.
+ *   Bazaar-only flip, profiting off the spread itself (top sell offer minus
+ *   top buy order).
  *
  * All three return `null`/exclude an item entirely when a required price
  * (Bazaar buy, Bazaar sell, or NPC sell) is missing or non-positive — callers

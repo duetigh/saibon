@@ -193,7 +193,9 @@ object BazaarMenuOverlay {
 
     private fun buyPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice?.takeIf { it > 0 }
     private fun sellPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.sellPrice?.takeIf { it > 0 }
-    private fun margin(item: SkyblockItem): Double? = BazaarFlipRanking.margin(buyPrice(item), sellPrice(item))
+    private fun buyOrderPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.topBuyOrderPrice?.takeIf { it > 0 }
+    private fun sellOfferPrice(item: SkyblockItem): Double? = MarketPriceRepository.bazaarPrice(item.id)?.topSellOfferPrice?.takeIf { it > 0 }
+    private fun margin(item: SkyblockItem): Double? = BazaarFlipRanking.margin(sellOfferPrice(item), buyOrderPrice(item))
 
     private fun rebuildGrid(state: State) {
         state.gridTiles.forEach { state.widgets.remove(it) }
@@ -201,7 +203,7 @@ object BazaarMenuOverlay {
 
         val config = Saibon.config.data.market
         val candidates: List<SkyblockItem> = when (state.view) {
-            VIEW_FLIPS_MARGIN -> BazaarFlipRanking.marginFlips(DataRepository.allItems(), ::buyPrice, ::sellPrice, config.flipMinMarginPercent).map { it.item }
+            VIEW_FLIPS_MARGIN -> BazaarFlipRanking.marginFlips(DataRepository.allItems(), ::sellOfferPrice, ::buyOrderPrice, config.flipMinMarginPercent).map { it.item }
             VIEW_FLIPS_INSTABUY_NPC -> BazaarFlipRanking.instaBuyNpcFlips(DataRepository.allItems(), ::buyPrice, config.instaBuyToNpcMinMarginPercent).map { it.item }
             VIEW_FLIPS_NPC -> BazaarFlipRanking.buyOrderNpcFlips(DataRepository.allItems(), ::sellPrice, config.buyOrderToNpcMinMarginPercent).map { it.item }
             VIEW_FLIPS_CRAFT -> CraftFlipRanking.bestFlips(
@@ -329,7 +331,14 @@ object BazaarMenuOverlay {
         if (buy != null || sell != null) {
             add(DetailLine("Insta-buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
             add(DetailLine("Insta-sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
-            val margin = BazaarFlipRanking.margin(buy, sell)
+        }
+
+        val buyOrder = buyOrderPrice(item)
+        val sellOffer = sellOfferPrice(item)
+        if (buyOrder != null || sellOffer != null) {
+            add(DetailLine("Buy order: ${buyOrder?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Sell offer: ${sellOffer?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            val margin = BazaarFlipRanking.margin(sellOffer, buyOrder)
             add(DetailLine("Margin: ${margin?.let { "%,.1f".format(it) } ?: "N/A"}", if (margin != null && margin > 0) PROFIT_COLOR else if (margin == null) MUTED_TEXT_COLOR else LOSS_COLOR))
         }
 

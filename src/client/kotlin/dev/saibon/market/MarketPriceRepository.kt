@@ -69,7 +69,14 @@ object MarketPriceRepository {
             .onSuccess { response ->
                 if (response == null || !response.success) return@onSuccess
                 bazaarPrices = response.products.mapKeys { it.key.uppercase() }
-                    .mapValues { it.value.quick_status }
+                    .mapValues { (_, entry) ->
+                        BazaarPrice(
+                            buyPrice = entry.quick_status.buyPrice,
+                            sellPrice = entry.quick_status.sellPrice,
+                            topBuyOrderPrice = entry.buy_summary.firstOrNull()?.pricePerUnit ?: 0.0,
+                            topSellOfferPrice = entry.sell_summary.firstOrNull()?.pricePerUnit ?: 0.0
+                        )
+                    }
             }
             .onFailure {
                 Saibon.logger.warn("Saibon bazaar price response failed to parse, discarding", it)

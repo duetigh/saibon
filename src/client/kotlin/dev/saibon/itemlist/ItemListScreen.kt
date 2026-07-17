@@ -241,8 +241,10 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
             detailLabels += DetailLabel(detailX, y, "Bazaar insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
 
-            val margin = BazaarFlipRanking.margin(buy, sell)
-            val marginPercent = if (margin != null && sell != null && sell > 0) margin / sell * 100 else null
+            val buyOrder = bazaar.topBuyOrderPrice.takeIf { it > 0 }
+            val sellOffer = bazaar.topSellOfferPrice.takeIf { it > 0 }
+            val margin = BazaarFlipRanking.margin(sellOffer, buyOrder)
+            val marginPercent = if (margin != null && buyOrder != null && buyOrder > 0) margin / buyOrder * 100 else null
             if (margin != null && marginPercent != null && margin > 0 && marginPercent >= Saibon.config.data.market.flipMinMarginPercent) {
                 detailLabels += DetailLabel(
                     detailX, y,

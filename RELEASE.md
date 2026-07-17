@@ -15,6 +15,22 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.4 - 2026-07-17
+
+### Fixed
+- Estimated Item Value tooltip line and HUD breakdown (added in v0.13.3)
+  never showed for any item — `EstimatedItemValueCalculator` read Hypixel's
+  fields as if nested under `CUSTOM_DATA` -> `"ExtraAttributes"`, but on a
+  live `ItemStack` those fields (`id`, `modifier`, `enchantments`, ...) sit
+  directly at `CUSTOM_DATA`'s top level; that extra nesting only applies to
+  the separate pre-1.20.5 raw-NBT format `AuctionItemDecoder` decodes from
+  Auction House `item_bytes`.
+- Bazaar margin flips (place a buy order, then a sell offer) now price off
+  the order book's actual top-of-book prices (`buy_summary`/`sell_summary`)
+  instead of `quick_status`'s volume-weighted average, which could diverge
+  sharply from the real best order on thin, high-value items and made the
+  margin number meaningless.
+
 ## v0.13.3 - 2026-07-17
 
 ### Added

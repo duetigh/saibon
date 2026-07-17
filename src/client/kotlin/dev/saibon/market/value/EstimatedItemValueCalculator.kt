@@ -43,8 +43,11 @@ data class EstimatedValueResult(
  */
 object EstimatedItemValueCalculator {
     fun compute(stack: ItemStack): EstimatedValueResult? {
-        val root = stack.get(DataComponents.CUSTOM_DATA)?.copyTag() ?: return null
-        val extraAttributes = root.getCompoundOrEmpty("ExtraAttributes")
+        // On a live (component-based) ItemStack, Hypixel's fields (id, modifier, enchantments, ...)
+        // sit directly at the top level of the CUSTOM_DATA tag — there's no nested "ExtraAttributes"
+        // child key on this data source. That wrapper only exists in the pre-1.20.5 raw NBT format
+        // AuctionItemDecoder decodes from AH item_bytes, a separate, differently-shaped data source.
+        val extraAttributes = stack.get(DataComponents.CUSTOM_DATA)?.copyTag() ?: return null
         val itemId = extraAttributes.getString("id").orElse(null) ?: return null
         val item = DataRepository.item(itemId)
 

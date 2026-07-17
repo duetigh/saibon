@@ -9,12 +9,12 @@ import dev.saibon.market.MarketPriceRepository
 object BazaarMarginFlipFinder : FlipFinder {
     override val name = "Bazaar Margin"
 
-    private fun buyPrice(item: dev.saibon.data.model.SkyblockItem) = MarketPriceRepository.bazaarPrice(item.id)?.buyPrice?.takeIf { it > 0 }
-    private fun sellPrice(item: dev.saibon.data.model.SkyblockItem) = MarketPriceRepository.bazaarPrice(item.id)?.sellPrice?.takeIf { it > 0 }
+    private fun sellOfferPrice(item: dev.saibon.data.model.SkyblockItem) = MarketPriceRepository.bazaarPrice(item.id)?.topSellOfferPrice?.takeIf { it > 0 }
+    private fun buyOrderPrice(item: dev.saibon.data.model.SkyblockItem) = MarketPriceRepository.bazaarPrice(item.id)?.topBuyOrderPrice?.takeIf { it > 0 }
 
     override fun scan(): List<FlipCandidate> {
         val config = Saibon.config.data.market
-        return BazaarFlipRanking.marginFlips(DataRepository.allItems(), ::buyPrice, ::sellPrice, config.flipMinMarginPercent)
+        return BazaarFlipRanking.marginFlips(DataRepository.allItems(), ::sellOfferPrice, ::buyOrderPrice, config.flipMinMarginPercent)
             .map { flip ->
                 FlipCandidate(
                     item = flip.item,
