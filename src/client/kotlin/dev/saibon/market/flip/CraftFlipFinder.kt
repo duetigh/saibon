@@ -7,9 +7,7 @@ import dev.saibon.market.MarketPriceRepository
 
 /**
  * Wraps the pre-existing [CraftFlipRanking] (craft-cost-vs-sale-price) math —
- * spec §4.1.3. Already architecturally complete; only shows candidates once
- * the data repo has real recipe content beyond the current placeholder seed
- * (a data-completeness gap, not a bug here — see `NEU_FEATURE_PARITY.md`).
+ * spec §4.1.3.
  */
 object CraftFlipFinder : FlipFinder {
     override val name = "Craft Flip"

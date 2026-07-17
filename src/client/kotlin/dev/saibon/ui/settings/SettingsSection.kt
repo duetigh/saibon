@@ -37,39 +37,43 @@ class SettingsSectionBuilder(private val category: SaibonCategory, private val t
         entries += SettingEntry(text) { _, x, y, _, _ -> LabelSpacerWidget(x, y) }
     }
 
-    fun toggle(label: String, initial: Boolean, onChange: (Boolean) -> Unit) {
+    // `initial` is a supplier, not a plain value: SettingsRegistry.register() runs once at mod
+    // init, but each SettingEntry.build() call happens every time the settings screen rebuilds
+    // its widgets (open, category switch, search filter, scroll) and must show the live config
+    // value at that moment, not whatever it was when the section was first registered.
+    fun toggle(label: String, initial: () -> Boolean, onChange: (Boolean) -> Unit) {
         entries += SettingEntry(label) { _, x, y, w, h ->
-            ToggleWidget.create(x, y, w, h, Component.literal(label), initial, onChange)
+            ToggleWidget.create(x, y, w, h, Component.literal(label), initial(), onChange)
         }
     }
 
-    fun <T : Any> dropdown(label: String, options: List<T>, initial: T, stringify: (T) -> String, onChange: (T) -> Unit) {
+    fun <T : Any> dropdown(label: String, options: List<T>, initial: () -> T, stringify: (T) -> String, onChange: (T) -> Unit) {
         entries += SettingEntry(label) { screen, x, y, w, h ->
-            DropdownWidget.create(screen, x, y, w, h, Component.literal(label), options, initial, { Component.literal(stringify(it)) }, onChange)
+            DropdownWidget.create(screen, x, y, w, h, Component.literal(label), options, initial(), { Component.literal(stringify(it)) }, onChange)
         }
     }
 
-    fun slider(label: String, min: Float, max: Float, initial: Float, format: (Float) -> String, onChange: (Float) -> Unit) {
+    fun slider(label: String, min: Float, max: Float, initial: () -> Float, format: (Float) -> String, onChange: (Float) -> Unit) {
         entries += SettingEntry(label) { _, x, y, w, h ->
-            SliderWidget(x, y, w, h, min, max, initial, format, onChange)
+            SliderWidget(x, y, w, h, min, max, initial(), format, onChange)
         }
     }
 
-    fun textField(label: String, initial: String, onChange: (String) -> Unit) {
+    fun textField(label: String, initial: () -> String, onChange: (String) -> Unit) {
         entries += SettingEntry(label) { _, x, y, w, h ->
-            TextFieldWidget.create(Minecraft.getInstance().font, x, y, w, h, initial, onChange)
+            TextFieldWidget.create(Minecraft.getInstance().font, x, y, w, h, initial(), onChange)
         }
     }
 
-    fun keybind(label: String, initialKeyName: String, onChange: (String) -> Unit) {
+    fun keybind(label: String, initialKeyName: () -> String, onChange: (String) -> Unit) {
         entries += SettingEntry(label) { _, x, y, w, h ->
-            KeybindWidget(x, y, w, h, initialKeyName, onChange)
+            KeybindWidget(x, y, w, h, initialKeyName(), onChange)
         }
     }
 
-    fun colorPicker(label: String, initial: Int, onChange: (Int) -> Unit) {
+    fun colorPicker(label: String, initial: () -> Int, onChange: (Int) -> Unit) {
         entries += SettingEntry(label) { screen, x, y, w, h ->
-            ColorPickerWidget(x, y, w, h, Component.literal(label), initial, screen, onChange)
+            ColorPickerWidget(x, y, w, h, Component.literal(label), initial(), screen, onChange)
         }
     }
 

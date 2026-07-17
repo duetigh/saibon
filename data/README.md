@@ -11,7 +11,21 @@ file is trusted or applied.
 
 `items.json` holds the full ~5,500-item SkyBlock catalog, id-for-id matched
 against Hypixel's public `/v2/resources/skyblock/items` API. `recipes.json`
-still holds a two-item placeholder seed and needs real, sourced recipe data.
+holds ~1,900 crafting-table recipes sourced from
+[NotEnoughUpdates-REPO](https://github.com/NotEnoughUpdates/NotEnoughUpdates-REPO)
+(the community-standard source — Hypixel's own API doesn't expose recipes at
+all) via [`scripts/sync_neu_recipes.py`](../scripts/sync_neu_recipes.py),
+plus ~100 Forge recipes scraped from the
+[SkyBlock Fandom wiki's Forge table](https://hypixel-skyblock.fandom.com/wiki/The_Forge)
+via [`scripts/sync_forge_recipes.py`](../scripts/sync_forge_recipes.py) — the
+only place Forge recipes are tracked in any structured form; NEU-REPO only
+has a freeform hint like `"Requires: HotM 2"` for those. Both scripts write
+intermediate `recipes.craft.json`/`recipes.forge.json` files that
+[`scripts/merge_recipes.py`](../scripts/merge_recipes.py) combines into
+`recipes.json` — see each script's docstring for regeneration instructions.
+Pets and a handful of forge-only accessories aren't in `items.json` yet, so
+their recipes are dropped rather than referencing an id nothing can resolve;
+each sync script logs what it skipped to stderr.
 
 Each `items.json` entry's `material` field is a `namespace:path` vanilla
 item id (e.g. `"minecraft:wheat"`) used to render that item's grid icon.

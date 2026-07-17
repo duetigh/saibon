@@ -11,7 +11,7 @@ object UpdateSettings {
         SettingsRegistry.register(
             SettingsSection(SaibonCategory.UPDATES, "Updates") {
                 val config = Saibon.config.data.update
-                toggle("Auto-check for updates", config.autoCheck) {
+                toggle("Auto-check for updates", { config.autoCheck }) {
                     config.autoCheck = it
                     Saibon.config.save()
                 }

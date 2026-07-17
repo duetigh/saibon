@@ -17,7 +17,7 @@ object HudSettings {
                 }
                 for (module in HudEngine.allModules()) {
                     val state = HudEngine.stateFor(module)
-                    toggle(module.title, state.enabled) {
+                    toggle(module.title, { state.enabled }) {
                         state.enabled = it
                         Saibon.config.save()
                     }

@@ -113,8 +113,19 @@ class HudEditScreen : Screen(Component.literal("HUD Locations")) {
             val module = boxes.firstOrNull { it.module.id == id }?.module
             if (module != null) {
                 val state = HudEngine.stateFor(module)
-                state.offsetX += dragX.toInt()
-                state.offsetY += dragY.toInt()
+                // HudEngine.origin() subtracts offsetX/offsetY for right/bottom anchors (measuring
+                // inward from that edge), so a rightward/downward mouse drag must shrink, not grow,
+                // the offset for those anchors or the box would crawl the opposite way of the mouse.
+                val xSign = when (state.anchor) {
+                    HudAnchor.TOP_RIGHT, HudAnchor.MIDDLE_RIGHT, HudAnchor.BOTTOM_RIGHT -> -1
+                    else -> 1
+                }
+                val ySign = when (state.anchor) {
+                    HudAnchor.BOTTOM_LEFT, HudAnchor.BOTTOM_CENTER, HudAnchor.BOTTOM_RIGHT -> -1
+                    else -> 1
+                }
+                state.offsetX += xSign * dragX.toInt()
+                state.offsetY += ySign * dragY.toInt()
                 rebuildBoxes()
                 return true
             }

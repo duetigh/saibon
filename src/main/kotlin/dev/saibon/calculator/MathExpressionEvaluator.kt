@@ -3,13 +3,21 @@ package dev.saibon.calculator
 /**
  * Recursive-descent evaluator for `+ - * / % ^ ( )` over decimals, right-
  * associative `^`, and unary `+`/`-` — NEU-style "type math into the search
- * bar and see the answer" support. [looksLikeMath] gates which inputs are
- * even attempted, so a plain item-name search (letters, no operator) never
- * gets routed here instead of the normal query parser.
+ * bar and see the answer" support. Numbers accept a trailing `k`/`m`/`b`/`t`
+ * shorthand (`2.5m` == `2500000`) so coin amounts can be typed the way
+ * they're seen in-game. [looksLikeMath] gates which inputs are even
+ * attempted, so a plain item-name search (letters, no operator) never gets
+ * routed here instead of the normal query parser.
  */
 object MathExpressionEvaluator {
-    private val VALID_CHARS = Regex("""^[0-9+\-*/%^().\s]+$""")
+    private val VALID_CHARS = Regex("""^[0-9+\-*/%^().\skKmMbBtT]+$""")
     private val HAS_OPERATOR = Regex("""[+\-*/%^]""")
+    private val SUFFIX_MULTIPLIERS = mapOf(
+        'k' to 1_000.0,
+        'm' to 1_000_000.0,
+        'b' to 1_000_000_000.0,
+        't' to 1_000_000_000_000.0,
+    )
 
     fun looksLikeMath(input: String): Boolean {
         val trimmed = input.trim()
@@ -97,7 +105,13 @@ object MathExpressionEvaluator {
             val start = pos
             while (pos < input.length && (input[pos].isDigit() || input[pos] == '.')) pos++
             require(pos > start) { "expected number at $start" }
-            return input.substring(start, pos).toDouble()
+            var value = input.substring(start, pos).toDouble()
+            val multiplier = peek()?.lowercaseChar()?.let { SUFFIX_MULTIPLIERS[it] }
+            if (multiplier != null) {
+                value *= multiplier
+                pos++
+            }
+            return value
         }
 
         private fun peek(): Char? = input.getOrNull(pos)

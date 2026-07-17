@@ -236,11 +236,7 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
             val sell = bazaar.sellPrice.takeIf { it > 0 }
             detailLabels += DetailLabel(detailX, y, "Bazaar insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Bazaar buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
-            y += ROW_HEIGHT
             detailLabels += DetailLabel(detailX, y, "Bazaar insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
-            y += ROW_HEIGHT
-            detailLabels += DetailLabel(detailX, y, "Bazaar sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}", PRICE_COLOR)
             y += ROW_HEIGHT
 
             val margin = BazaarFlipRanking.margin(buy, sell)
@@ -320,11 +316,35 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
                 y += ROW_HEIGHT + MARGIN
             }
             RecipeType.CRAFTING, RecipeType.FORGE -> {
+                if (recipe.type == RecipeType.FORGE) {
+                    recipe.durationSeconds?.let { seconds ->
+                        detailLabels += DetailLabel(detailX, y, "Forge time: ${formatDuration(seconds)}", MUTED_TEXT_COLOR)
+                        y += ROW_HEIGHT
+                    }
+                    recipe.npcCost?.let { coins ->
+                        detailLabels += DetailLabel(detailX, y, "Plus ${formatPrice(coins)} coins", PRICE_COLOR)
+                        y += ROW_HEIGHT
+                    }
+                    if (recipe.durationSeconds != null || recipe.npcCost != null) y += MARGIN / 2
+                }
                 y = layoutIngredientGrid(recipe, y)
             }
         }
 
         return y
+    }
+
+    private fun formatDuration(totalSeconds: Int): String {
+        val days = totalSeconds / 86400
+        val hours = (totalSeconds % 86400) / 3600
+        val minutes = (totalSeconds % 3600) / 60
+        val seconds = totalSeconds % 60
+        return buildList {
+            if (days > 0) add("${days}d")
+            if (hours > 0) add("${hours}h")
+            if (minutes > 0) add("${minutes}m")
+            if (seconds > 0 && days == 0 && hours == 0) add("${seconds}s")
+        }.joinToString(" ").ifEmpty { "0s" }
     }
 
     private fun layoutIngredientGrid(recipe: Recipe, startY: Int): Int {
@@ -422,9 +442,7 @@ class ItemListScreen(private val initialItemId: String? = null) : Screen(Compone
                 val buy = bazaar.buyPrice.takeIf { it > 0 }
                 val sell = bazaar.sellPrice.takeIf { it > 0 }
                 add("Bazaar insta-buy: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
-                add("Bazaar buy order: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
                 add("Bazaar insta-sell: ${sell?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
-                add("Bazaar sell offer: ${buy?.let { "${formatPrice(it)} coins" } ?: "N/A"}" to PRICE_COLOR)
             } else if (item.soulbound) {
                 add("Soulbound (not tradeable)" to MUTED_TEXT_COLOR)
             }

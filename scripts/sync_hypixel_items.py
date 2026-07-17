@@ -4,9 +4,9 @@ public SkyBlock items resource (https://api.hypixel.net/v2/resources/skyblock/it
 
 Hypixel's resource endpoint is keyless and id-for-id identical to this repo's
 item catalog (every id in data/items.json has a matching entry there). This
-script only ever corrects three fields — it never touches name/tier/category/
-npcSellPrice/wikiUrl/soulbound, which come from wherever data/items.json's ids
-and metadata originally came from:
+script only ever corrects a handful of fields — it never touches name/tier/
+category/npcSellPrice/wikiUrl/soulbound, which come from wherever
+data/items.json's ids and metadata originally came from:
 
 - Leather armor (LEATHER_BOOTS/CHESTPLATE/LEGGINGS/HELMET): sets `color` from
   Hypixel's per-item dye RGB so each piece renders its real in-game color
@@ -20,6 +20,18 @@ and metadata originally came from:
   render the exact custom texture via a resolved GameProfile, same as
   vanilla Minecraft does for any player head — no Hypixel resource-pack
   assets involved.
+- Dye-family items (legacy Bukkit INK_SACK + durability, e.g. arrow
+  poisons/powders/pet drops): remaps to the correct modern dye/bone-meal/
+  cocoa-beans item id instead of the durability-0 (`minecraft:ink_sac`)
+  placeholder every one of these got when the legacy id was first
+  flattened.
+- Every item with a remote `item_model`: copies it verbatim into local
+  `itemModel` so ItemIcons can set `minecraft:item_model`, which is how
+  Hypixel itself re-skins a plain vanilla base item (usually `PAPER`) into
+  its real SkyBlock look via their own server resource pack — this is by
+  far the biggest fix, covering ~950 items across the whole catalog (drill
+  engine upgrades, jacob tickets, slayer drops, etc.), not just the
+  leather/skull special cases above.
 
 Usage:
     python scripts/sync_hypixel_items.py [--source path/to/cached-api-response.json]
@@ -55,6 +67,28 @@ SKULL_DURABILITY_MATERIAL = {
     "5": "minecraft:dragon_head",
 }
 
+# Legacy Bukkit INK_SACK durability -> modern vanilla dye-family item id
+# (the pre-1.13 DyeColor durability table; INK_SACK itself only ever meant
+# "black dye" at durability 0, everything else was a sub-id).
+INK_SACK_DURABILITY_MATERIAL = {
+    "0": "minecraft:ink_sac",
+    "1": "minecraft:red_dye",
+    "2": "minecraft:green_dye",
+    "3": "minecraft:cocoa_beans",
+    "4": "minecraft:lapis_lazuli",
+    "5": "minecraft:purple_dye",
+    "6": "minecraft:cyan_dye",
+    "7": "minecraft:light_gray_dye",
+    "8": "minecraft:gray_dye",
+    "9": "minecraft:pink_dye",
+    "10": "minecraft:lime_dye",
+    "11": "minecraft:yellow_dye",
+    "12": "minecraft:light_blue_dye",
+    "13": "minecraft:magenta_dye",
+    "14": "minecraft:orange_dye",
+    "15": "minecraft:bone_meal",
+}
+
 
 def fetch_remote_items(source: str | None) -> list[dict]:
     if source:
@@ -86,6 +120,8 @@ def main() -> int:
 
     leather_updated = 0
     skull_updated = 0
+    dye_updated = 0
+    item_model_updated = 0
     skipped_no_local_match = 0
 
     for remote in remote_items:
@@ -125,12 +161,29 @@ def main() -> int:
             if changed:
                 skull_updated += 1
 
+        elif material == "INK_SACK":
+            durability = str(remote.get("durability", "0"))
+            new_material = INK_SACK_DURABILITY_MATERIAL.get(durability, "minecraft:ink_sac")
+            if local.get("material") != new_material:
+                local["material"] = new_material
+                dye_updated += 1
+
+        item_model = remote.get("item_model")
+        if item_model:
+            if local.get("itemModel") != item_model:
+                local["itemModel"] = item_model
+                item_model_updated += 1
+        else:
+            local.pop("itemModel", None)
+
     with open(ITEMS_PATH, "w", encoding="utf-8", newline="\n") as f:
         json.dump(local_items, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
     print(f"Leather armor pieces recolored: {leather_updated}")
     print(f"Skull items retextured/remapped: {skull_updated}")
+    print(f"Dye-family items remapped: {dye_updated}")
+    print(f"Item models set/updated: {item_model_updated}")
     if skipped_no_local_match:
         print(f"Remote ids with no local match (skipped): {skipped_no_local_match}", file=sys.stderr)
     return 0

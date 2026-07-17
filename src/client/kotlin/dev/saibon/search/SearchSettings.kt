@@ -12,15 +12,15 @@ object SearchSettings {
             SettingsSection(SaibonCategory.FEATURES, "Search & Highlight") {
                 val config = Saibon.config.data.search
 
-                toggle("Enable inventory search overlay", config.enabled) {
+                toggle("Enable inventory search overlay", { config.enabled }) {
                     config.enabled = it
                     Saibon.config.save()
                 }
-                colorPicker("Match highlight color", config.matchColor) {
+                colorPicker("Match highlight color", { config.matchColor }) {
                     config.matchColor = it
                     Saibon.config.save()
                 }
-                colorPicker("Non-match dim color", config.dimColor) {
+                colorPicker("Non-match dim color", { config.dimColor }) {
                     config.dimColor = it
                     Saibon.config.save()
                 }

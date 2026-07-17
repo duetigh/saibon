@@ -15,8 +15,9 @@ import java.util.concurrent.TimeUnit
 import java.util.concurrent.atomic.AtomicBoolean
 
 /**
- * Local reference-sale-price engine for the `/saibonah` flip finder
- * ([dev.saibon.market.ui.AuctionFlipScreen]). Polls Hypixel's public,
+ * Local reference-sale-price engine for the Auction House flip finder
+ * ([dev.saibon.market.flip.AuctionFlipFinder], part of `/saibonflips`). Polls
+ * Hypixel's public,
  * keyless `/v2/skyblock/auctions_ended` endpoint (a rolling ~1hr window of
  * recently sold auctions — shape confirmed live, see
  * [dev.saibon.market.model.AuctionsEndedResponse]) well under that window,

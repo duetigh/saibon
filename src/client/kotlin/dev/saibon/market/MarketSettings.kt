@@ -15,7 +15,7 @@ object MarketSettings {
             SettingsSection(SaibonCategory.DATA, "Market Prices") {
                 val config = Saibon.config.data.market
 
-                toggle("Auto-refresh Bazaar prices", config.autoRefresh) {
+                toggle("Auto-refresh Bazaar prices", { config.autoRefresh }) {
                     config.autoRefresh = it
                     Saibon.config.save()
                     MarketPriceRepository.rescheduleRefresh()
@@ -23,7 +23,7 @@ object MarketSettings {
                 dropdown(
                     "Refresh interval",
                     REFRESH_INTERVALS,
-                    config.refreshIntervalSeconds,
+                    { config.refreshIntervalSeconds },
                     { seconds -> "${seconds}s" }
                 ) {
                     config.refreshIntervalSeconds = it
@@ -35,7 +35,7 @@ object MarketSettings {
                 }
                 slider(
                     "Minimum flip margin",
-                    0f, 50f, config.flipMinMarginPercent.toFloat(),
+                    0f, 50f, { config.flipMinMarginPercent.toFloat() },
                     { "${it.toInt()}%" }
                 ) {
                     config.flipMinMarginPercent = it.toDouble()
@@ -49,7 +49,7 @@ object MarketSettings {
 
                 toggle(
                     "Auto-refresh lowest-BIN prices (heavier: pages through every active auction)",
-                    config.ahAutoRefresh
+                    { config.ahAutoRefresh }
                 ) {
                     config.ahAutoRefresh = it
                     Saibon.config.save()
@@ -58,7 +58,7 @@ object MarketSettings {
                 dropdown(
                     "Refresh interval",
                     AH_REFRESH_INTERVALS,
-                    config.ahRefreshIntervalSeconds,
+                    { config.ahRefreshIntervalSeconds },
                     { seconds -> "${seconds / 60}m" }
                 ) {
                     config.ahRefreshIntervalSeconds = it
@@ -70,13 +70,13 @@ object MarketSettings {
                 }
                 slider(
                     "Overpay warning threshold",
-                    1.1f, 3.0f, config.overpayWarningThreshold.toFloat(),
+                    1.1f, 3.0f, { config.overpayWarningThreshold.toFloat() },
                     { "%.1fx".format(it) }
                 ) {
                     config.overpayWarningThreshold = it.toDouble()
                     Saibon.config.save()
                 }
-                toggle("Highlight AH/Bazaar search matches in the real menu", config.menuOverlayEnabled) {
+                toggle("Highlight AH/Bazaar search matches in the real menu", { config.menuOverlayEnabled }) {
                     config.menuOverlayEnabled = it
                     Saibon.config.save()
                 }

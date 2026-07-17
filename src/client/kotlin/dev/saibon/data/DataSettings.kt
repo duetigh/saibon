@@ -14,14 +14,14 @@ object DataSettings {
             SettingsSection(SaibonCategory.DATA, "Data Repository") {
                 val config = Saibon.config.data.dataRepo
 
-                toggle("Auto-refresh game data", config.autoRefresh) {
+                toggle("Auto-refresh game data", { config.autoRefresh }) {
                     config.autoRefresh = it
                     Saibon.config.save()
                 }
                 dropdown(
                     "Refresh interval",
                     REFRESH_INTERVALS,
-                    config.refreshIntervalMinutes,
+                    { config.refreshIntervalMinutes },
                     { minutes -> if (minutes < 60) "$minutes min" else "${minutes / 60}h" }
                 ) {
                     config.refreshIntervalMinutes = it

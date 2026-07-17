@@ -16,13 +16,17 @@ import java.util.UUID
 /**
  * Resolves a [SkyblockItem.material] id to the vanilla [ItemStack] used to
  * render its icon. This only ever sets real vanilla item id + data
- * components (dye color, player-head profile texture) — never a Saibon-side
- * texture swap — so the result renders through the ordinary vanilla/
- * resource-pack item pipeline and picks up whatever texture/CIT pack the
- * player has active, the same as any other item in their inventory. Custom
- * head textures ([SkyblockItem.skullTexture]) use the same real Mojang skin
- * data a vanilla player head carries, resolved client-side — no Hypixel
- * resource-pack assets are ever bundled or referenced.
+ * components (dye color, player-head profile texture, item model) — never a
+ * Saibon-side texture swap — so the result renders through the ordinary
+ * vanilla/resource-pack item pipeline and picks up whatever texture/CIT pack
+ * the player has active, the same as any other item in their inventory.
+ * Custom head textures ([SkyblockItem.skullTexture]) use the same real
+ * Mojang skin data a vanilla player head carries, resolved client-side.
+ * [SkyblockItem.itemModel] just points `minecraft:item_model` at the same
+ * `hypixel_skyblock:item/...` id the real game uses, which only resolves to
+ * anything if the player already has Hypixel's own server resource pack
+ * active (as virtually every SkyBlock player does) — no Hypixel resource-
+ * pack assets are ever bundled or referenced by Saibon itself.
  */
 object ItemIcons {
     fun stackFor(item: SkyblockItem): ItemStack {
@@ -30,6 +34,7 @@ object ItemIcons {
         val stack = ItemStack(BuiltInRegistries.ITEM.getValue(identifier))
         item.color?.let { rgb -> stack.set(DataComponents.DYED_COLOR, DyedItemColor(rgb)) }
         item.skullTexture?.let { texture -> stack.set(DataComponents.PROFILE, resolvedProfile(item.id, texture)) }
+        item.itemModel?.let { model -> Identifier.tryParse(model)?.let { stack.set(DataComponents.ITEM_MODEL, it) } }
         return stack
     }
 

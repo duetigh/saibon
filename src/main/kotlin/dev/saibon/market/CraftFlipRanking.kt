@@ -9,10 +9,6 @@ import dev.saibon.data.model.SkyblockItem
  * like [BazaarFlipRanking]/[AuctionFlipRanking] — the data repo's `recipes`
  * dataset lives behind [dev.saibon.data.DataRepository], a client-only
  * object, so recipe/cost lookups are passed in rather than called directly.
- * Note: this checkout's `data/recipes.json`/`items.json` are placeholder
- * seeds (one recipe, two items) — this ranking is architecturally complete
- * but will show little/nothing until the live data repo has real recipe
- * content; that's a data-completeness gap, not a bug here.
  */
 data class CraftFlip(
     val item: SkyblockItem,
@@ -54,7 +50,9 @@ object CraftFlipRanking {
         if (recipe.type == RecipeType.NPC) return recipe.npcCost
         if (depth > MAX_DEPTH) return null
 
-        var total = 0.0
+        // For FORGE recipes, npcCost (if present) is an extra coin cost alongside
+        // the ingredients (e.g. Travel Scrolls), not an alternative to them.
+        var total = if (recipe.type == RecipeType.FORGE) recipe.npcCost ?: 0.0 else 0.0
         for (ingredient in recipe.ingredients) {
             val id = ingredient.itemId.uppercase()
             val unitCost = marketCostOf(id) ?: resolveViaSubRecipe(id, recipeOf, marketCostOf, visiting, depth) ?: return null

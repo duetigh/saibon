@@ -181,7 +181,7 @@ class ItemListSidebarPanel(private val screen: Screen) {
                 val buy = bazaar.buyPrice.takeIf { it > 0 }
                 val sell = bazaar.sellPrice.takeIf { it > 0 }
                 add("Bazaar insta-buy: ${buy?.let { "%,.1f coins".format(it) } ?: "N/A"}" to PRICE_COLOR)
-                add("Bazaar buy order: ${sell?.let { "%,.1f coins".format(it) } ?: "N/A"}" to PRICE_COLOR)
+                add("Bazaar insta-sell: ${sell?.let { "%,.1f coins".format(it) } ?: "N/A"}" to PRICE_COLOR)
             } else if (item.soulbound) {
                 add("Soulbound (not tradeable)" to MUTED_TEXT_COLOR)
             }

@@ -15,7 +15,7 @@ data class MarketConfig(
     var menuOverlayEnabled: Boolean = false,
     /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. Off by default — the real AH menu stays a plain highlight/dim overlay unless explicitly opted into. */
     var ahOverlayPanelEnabled: Boolean = false,
-    /** Powers the `/saibonah` flip finder's reference-sale-price engine — see AuctionSalesHistoryRepository. Off by default, same rationale as [ahAutoRefresh]: not everyone wants the extra polling. */
+    /** Powers `/saibonflips`' Auction House finder's reference-sale-price engine — see AuctionSalesHistoryRepository. Off by default, same rationale as [ahAutoRefresh]: not everyone wants the extra polling. */
     var salesHistoryAutoRefresh: Boolean = false,
     var salesHistoryRefreshIntervalSeconds: Int = 300,
     /** Bounded per-item rolling-median ring buffer size. */

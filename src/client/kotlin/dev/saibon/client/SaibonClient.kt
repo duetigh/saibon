@@ -27,10 +27,8 @@ import dev.saibon.market.MarketSettings
 import dev.saibon.market.flip.AhFlipChatNotifier
 import dev.saibon.market.flip.FlipEngine
 import dev.saibon.market.flip.FlipEngineSettings
-import dev.saibon.market.ui.AuctionFlipScreen
 import dev.saibon.market.ui.BazaarActionNavigator
 import dev.saibon.market.ui.BazaarMenuOverlay
-import dev.saibon.market.ui.BazaarSearchScreen
 import dev.saibon.market.ui.FlipScreen
 import dev.saibon.market.ui.MarketMenuOverlay
 import dev.saibon.search.SearchSettings
@@ -64,8 +62,6 @@ object SaibonClient : ClientModInitializer {
             dispatcher.register(literal("sbi").executes { openItemList() })
         }
         CommandRegistry.register { dispatcher ->
-            dispatcher.register(literal("saibonah").executes { openAuctionFlipFinder() })
-            dispatcher.register(literal("saibonbz").executes { openBazaarSearch() })
             dispatcher.register(literal("saibonflips").executes { openFlipScreen() })
         }
 
@@ -110,14 +106,6 @@ object SaibonClient : ClientModInitializer {
 
     private fun openItemList(): Int = guardedScreen("open the item list") {
         Minecraft.getInstance().setScreenAndShow(ItemListScreen())
-    }
-
-    private fun openAuctionFlipFinder(): Int = guardedScreen("open the auction flip finder") {
-        Minecraft.getInstance().setScreenAndShow(AuctionFlipScreen())
-    }
-
-    private fun openBazaarSearch(): Int = guardedScreen("open the bazaar price browser") {
-        Minecraft.getInstance().setScreenAndShow(BazaarSearchScreen())
     }
 
     private fun openFlipScreen(): Int = guardedScreen("open the flip finder") {

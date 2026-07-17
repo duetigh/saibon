@@ -20,13 +20,12 @@ import kotlin.math.min
 
 /**
  * `/saibonflips` — the unified multi-strategy flip table (spec §4.3),
- * replacing the single-strategy `/saibonah` as the main flip-browsing screen
- * (`/saibonah` itself stays as-is — see `AuctionFlipScreen` — since it's
- * still a valid narrower view). Reads [FlipEngine.latestCandidates] (already
- * scanned in the background on its own schedule) rather than computing
- * anything itself; an "Open &lt;seller&gt;'s AH" button appears only for
- * candidates backed by one real listing ([FlipCandidate.sellerUuid] != null)
- * — Bazaar/craft/NPC flips have no single listing/seller to point at.
+ * replacing the single-strategy `/saibonah` and `/saibonbz` screens (both
+ * retired) as the one flip-browsing screen. Reads [FlipEngine.latestCandidates]
+ * (already scanned in the background on its own schedule) rather than
+ * computing anything itself; an "Open &lt;seller&gt;'s AH" button appears only
+ * for candidates backed by one real listing ([FlipCandidate.sellerUuid] !=
+ * null) — Bazaar/craft/NPC flips have no single listing/seller to point at.
  */
 class FlipScreen : Screen(Component.literal("Flip Finder")) {
 

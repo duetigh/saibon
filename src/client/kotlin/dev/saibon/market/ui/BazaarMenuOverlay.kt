@@ -60,8 +60,8 @@ object BazaarMenuOverlay {
     private const val LOSS_COLOR = 0xFFFF5555.toInt()
 
     private enum class SortOrder(val label: String) {
-        BUY_ASC("Buy: Low-High"),
-        SELL_DESC("Sell: High-Low"),
+        BUY_ASC("Insta-buy: Low-High"),
+        SELL_DESC("Insta-sell: High-Low"),
         MARGIN_DESC("Margin: High-Low"),
         NAME("Name")
     }
@@ -327,8 +327,8 @@ object BazaarMenuOverlay {
         val buy = buyPrice(item)
         val sell = sellPrice(item)
         if (buy != null || sell != null) {
-            add(DetailLine("Buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
-            add(DetailLine("Sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Insta-buy: ${buy?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
+            add(DetailLine("Insta-sell: ${sell?.let { "%,.1f".format(it) } ?: "N/A"}", PRICE_COLOR))
             val margin = BazaarFlipRanking.margin(buy, sell)
             add(DetailLine("Margin: ${margin?.let { "%,.1f".format(it) } ?: "N/A"}", if (margin != null && margin > 0) PROFIT_COLOR else if (margin == null) MUTED_TEXT_COLOR else LOSS_COLOR))
         }

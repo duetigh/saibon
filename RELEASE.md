@@ -15,6 +15,69 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.10.0 - 2026-07-16
+
+### Added
+- `data/recipes.json` now holds real recipe data instead of a two-item
+  placeholder seed: ~1,900 crafting-table recipes sourced from
+  NotEnoughUpdates-REPO (new `scripts/sync_neu_recipes.py`) plus ~100 Forge
+  recipes scraped from the SkyBlock Fandom wiki's Forge table (new
+  `scripts/sync_forge_recipes.py`), combined into the final file by new
+  `scripts/merge_recipes.py`. `Recipe` gained a `durationSeconds` field
+  (Forge processing time); the Item List's recipe panel now shows Forge time
+  and any extra coin cost alongside the ingredient grid, and Craft Flip
+  Finder can now actually surface candidates instead of showing nothing.
+- `scripts/sync_hypixel_items.py` now sets a new `SkyblockItem.itemModel`
+  field from Hypixel's `item_model` data on ~950 items (drill engine
+  upgrades, Jacob tickets, slayer drops, etc.), and `ItemIcons` renders it
+  via `minecraft:item_model` — the same mechanism Hypixel's own resource
+  pack uses to re-skin a plain vanilla base item (usually paper) into its
+  real SkyBlock look — instead of falling back to the generic vanilla
+  texture. The sync script also remaps legacy `INK_SACK`-durability items
+  (arrow poisons/powders, pet drops) to their correct modern dye/bone-meal/
+  cocoa-beans id instead of a flat "ink sac" placeholder.
+- Mod icon: `fabric.mod.json` now references a bundled
+  `assets/saibon/icon.png`.
+- Math evaluator (inventory search bar) now accepts `k`/`m`/`b`/`t` suffixes
+  on numbers (`2.5m` == `2500000`), matching how coin amounts are usually
+  written in-game.
+- Inventory search overlay's typed query and filter toggle now survive
+  reopening the container (switching AH pages, opening a backpack, warping)
+  instead of resetting to blank every time, since Minecraft constructs a new
+  `Screen` instance on every reopen.
+
+### Changed
+- `/saibonah` and `/saibonbz` removed (`AuctionFlipScreen`/
+  `BazaarSearchScreen` deleted); the unified `/saibonflips` (added in
+  v0.9.0) is now the only flip/browse screen for both Auction House and
+  Bazaar.
+- Bazaar price labels across the Item List, its sidebar, and
+  `BazaarMenuOverlay` now consistently read "Insta-buy"/"Insta-sell" instead
+  of a mix of "Buy"/"Sell"/"Buy order"/"Sell offer" wording for the same two
+  numbers.
+- `CraftFlipRanking` now treats a Forge recipe's `npcCost` as an extra coin
+  cost on top of its ingredients (e.g. Travel Scrolls) instead of ignoring
+  it.
+
+### Fixed
+- Settings widgets (toggle, dropdown, slider, text field, keybind, color
+  picker) captured their initial value once at registration instead of
+  reading it live, so every widget appeared to silently revert to its old
+  value whenever the settings screen rebuilt its widgets (switching
+  category, searching, scrolling) after being changed; `SettingsSection`'s
+  builders now take the initial value as a supplier evaluated on each
+  rebuild instead of a plain value captured once.
+- HUD edit screen drag was inverted for right/bottom-anchored modules
+  (dragging right moved them left, dragging down moved them up), since
+  their offset is measured inward from that edge rather than outward from
+  the opposite one.
+- `fabric.mod.json`'s Minecraft version range narrowed from `>=26.1 <26.3`
+  back to `>=26.2 <26.3`: v0.9.1 crashed (`NoSuchMethodError: Gui.screen()`)
+  on 26.1.x clients because the too-wide range let a 26.2-only build load on
+  26.1, where `Gui.screen()` doesn't exist (`Minecraft.screen` is the 26.1
+  equivalent) — Mojang broke public API shape across this "minor" version
+  bump.
+
 ## v0.9.1 - 2026-07-16
 
 ### Changed
