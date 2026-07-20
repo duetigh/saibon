@@ -110,6 +110,7 @@ object AuctionItemDecoder {
         dyeModifier(extraAttributes)?.let { modifiers += it }
         modifiers += runeModifiers(extraAttributes)
         skinModifier(extraAttributes)?.let { modifiers += it }
+        modifiers += drillPartModifiers(extraAttributes)
         return modifiers
     }
 
@@ -246,4 +247,27 @@ object AuctionItemDecoder {
      */
     private fun skinModifier(extra: CompoundTag): ItemModifier? =
         extra.getString("skin").map { ItemModifier("skin", it) }.orElse(null)
+
+    /**
+     * A drill's three sockets (Engine/Fuel Tank/Upgrade Module) each hold
+     * their own `ExtraAttributes` string key set directly to the socketed
+     * part's itemId (e.g. `drill_part_fuel_tank: "MITHRIL_FUEL_TANK"`) — same
+     * directly-priceable-itemId shape as [dyeModifier], not a synthesized key
+     * like [runeModifiers]. Key names verified against SkyHanni/NotEnoughUpdates'
+     * public source, not yet checked against a live server response the way
+     * the base `id` field was, same caveat as this class's other newer fields.
+     * These were previously entirely unhandled, so a drill's socketed parts
+     * silently contributed nothing to [dev.saibon.market.value.EstimatedItemValueCalculator]'s
+     * breakdown even though they're a large, deliberate part of the item's value.
+     */
+    private fun drillPartModifiers(extra: CompoundTag): List<ItemModifier> {
+        val slots = listOf(
+            "engine" to "drill_part_engine",
+            "fuel_tank" to "drill_part_fuel_tank",
+            "upgrade_module" to "drill_part_upgrade_module"
+        )
+        return slots.mapNotNull { (slot, key) ->
+            extra.getString(key).map { ItemModifier("drill_part", "$slot:$it") }.orElse(null)
+        }
+    }
 }

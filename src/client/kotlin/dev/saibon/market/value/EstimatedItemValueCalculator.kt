@@ -173,6 +173,7 @@ object EstimatedItemValueCalculator {
         "upgrade" -> upgradeLines(modifier.key)
         "dye" -> dyeLine(modifier.key)?.let { listOf(it) }
         "rune" -> runeLine(modifier.key)?.let { listOf(it) }
+        "drill_part" -> drillPartLine(modifier.key)?.let { listOf(it) }
         // "skin": deliberately unhandled — see AuctionItemDecoder.skinModifier's doc comment.
         // Falls through here, contributing to isPartial rather than a fabricated price.
         else -> null
@@ -341,6 +342,23 @@ object EstimatedItemValueCalculator {
         val conduitCost = CraftFlipRanking.craftCostOf("ETHERWARP_CONDUIT", recipesOf, marketCostOf, marketCostOfQuantity) ?: return null
         val mergerCost = marketCostOf("ETHERWARP_MERGER") ?: return null
         return EstimatedValueLine("Etherwarp", conduitCost + mergerCost, ValueCategory.BOOLEAN_UPGRADE, checkmark = true)
+    }
+
+    /**
+     * Key is `"<slot>:<itemId>"` — see [AuctionItemDecoder]'s `drillPartModifiers`
+     * doc comment. The part's own item name (e.g. "Fuel Canister", "Drill Motor")
+     * often doesn't say which socket it fills, so the line is prefixed with the
+     * slot label (matching [reforgeLines]'s "Stone (...)" convention) rather than
+     * showing the bare item name alone.
+     */
+    private fun drillPartLine(key: String): EstimatedValueLine? {
+        val parts = key.split(":", limit = 2)
+        if (parts.size != 2) return null
+        val (slot, itemId) = parts
+        val price = marketCostOf(itemId) ?: return null
+        val slotLabel = displayName(slot)
+        val partName = DataRepository.item(itemId)?.name ?: displayName(itemId)
+        return EstimatedValueLine("$slotLabel ($partName)", price, ValueCategory.MISC)
     }
 
     private fun displayName(key: String): String = key.split("_").joinToString(" ") { it.replaceFirstChar(Char::uppercase) }

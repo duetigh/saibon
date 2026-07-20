@@ -266,6 +266,17 @@ def _item_modifiers(extra: dict[str, Any]) -> list[tuple[str, str]]:
     if skin:
         modifiers.append(("skin", str(skin)))
 
+    # drill_part_*: mirrors AuctionItemDecoder.kt's drillPartModifiers; a drill sale
+    # with a socket filled shouldn't inflate that drill's own "plain" fair-price bucket.
+    for slot, key in (
+        ("engine", "drill_part_engine"),
+        ("fuel_tank", "drill_part_fuel_tank"),
+        ("upgrade_module", "drill_part_upgrade_module"),
+    ):
+        part = extra.get(key)
+        if part:
+            modifiers.append(("drill_part", f"{slot}:{part}"))
+
     return modifiers
 
 

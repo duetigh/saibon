@@ -15,6 +15,17 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.2 - 2026-07-20
+
+### Added
+- Estimated Item Value and the fair-price engine now decompose and price a drill's
+  three sockets (Engine/Fuel Tank/Upgrade Module — `AuctionItemDecoder.drillPartModifiers`,
+  ported to `scripts/aggregate_fair_prices.py`) via a direct market lookup on the
+  socketed part's own itemId, shown as a labeled "`<Slot>` (`<part name>`)" line; a
+  drill's socketed parts previously contributed nothing to the breakdown even though
+  they're a large, deliberate part of the item's value, and an unexcluded socketed sale
+  was inflating that drill's own plain fair-price bucket server-side.
+
 ## v0.14.1 - 2026-07-20
 
 ### Added
