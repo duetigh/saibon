@@ -107,6 +107,9 @@ object AuctionItemDecoder {
         etherwarpModifier(extraAttributes)?.let { modifiers += it }
         transmissionTunerModifier(extraAttributes)?.let { modifiers += it }
         modifiers += foragingBoosterModifiers(extraAttributes)
+        dyeModifier(extraAttributes)?.let { modifiers += it }
+        modifiers += runeModifiers(extraAttributes)
+        skinModifier(extraAttributes)?.let { modifiers += it }
         return modifiers
     }
 
@@ -197,4 +200,50 @@ object AuctionItemDecoder {
             boosters.getString(i).orElse(null)?.let { ItemModifier("upgrade", "booster:${it.uppercase()}_BOOSTER") }
         }
     }
+
+    /**
+     * `dye_item` holds the applied dye's own itemId directly (e.g. `"DYE_AURORA"`) —
+     * confirmed live by decoding real `/v2/skyblock/auctions` listings (a
+     * `POWER_WITHER_CHESTPLATE` carrying `dye_item: "DYE_AURORA"`), and that same id
+     * convention (`DYE_<NAME>`) matches real standalone dye AH listings found in the
+     * same sample, so [dev.saibon.market.value.EstimatedItemValueCalculator] can price
+     * it with a direct market lookup, no synthesized key needed — same shape as
+     * [abilityScrollModifiers]'s `"scroll"` kind.
+     */
+    private fun dyeModifier(extra: CompoundTag): ItemModifier? =
+        extra.getString("dye_item").map { ItemModifier("dye", it) }.orElse(null)
+
+    /**
+     * `runes` compound convention (confirmed live, same shape as `enchantments`):
+     * one entry per applied rune, `"<RUNE_NAME>": <level>"`. A standalone,
+     * not-yet-applied rune AH listing carries this same `runes` map (one entry) on
+     * an item whose own `id` is the generic `"RUNE"` — confirmed live across many
+     * real listings — so every distinct rune type/level only gets its own AH
+     * fair-price reference via [modifierSignature]'s per-listing bucketing
+     * (`"RUNE|rune:<NAME>:<LEVEL>"`), not a flat itemId lookup like [dyeModifier]:
+     * there is no single stable itemId per rune type the way `DYE_<NAME>` or
+     * `ENCHANTMENT_<NAME>_<LEVEL>` are real Bazaar/AH-native ids. See
+     * [dev.saibon.market.value.EstimatedItemValueCalculator.runeLine].
+     */
+    private fun runeModifiers(extra: CompoundTag): List<ItemModifier> {
+        val runes = extra.getCompoundOrEmpty("runes")
+        return runes.keySet().sorted().map { name -> ItemModifier("rune", "$name:${runes.getIntOr(name, 0)}") }
+    }
+
+    /**
+     * `skin` holds the applied cosmetic gear skin's own internal name (e.g.
+     * `"GEMSTONE_DIVAN"` on a `DIVAN_HELMET`, confirmed live) — unlike [dyeModifier],
+     * scanning thousands of real listings found no standalone AH-tradeable skin item
+     * for any gear skin (only pet skins and Garden barn skins are ever listed on
+     * their own), so there is no real market reference to price this against at all
+     * right now. Still extracted as a modifier — purely so a skinned item's sale
+     * price doesn't pollute its own item's *plain* fair-price bucket the way an
+     * un-excluded dye/rune/enchant would — and deliberately left unpriced (no `"skin"`
+     * case in [dev.saibon.market.value.EstimatedItemValueCalculator.priceModifier]):
+     * it correctly falls through to that `when`'s `else -> null`, surfacing as
+     * [dev.saibon.market.value.EstimatedValueResult.isPartial] rather than a
+     * fabricated number.
+     */
+    private fun skinModifier(extra: CompoundTag): ItemModifier? =
+        extra.getString("skin").map { ItemModifier("skin", it) }.orElse(null)
 }

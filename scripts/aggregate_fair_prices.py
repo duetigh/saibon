@@ -250,6 +250,22 @@ def _item_modifiers(extra: dict[str, Any]) -> list[tuple[str, str]]:
     if farming_for_dummies > 0:
         modifiers.append(("upgrade", f"farming_for_dummies:{farming_for_dummies}"))
 
+    # dye_item/runes/skin: mirrors AuctionItemDecoder.kt's dyeModifier/runeModifiers/
+    # skinModifier, confirmed live by decoding real /v2/skyblock/auctions listings.
+    # Excluded here for the same reason every modifier above is: a dyed/runed/skinned
+    # sale shouldn't inflate that item's own "plain" fair-price bucket.
+    dye_item = extra.get("dye_item")
+    if dye_item:
+        modifiers.append(("dye", str(dye_item)))
+
+    runes = extra.get("runes") or {}
+    for name in sorted(runes.keys()):
+        modifiers.append(("rune", f"{name}:{runes[name]}"))
+
+    skin = extra.get("skin")
+    if skin:
+        modifiers.append(("skin", str(skin)))
+
     return modifiers
 
 

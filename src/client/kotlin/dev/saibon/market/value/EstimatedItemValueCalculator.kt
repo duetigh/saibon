@@ -4,6 +4,7 @@ import dev.saibon.data.DataRepository
 import dev.saibon.data.model.Recipe
 import dev.saibon.data.model.RecipeType
 import dev.saibon.market.AuctionItemDecoder
+import dev.saibon.market.AuctionSalesHistoryRepository
 import dev.saibon.market.CraftFlipRanking
 import dev.saibon.market.flip.IngredientPriceResolver
 import dev.saibon.market.model.ItemModifier
@@ -79,8 +80,9 @@ object EstimatedItemValueCalculator {
         var isPartial = false
         val lines = mutableListOf<EstimatedValueLine>()
 
-        val base = baseItemLines(itemId)
+        val (base, basePartial) = baseItemLines(itemId)
         if (base.isEmpty()) isPartial = true else lines += base
+        if (basePartial) isPartial = true
 
         for (modifier in AuctionItemDecoder.itemModifiers(extraAttributes)) {
             if (modifier.kind == "potato") {
@@ -103,36 +105,59 @@ object EstimatedItemValueCalculator {
      * [ValueCategory.BASE_PART] lines instead of one lump sum — each part's
      * price still recurses through *its own* cheapest buy-vs-craft choice via
      * [CraftFlipRanking.craftCostOf], just not exploded further in the UI.
+     *
+     * Unlike [CraftFlipRanking]'s own all-or-nothing recursion (correct for
+     * flip-finding, where one unpriceable ingredient should kill the whole
+     * candidate rather than understate its cost), a part that can't be priced
+     * at all here just drops its own line and marks the second (`isPartial`)
+     * element of the returned pair `true`, instead of collapsing the entire
+     * breakdown back to the finished item's flat market price and silently
+     * discarding every sibling part that DID resolve. This was previously
+     * happening for any multi-tier forge chain (e.g. Divan's Drill's Titanium
+     * Drill DR-X655 sub-tier, or Storm's Chestplate's L.A.S.R.'s Eye/Wither
+     * Chestplate parts) where one deep leaf ingredient had no market data:
+     * [CraftFlipRanking.craftCostOf] returns `null` for the *whole* recipe in
+     * that case, even though sibling ingredients priced just fine.
      */
-    private fun baseItemLines(itemId: String): List<EstimatedValueLine> {
+    private fun baseItemLines(itemId: String): Pair<List<EstimatedValueLine>, Boolean> {
         val marketCost = marketCostOf(itemId)
         val recipe = CraftFlipRanking.cheapestRecipe(itemId, recipesOf, marketCostOf)
-            ?: return marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()
+            ?: return (marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()) to false
 
         if (recipe.type == RecipeType.NPC) {
-            val npcCost = recipe.npcCost ?: return marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()
+            val npcCost = recipe.npcCost
+                ?: return (marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()) to false
             val cost = if (marketCost != null) minOf(marketCost, npcCost) else npcCost
-            return listOf(EstimatedValueLine("Base item", cost, ValueCategory.BASE))
+            return listOf(EstimatedValueLine("Base item", cost, ValueCategory.BASE)) to false
         }
 
         val craftCost = CraftFlipRanking.craftCostOf(itemId, recipesOf, marketCostOf, marketCostOfQuantity)
         if (marketCost != null && (craftCost == null || marketCost <= craftCost)) {
-            return listOf(EstimatedValueLine("Base item", marketCost, ValueCategory.BASE))
+            return listOf(EstimatedValueLine("Base item", marketCost, ValueCategory.BASE)) to false
         }
-        if (craftCost == null) return emptyList()
+        if (craftCost == null && marketCost == null) return emptyList<EstimatedValueLine>() to true
 
         val resultCount = recipe.resultCount.coerceAtLeast(1)
         val partLines = mutableListOf<EstimatedValueLine>()
+        var missingPart = false
         for (ingredient in recipe.ingredients) {
             val unitCost = CraftFlipRanking.craftCostOf(ingredient.itemId, recipesOf, marketCostOf, marketCostOfQuantity)
-                ?: return marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()
+                ?: marketCostOf(ingredient.itemId)
+            if (unitCost == null) {
+                missingPart = true
+                continue
+            }
             val partName = DataRepository.item(ingredient.itemId)?.name ?: displayName(ingredient.itemId)
             val label = if (ingredient.amount > 1) "${ingredient.amount}x $partName" else partName
             partLines += EstimatedValueLine(label, unitCost * ingredient.amount / resultCount, ValueCategory.BASE_PART)
         }
         val forgeFee = if (recipe.type == RecipeType.FORGE) recipe.npcCost ?: 0.0 else 0.0
         if (forgeFee > 0) partLines += EstimatedValueLine("Forge fee", forgeFee / resultCount, ValueCategory.BASE_PART)
-        return partLines
+
+        if (partLines.isEmpty()) {
+            return (marketCost?.let { listOf(EstimatedValueLine("Base item", it, ValueCategory.BASE)) } ?: emptyList()) to (marketCost == null)
+        }
+        return partLines to missingPart
     }
 
     private fun priceModifier(modifier: ItemModifier, itemId: String, rarity: String?): List<EstimatedValueLine>? = when (modifier.kind) {
@@ -146,7 +171,33 @@ object EstimatedItemValueCalculator {
         "scroll" -> marketCostOf(modifier.key)?.let { listOf(EstimatedValueLine(displayName(modifier.key), it, ValueCategory.ABILITY_SCROLL)) }
         "book" -> bookLine(modifier.key)?.let { listOf(it) }
         "upgrade" -> upgradeLines(modifier.key)
+        "dye" -> dyeLine(modifier.key)?.let { listOf(it) }
+        "rune" -> runeLine(modifier.key)?.let { listOf(it) }
+        // "skin": deliberately unhandled — see AuctionItemDecoder.skinModifier's doc comment.
+        // Falls through here, contributing to isPartial rather than a fabricated price.
         else -> null
+    }
+
+    /** `key` is the dye's own real Bazaar/AH-native itemId directly (e.g. `"DYE_AURORA"`) — see [AuctionItemDecoder]'s `dyeModifier` doc comment. */
+    private fun dyeLine(key: String): EstimatedValueLine? {
+        val price = marketCostOf(key) ?: return null
+        return EstimatedValueLine(DataRepository.item(key)?.name ?: displayName(key.removePrefix("DYE_")) + " Dye", price, ValueCategory.MISC)
+    }
+
+    /**
+     * `key` is `"<RUNE_NAME>:<LEVEL>"`. Unlike every other modifier here, a rune has
+     * no stable standalone itemId to feed [marketCostOf] — see [AuctionItemDecoder]'s
+     * `runeModifiers` doc comment — so this instead reads the AH fair-price reference
+     * for the synthetic `"RUNE"` item's `"rune:<NAME>:<LEVEL>"` signature bucket
+     * directly, the same bucket standalone rune AH listings populate via
+     * [AuctionItemDecoder.modifierSignature].
+     */
+    private fun runeLine(key: String): EstimatedValueLine? {
+        val parts = key.split(":")
+        if (parts.size != 2) return null
+        val (name, level) = parts
+        val price = AuctionSalesHistoryRepository.saleReference("RUNE", "rune:$name:$level")?.fairPrice?.takeIf { it > 0 } ?: return null
+        return EstimatedValueLine("${displayName(name)} $level", price, ValueCategory.MISC)
     }
 
     /**

@@ -15,6 +15,26 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.1 - 2026-07-20
+
+### Added
+- Estimated Item Value and the fair-price engine (`AuctionItemDecoder`, plus its Python
+  port in `scripts/aggregate_fair_prices.py`) now decompose and price three more
+  modifiers confirmed live on real AH listings: applied dye (`dye_item`, priced via a
+  direct market lookup on its own `DYE_<NAME>` id), applied runes (`runes`, priced via
+  the same per-signature AH fair-price bucket a standalone rune listing populates, since
+  runes have no single stable itemId), and cosmetic gear skins (`skin`, extracted only so
+  a skinned item's sale price no longer pollutes its own item's plain fair-price bucket —
+  left deliberately unpriced, no standalone AH market exists for gear skins).
+
+### Fixed
+- Estimated Item Value's craft-cost base-item breakdown no longer collapses an entire
+  multi-part recipe (e.g. Divan's Drill's Titanium Drill DR-X655 sub-tier, Storm's
+  Chestplate's L.A.S.R.'s Eye/Wither Chestplate parts) back to a single flat "Base item"
+  number just because one deep leaf ingredient had no market data; siblings that do
+  price successfully now keep their own line and the total is flagged "(partial)"
+  instead of silently discarding them.
+
 ## v0.14.0 - 2026-07-19
 
 ### Added
