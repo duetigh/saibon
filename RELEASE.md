@@ -15,6 +15,17 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.4 - 2026-07-20
+
+### Changed
+- `PlayerNameResolver` (the Mojang session-server UUID -> username lookup) deleted,
+  along with `FlipCandidate.sellerUuid`/`AuctionPrice.lowestBinSeller` and every
+  seller-name plumbing site that fed them: v0.14.3 already switched the AH flip chat
+  notification and `FlipScreen`'s detail-panel button over to `/viewauction <uuid>`,
+  leaving nothing left calling it. Saibon's outbound-call whitelist (`PLAN.md`) is back
+  down to just Hypixel's public API and Saibon's own GitHub data/update repo — Mojang's
+  session-server was the one deliberate third exception, and it's no longer needed.
+
 ## v0.14.3 - 2026-07-20
 
 ### Added

@@ -53,8 +53,7 @@ object CraftVsBinFinder : FlipFinder {
                 confidence = 100,
                 sourceFinder = name,
                 reason = "lowest BIN is below this item's recursive craft cost",
-                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() },
-                sellerUuid = lowestBin.lowestBinSeller.takeIf { it.isNotEmpty() }
+                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() }
             )
         }.sortedByDescending { it.estimatedProfit }
     }

@@ -1,11 +1,10 @@
 package dev.saibon.market.model
 
-/** Lowest active BIN listing price for one Skyblock item id, aggregated from a full auction sweep. [lowestBinUuid] is that specific listing's auction id, e.g. for a `/viewauction` command — [lowestBinSeller] is that listing's seller UUID, e.g. for a `/ah <name>` command once resolved via [dev.saibon.market.PlayerNameResolver] — both empty if no listing has been seen yet. [modifiers] is that same winning listing's atomic upgrade list (see [ItemModifier]), needed by [dev.saibon.market.flip.AuctionFlipFinder]'s modifier-value estimate tier — empty for a signature-less/plain listing. */
+/** Lowest active BIN listing price for one Skyblock item id, aggregated from a full auction sweep. [lowestBinUuid] is that specific listing's auction id, e.g. for a `/viewauction` command — empty if no listing has been seen yet. [modifiers] is that same winning listing's atomic upgrade list (see [ItemModifier]), needed by [dev.saibon.market.flip.AuctionFlipFinder]'s modifier-value estimate tier — empty for a signature-less/plain listing. */
 data class AuctionPrice(
     val lowestBin: Long = 0,
     val activeBinCount: Int = 0,
     val lowestBinUuid: String = "",
-    val lowestBinSeller: String = "",
     val modifiers: List<ItemModifier> = emptyList()
 )
 

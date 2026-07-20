@@ -27,9 +27,7 @@ data class FlipCandidate(
     val sourceFinder: String,
     val reason: String,
     /** The specific listing [cost]/[estimatedValue] were computed from, for a `/viewauction <uuid>` command — only set by finders backed by one real, non-fungible auction listing (`AuctionFlipFinder`). Bazaar/craft/NPC flips have no single listing to point at, so this stays null there. */
-    val auctionUuid: String? = null,
-    /** That same listing's seller UUID, for a `/ah <name>` command once resolved via [dev.saibon.market.PlayerNameResolver] — null wherever [auctionUuid] is null. */
-    val sellerUuid: String? = null
+    val auctionUuid: String? = null
 )
 
 /** One flip-detection strategy. Implementations are pure/parameter-injected where the existing ranking objects already are (`AuctionFlipRanking`, `BazaarFlipRanking`, `CraftFlipRanking`) — `scan()` itself is the only place allowed to read live client-side repositories. */

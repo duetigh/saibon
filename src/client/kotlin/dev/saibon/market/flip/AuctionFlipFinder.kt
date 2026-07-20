@@ -82,8 +82,7 @@ object AuctionFlipFinder : FlipFinder {
                     "capped at craft cost (${ceiling!!.toLong()}) — sales history alone suggested ${rawFairPrice.toLong()} from only ${flip.fairPrice.sampleCount} sales"
                 else
                     "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()}), instasell target ${instasellTarget.toLong()}",
-                auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() },
-                sellerUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinSeller?.takeIf { it.isNotEmpty() }
+                auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() }
             )
         }
 
@@ -114,8 +113,7 @@ object AuctionFlipFinder : FlipFinder {
                 volumePerWeek = reference.volumePerWeek,
                 sourceFinder = name,
                 reason = "fair price from ${reference.sampleCount} recent sales matching modifiers ($signature)",
-                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() },
-                sellerUuid = lowestBin.lowestBinSeller.takeIf { it.isNotEmpty() }
+                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() }
             )
         }
 
@@ -162,8 +160,7 @@ object AuctionFlipFinder : FlipFinder {
                 volumePerWeek = plain.volumePerWeek,
                 sourceFinder = name,
                 reason = "estimated: base price + ${estimate.pricedCount}/${lowestBin.modifiers.size} modifiers priced",
-                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() },
-                sellerUuid = lowestBin.lowestBinSeller.takeIf { it.isNotEmpty() }
+                auctionUuid = lowestBin.lowestBinUuid.takeIf { it.isNotEmpty() }
             )
         }
 
