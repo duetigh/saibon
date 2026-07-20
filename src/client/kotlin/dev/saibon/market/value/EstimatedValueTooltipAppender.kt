@@ -32,7 +32,11 @@ object EstimatedValueTooltipAppender {
     }
 
     private fun tooltipLine(result: EstimatedValueResult): Component {
-        val suffix = if (result.isPartial) " (partial)" else ""
+        val suffix = when {
+            result.cappedAtMarketReality -> " (capped to market)"
+            result.isPartial -> " (partial)"
+            else -> ""
+        }
         return Component.literal("Est. value: ${ValueFormat.compact(result.total)} coins$suffix")
             .withStyle { it.withColor(ChatFormatting.RED) }
     }

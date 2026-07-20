@@ -143,7 +143,12 @@ object EstimatedValueHudModule : HudModule {
             }
         }
 
-        add("Total: ${formatCompact(result.total)} coins${if (result.isPartial) " (partial)" else ""}" to TOTAL_COLOR)
+        val totalSuffix = when {
+            result.cappedAtMarketReality -> " (capped to market)"
+            result.isPartial -> " (partial)"
+            else -> ""
+        }
+        add("Total: ${formatCompact(result.total)} coins$totalSuffix" to TOTAL_COLOR)
     }
 
     private fun flatLineText(line: EstimatedValueLine): String =

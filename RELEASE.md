@@ -15,6 +15,35 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.3 - 2026-07-20
+
+### Added
+- Estimated Item Value now cross-checks its modifier-summed total against the item's own
+  recent real AH sales (via a new `realityCeiling`, generous at 2x the sales-history fair
+  price): a dungeon-drop weapon/armor especially can price far above what buyers actually
+  pay for that specific bundle once every enchant/star/gem is priced at its own standalone
+  market rate, so the total is now clamped to that ceiling and flagged "(capped to market)"
+  in both the tooltip and HUD breakdown instead of just "(partial)" — a distinct signal
+  that the sum is trusted less, not incomplete. No cap is applied when there isn't enough
+  sales history to trust yet.
+- `FlipScreen` (`/saibonflips`) now auto-refreshes its grid every 5 seconds instead of only
+  on a manual "Rescan" click, so a listing that sold or expired disappears on its own;
+  selection now carries across a refresh by a stable key (auction UUID, or finder+item+
+  modifier-signature for non-AH candidates) instead of losing it every cycle, since
+  `FlipEngine` produces new candidate instances on every scan.
+- Auction House candidates shown in `/saibonflips` and the chat alert are now held to the
+  same profit/margin thresholds as the flip-alert toast (renamed "Alerts" section notes
+  this in Flip Finder settings), instead of showing every AH listing priced above zero as
+  if it were a flip worth taking.
+
+### Changed
+- Auction House flip chat notification (`AhFlipChatNotifier`) and `FlipScreen`'s flip
+  detail panel button now jump straight to the specific listing via `/viewauction <uuid>`
+  instead of opening the seller's whole AH page via `/ah <seller>` — no async Mojang
+  seller-name lookup needed to build the link, so a slow/failed lookup can no longer
+  silently swallow the chat message or leave the detail button stuck on "Resolving
+  seller...".
+
 ## v0.14.2 - 2026-07-20
 
 ### Added

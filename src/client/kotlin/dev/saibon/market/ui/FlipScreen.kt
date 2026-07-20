@@ -3,13 +3,12 @@ package dev.saibon.market.ui
 import dev.saibon.core.Saibon
 import dev.saibon.itemlist.ItemTileWidget
 import dev.saibon.itemlist.RarityColors
-import dev.saibon.market.PlayerNameResolver
 import dev.saibon.market.flip.FlipCandidate
+import dev.saibon.market.flip.FlipConfig
 import dev.saibon.market.flip.FlipEngine
 import dev.saibon.ui.style.Panel
 import dev.saibon.ui.widget.DropdownWidget
 import dev.saibon.util.ColorCodes
-import dev.saibon.util.McCompat
 import net.minecraft.client.Minecraft
 import net.minecraft.client.gui.GuiGraphicsExtractor
 import net.minecraft.client.gui.components.Button
@@ -24,9 +23,15 @@ import kotlin.math.min
  * replacing the single-strategy `/saibonah` and `/saibonbz` screens (both
  * retired) as the one flip-browsing screen. Reads [FlipEngine.latestCandidates]
  * (already scanned in the background on its own schedule) rather than
- * computing anything itself; an "Open &lt;seller&gt;'s AH" button appears only
- * for candidates backed by one real listing ([FlipCandidate.sellerUuid] !=
- * null) — Bazaar/craft/NPC flips have no single listing/seller to point at.
+ * computing anything itself, and re-pulls it on a timer ([tick]) so a
+ * listing that sold/expired between manual rescans naturally drops out of
+ * the grid instead of lingering until the player clicks "Rescan". Auction
+ * House candidates are additionally held to the same [FlipConfig.alertMinProfit]/
+ * [FlipConfig.alertMinMarginPercent] bar as the toast/chat alerts — this list
+ * is meant to be "flips worth taking", not every AH listing that happened to
+ * price above zero. A "View auction" button (`/viewauction &lt;uuid&gt;`) appears
+ * only for candidates backed by one real listing ([FlipCandidate.auctionUuid] !=
+ * null) — Bazaar/craft/NPC flips have no single listing to point at.
  */
 class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
@@ -41,6 +46,8 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         private const val PRICE_COLOR = 0xFFFFFF55.toInt()
         private const val PROFIT_COLOR = 0xFF55FF55.toInt()
         private const val LOSS_COLOR = 0xFFFF5555.toInt()
+        /** How often (in client ticks, 20/sec) the grid re-pulls [FlipEngine.latestCandidates] while this screen is open, so a sold/expired auction disappears on its own instead of only on a manual "Rescan" click. */
+        private const val AUTO_REFRESH_INTERVAL_TICKS = 100
     }
 
     private enum class SourceFilter(val label: String) {
@@ -69,7 +76,8 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
     private var scrollRows: Int = 0
     private var displayedCandidates: List<FlipCandidate> = emptyList()
     private var selected: FlipCandidate? = null
-    private var copyButton: Button? = null
+    private var actionButton: Button? = null
+    private var ticksSinceRefresh: Int = 0
 
     private val gridAreaX get() = MARGIN
     private val gridAreaWidth get() = width - DETAIL_WIDTH - MARGIN * 3
@@ -101,7 +109,34 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         )
 
         rebuildGrid()
-        rebuildDetail()
+    }
+
+    override fun tick() {
+        super.tick()
+        ticksSinceRefresh++
+        if (ticksSinceRefresh >= AUTO_REFRESH_INTERVAL_TICKS) {
+            ticksSinceRefresh = 0
+            rebuildGrid()
+        }
+    }
+
+    /** Stable identity across scans — [FlipEngine] produces brand-new [FlipCandidate] instances every cycle, so reference equality (used for tile highlighting/selection carry-over) can't survive a refresh on its own. */
+    private fun candidateKey(candidate: FlipCandidate) =
+        candidate.auctionUuid ?: "${candidate.sourceFinder}|${candidate.item.id}|${candidate.modifierSignature}"
+
+    /**
+     * An Auction House candidate must clear the same profit/margin bar as the
+     * toast/chat alert to appear here — a listing priced above zero but below
+     * what the player told Saibon counts as "worth alerting on" is still just
+     * noise in the flip list, not a flip. Other finders (Bazaar/craft/NPC)
+     * already gate their own inclusion at the finder level via their own
+     * margin settings, so this only needs to apply to [SourceFilter.AUCTION_HOUSE].
+     */
+    private fun passesAlertBar(candidate: FlipCandidate, flipConfig: FlipConfig): Boolean {
+        if (candidate.sourceFinder != SourceFilter.AUCTION_HOUSE.label) return true
+        return candidate.estimatedProfit > 0 &&
+            candidate.estimatedProfit >= flipConfig.alertMinProfit &&
+            candidate.marginPercent >= flipConfig.alertMinMarginPercent
     }
 
     private fun rebuildGrid() {
@@ -109,11 +144,12 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         gridTiles.clear()
         tileCandidates.clear()
 
+        val flipConfig = Saibon.config.data.flip
         val all = FlipEngine.latestCandidates()
         val filtered = when (sourceFilter) {
             SourceFilter.ALL -> all
             else -> all.filter { it.sourceFinder == sourceFilter.label }
-        }
+        }.filter { passesAlertBar(it, flipConfig) }
         displayedCandidates = when (sortMode) {
             SortMode.PROFIT -> filtered.sortedByDescending { it.estimatedProfit }
             SortMode.MARGIN -> filtered.sortedByDescending { it.marginPercent }
@@ -122,6 +158,10 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
             // the bottom under this sort rather than being excluded or erroring.
             SortMode.PROFIT_PER_HOUR -> filtered.sortedByDescending { it.profitPerHour ?: Double.NEGATIVE_INFINITY }
         }
+
+        // Carry the selection forward by stable key (not reference — see candidateKey), or drop
+        // it if that flip no longer clears the bar / is no longer on the AH at all.
+        selected = selected?.let { prev -> displayedCandidates.firstOrNull { candidateKey(it) == candidateKey(prev) } }
 
         val columns = gridColumns()
         val totalRows = ceil(displayedCandidates.size / columns.toDouble()).toInt()
@@ -139,12 +179,14 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
                 gridAreaY + row * (TILE_SIZE + TILE_GAP),
                 TILE_SIZE,
                 candidate.item,
-                candidate === selected
+                candidateKey(candidate) == selected?.let { candidateKey(it) }
             ) { selectCandidate(candidate) }
             gridTiles += tile
             tileCandidates[tile] = candidate
             addRenderableWidget(tile)
         }
+
+        rebuildDetail()
     }
 
     private fun selectCandidate(candidate: FlipCandidate) {
@@ -154,8 +196,8 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
     private fun rebuildDetail() {
         detailLabels.clear()
-        copyButton?.let { removeWidget(it) }
-        copyButton = null
+        actionButton?.let { removeWidget(it) }
+        actionButton = null
 
         val candidate = selected
         if (candidate == null) {
@@ -201,37 +243,19 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         }
         y += MARGIN
 
-        val sellerUuid = candidate.sellerUuid
-        if (sellerUuid != null) {
-            addSellerButton(y, sellerUuid, candidate)
+        val auctionUuid = candidate.auctionUuid
+        if (auctionUuid != null) {
+            addViewAuctionButton(y, auctionUuid)
         }
     }
 
-    /** Resolves [sellerUuid] to a name (via [PlayerNameResolver]) and then swaps in a button that runs `/ah <name>` to open that seller's Auction House page — a direct, in-the-moment player click, same as [dev.saibon.update.UpdatePrompt]'s command links. */
-    private fun addSellerButton(y: Int, sellerUuid: String, forCandidate: FlipCandidate) {
-        val placeholder = Button.builder(Component.literal("Resolving seller...")) {}
-            .bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
-        placeholder.active = false
-        addRenderableWidget(placeholder)
-        copyButton = placeholder
-
-        PlayerNameResolver.resolve(sellerUuid).thenAccept { name ->
-            Minecraft.getInstance().execute {
-                if (selected !== forCandidate || McCompat.currentScreen() !== this@FlipScreen) return@execute
-                copyButton?.let { removeWidget(it) }
-                val resolvedButton = if (name != null) {
-                    Button.builder(Component.literal("Open $name's AH")) {
-                        Minecraft.getInstance().connection?.sendCommand("ah $name")
-                    }.bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
-                } else {
-                    Button.builder(Component.literal("Seller lookup failed")) {}
-                        .bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
-                        .also { it.active = false }
-                }
-                addRenderableWidget(resolvedButton)
-                copyButton = resolvedButton
-            }
-        }
+    /** Runs `/viewauction <uuid>` to jump straight to this specific listing — not the seller's whole AH page, which could hold dozens of other auctions the player would have to hunt through. Direct-click command, same pattern as [dev.saibon.update.UpdatePrompt]'s command links; no name resolution needed since the auction UUID alone is enough for Hypixel to route to it. */
+    private fun addViewAuctionButton(y: Int, auctionUuid: String) {
+        val button = Button.builder(Component.literal("View auction")) {
+            Minecraft.getInstance().connection?.sendCommand("viewauction $auctionUuid")
+        }.bounds(detailX, y, DETAIL_WIDTH - MARGIN, TOP_BAR_HEIGHT).build()
+        addRenderableWidget(button)
+        actionButton = button
     }
 
     private fun format(value: Double): String = "%,.1f".format(value)

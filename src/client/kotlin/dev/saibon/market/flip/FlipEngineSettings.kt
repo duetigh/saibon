@@ -32,13 +32,13 @@ object FlipEngineSettings {
                     config.excludeSoulbound = it
                     Saibon.config.save()
                 }
-                label("Alerts (flip-alert HUD toast)")
+                label("Alerts (flip-alert HUD toast) — also filters Auction House flips in /saibonflips and chat")
                 toggle("Show alert toast for high-confidence flips", { config.alertEnabled }) { config.alertEnabled = it; Saibon.config.save() }
-                slider("Minimum profit to alert", 0f, 1_000_000f, { config.alertMinProfit.toFloat() }, { "%,.0f coins".format(it) }) {
+                slider("Minimum profit to alert / list", 0f, 1_000_000f, { config.alertMinProfit.toFloat() }, { "%,.0f coins".format(it) }) {
                     config.alertMinProfit = it.toDouble()
                     Saibon.config.save()
                 }
-                slider("Minimum margin % to alert", 0f, 100f, { config.alertMinMarginPercent.toFloat() }, { "%.0f%%".format(it) }) {
+                slider("Minimum margin % to alert / list", 0f, 100f, { config.alertMinMarginPercent.toFloat() }, { "%.0f%%".format(it) }) {
                     config.alertMinMarginPercent = it.toDouble()
                     Saibon.config.save()
                 }

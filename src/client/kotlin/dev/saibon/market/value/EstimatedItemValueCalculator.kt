@@ -1,5 +1,6 @@
 package dev.saibon.market.value
 
+import dev.saibon.core.Saibon
 import dev.saibon.data.DataRepository
 import dev.saibon.data.model.Recipe
 import dev.saibon.data.model.RecipeType
@@ -30,7 +31,9 @@ data class EstimatedValueResult(
     val itemName: String,
     val lines: List<EstimatedValueLine>,
     val total: Double,
-    val isPartial: Boolean
+    val isPartial: Boolean,
+    /** True when [total] was clamped down from the raw modifier-sum of [lines] by [EstimatedItemValueCalculator.realityCeiling] — the line items are each priced at their own standalone market rate, which can wildly outrun what buyers actually pay for that bundle on this specific item (dungeon-drop weapons/armor especially), so this is a distinct signal from [isPartial]: the sum is trusted *less*, not incomplete. */
+    val cappedAtMarketReality: Boolean = false
 )
 
 /**
@@ -68,6 +71,9 @@ object EstimatedItemValueCalculator {
     private val marketCostOf: (String) -> Double? = { IngredientPriceResolver.costOf(it) }
     private val marketCostOfQuantity: (String, Double) -> Double? = IngredientPriceResolver::costOfQuantity
 
+    /** How far above the item's own recent real AH sale reference the stacked modifier sum is allowed to sit before [realityCeiling] clamps it — generous, not tight, since a genuinely well-upgraded specimen should still be allowed to price above a typical one. */
+    private const val REALITY_CEILING_MULTIPLIER = 2.0
+
     fun compute(stack: ItemStack): EstimatedValueResult? {
         // On a live (component-based) ItemStack, Hypixel's fields (id, modifier, enchantments, ...)
         // sit directly at the top level of the CUSTOM_DATA tag — there's no nested "ExtraAttributes"
@@ -94,8 +100,32 @@ object EstimatedItemValueCalculator {
             if (priced == null) isPartial = true else lines += priced
         }
 
-        val total = lines.sumOf { it.cost }
-        return EstimatedValueResult(item?.name ?: itemId, lines, total, isPartial)
+        val rawTotal = lines.sumOf { it.cost }
+        val ceiling = realityCeiling(itemId)
+        val capped = ceiling != null && rawTotal > ceiling
+        val total = if (capped) ceiling else rawTotal
+        return EstimatedValueResult(item?.name ?: itemId, lines, total, isPartial, capped)
+    }
+
+    /**
+     * A hard ceiling on the modifier-inflated [compute] total, cross-checked
+     * against what copies of this item have actually sold for recently on
+     * the AH — the sales-history bucket already reflects whatever
+     * enchants/stars/gems a *typical* sold copy carries, so it's a much
+     * better reality check here than a flat market lookup would be. Unlike
+     * [dev.saibon.market.flip.AuctionFlipFinder.craftCostCeiling], which
+     * caps the plain AH-flip tier at recursive craft cost, most items this
+     * calculator overprices (dungeon-drop weapons/armor especially) aren't
+     * craftable at all, so craft cost isn't available as a check here — the
+     * item's own recent sales are the only signal left. Returns null (no cap
+     * applied) when there isn't enough sales history to trust yet, same
+     * "don't guess" fallback every other unresolved component in this file
+     * uses.
+     */
+    private fun realityCeiling(itemId: String): Double? {
+        val minSamples = Saibon.config.data.market.salesHistoryMinSamples
+        val reference = AuctionSalesHistoryRepository.saleReference(itemId)?.takeIf { it.sampleCount >= minSamples } ?: return null
+        return reference.fairPrice * REALITY_CEILING_MULTIPLIER
     }
 
     /**

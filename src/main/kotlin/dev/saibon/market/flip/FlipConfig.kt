@@ -23,6 +23,6 @@ data class FlipConfig(
     var alertMinProfit: Double = 100_000.0,
     var alertMinMarginPercent: Double = 15.0,
     var alertDisplaySeconds: Int = 6,
-    /** Chat line (item, asking price, margin, resell price, clickable "Buy now." -> `/ah <seller>`) for newly-found Auction House flips — gated by the same [alertMinProfit]/[alertMinMarginPercent] thresholds as the toast. Off by default since it's more intrusive than the toast. */
+    /** Chat line (item, asking price, margin, resell price, clickable "Buy now." -> `/viewauction <uuid>`) for newly-found Auction House flips — gated by the same [alertMinProfit]/[alertMinMarginPercent] thresholds as the toast. Off by default since it's more intrusive than the toast. */
     var chatNotifyEnabled: Boolean = false
 )
