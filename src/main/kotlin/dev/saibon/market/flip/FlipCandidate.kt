@@ -22,6 +22,8 @@ data class FlipCandidate(
     val confidence: Int,
     /** Sales/week for the reference price backing this candidate, or null for finders with no sales-history basis. Shown next to [confidence] so the player can judge liquidity, not just price accuracy. */
     val volumePerWeek: Int? = null,
+    /** [dev.saibon.market.CraftFlip.profitPerHour] passthrough — only set for `Craft Flip` candidates backed by a `RecipeType.FORGE` recipe with a known duration, null everywhere else. */
+    val profitPerHour: Double? = null,
     val sourceFinder: String,
     val reason: String,
     /** The specific listing [cost]/[estimatedValue] were computed from, for a `/viewauction <uuid>` command — only set by finders backed by one real, non-fungible auction listing (`AuctionFlipFinder`). Bazaar/craft/NPC flips have no single listing to point at, so this stays null there. */

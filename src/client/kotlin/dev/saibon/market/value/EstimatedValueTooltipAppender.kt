@@ -33,9 +33,7 @@ object EstimatedValueTooltipAppender {
 
     private fun tooltipLine(result: EstimatedValueResult): Component {
         val suffix = if (result.isPartial) " (partial)" else ""
-        return Component.literal("Est. value: ${format(result.total)} coins$suffix")
+        return Component.literal("Est. value: ${ValueFormat.compact(result.total)} coins$suffix")
             .withStyle { it.withColor(ChatFormatting.RED) }
     }
-
-    private fun format(value: Double): String = "%,.0f".format(value)
 }

@@ -4,8 +4,28 @@ import kotlin.math.exp
 import kotlin.math.ln
 import kotlin.math.sqrt
 
-/** One confirmed AH sale, as recorded by [dev.saibon.market.AuctionSalesHistoryRepository] (or the server-side aggregator). */
-data class SaleSample(val price: Long, val timestampMillis: Long)
+/**
+ * One confirmed AH sale, as recorded by
+ * [dev.saibon.market.AuctionSalesHistoryRepository] (or the server-side
+ * aggregator).
+ *
+ * @param sellerHash seller UUID's `hashCode()`, or `0` when identity wasn't
+ *   captured for this sample (the bundled server snapshot doesn't publish
+ *   it, nor do [ModifierValueModel]'s synthetic per-modifier delta entries)
+ *   — [AntiManipulationFilter] treats `0` as "unknown, skip identity checks"
+ *   rather than a real (collision-prone) hash bucket.
+ * @param buyerHash same, for the winning bidder/BIN buyer.
+ * @param weight always reset to `1.0` at the top of [AntiManipulationFilter.apply]
+ *   before that pass applies its own damping — a value read back from disk
+ *   (or passed in from elsewhere) is never trusted directly.
+ */
+data class SaleSample(
+    val price: Long,
+    val timestampMillis: Long,
+    val sellerHash: Int = 0,
+    val buyerHash: Int = 0,
+    val weight: Double = 1.0
+)
 
 /**
  * A SKU's computed reference price plus the evidence behind it. [fairPrice] is
@@ -50,7 +70,11 @@ object FairPriceCalculator {
     fun compute(samples: List<SaleSample>, now: Long = System.currentTimeMillis()): FairPriceResult? {
         if (samples.isEmpty()) return null
 
-        val filtered = stripOutliers(samples)
+        // Seller/buyer-identity-based screening (wash trades, self-trade underlistings,
+        // a single seller dominating the expensive end of the range) runs first, ahead
+        // of the price-magnitude-only IQR strip below — see AntiManipulationFilter.
+        val screened = AntiManipulationFilter.apply(samples)
+        val filtered = stripOutliers(screened)
         if (filtered.isEmpty()) return null
 
         val sortedPrices = filtered.map { it.price }.sorted()
@@ -60,7 +84,11 @@ object FairPriceCalculator {
         val sd = stddev(sortedPrices, meanValue)
         val cv = if (meanValue > 0) sd / meanValue else 0.0
 
-        val sizeFactor = (filtered.size.toDouble() / TARGET_SAMPLE_SIZE).coerceIn(0.5, 1.0)
+        // No lower floor: a thin sample (few completed sales, the common case for
+        // high-value/low-volume items like rare enchant books) leans on the median
+        // instead of the recency-weighted mean, since 1-2 stale or inflated sales
+        // shouldn't single-handedly set fairPrice the way they would at floor 0.5.
+        val sizeFactor = (filtered.size.toDouble() / TARGET_SAMPLE_SIZE).coerceIn(0.0, 1.0)
         val cvFactor = (1.0 - cv).coerceIn(0.0, 1.0)
         val alpha = sizeFactor * cvFactor
         val fairPrice = alpha * weightedMeanValue + (1 - alpha) * medianValue
@@ -84,16 +112,29 @@ object FairPriceCalculator {
         )
     }
 
-    /** Drops samples outside `Q1 - 1.5*IQR .. Q3 + 1.5*IQR`. Needs at least 4 samples for quartiles to be meaningful; smaller samples pass through untouched. */
+    /**
+     * Drops samples outside `Q1 - 1.5*IQR .. Q3 + 1.5*IQR` once there are
+     * enough samples (4+) for quartiles to be meaningful. Below that, a thin
+     * market (3 samples is common for a rare high-value enchant book) falls
+     * back to a looser median-ratio bound (`0.4x .. 2.5x` the median) —
+     * still enough to catch a single wildly-mispriced BIN sale without
+     * needing real quartiles. 1-2 samples can't distinguish "the outlier"
+     * from "the real price" at all, so they pass through untouched.
+     */
     private fun stripOutliers(samples: List<SaleSample>): List<SaleSample> {
-        if (samples.size < 4) return samples
+        if (samples.size < 3) return samples
         val sortedPrices = samples.map { it.price }.sorted()
-        val q1 = percentile(sortedPrices, 25.0)
-        val q3 = percentile(sortedPrices, 75.0)
-        val iqr = q3 - q1
-        val lower = q1 - 1.5 * iqr
-        val upper = q3 + 1.5 * iqr
-        val kept = samples.filter { it.price.toDouble() in lower..upper }
+        val kept = if (samples.size < 4) {
+            val med = median(sortedPrices)
+            samples.filter { it.price.toDouble() in (med * 0.4)..(med * 2.5) }
+        } else {
+            val q1 = percentile(sortedPrices, 25.0)
+            val q3 = percentile(sortedPrices, 75.0)
+            val iqr = q3 - q1
+            val lower = q1 - 1.5 * iqr
+            val upper = q3 + 1.5 * iqr
+            samples.filter { it.price.toDouble() in lower..upper }
+        }
         return kept.ifEmpty { samples }
     }
 
@@ -120,7 +161,10 @@ object FairPriceCalculator {
         var weightTotal = 0.0
         for (sample in samples) {
             val ageHours = (now - sample.timestampMillis).coerceAtLeast(0) / 3_600_000.0
-            val weight = exp(-DECAY_LAMBDA * ageHours)
+            // sample.weight carries AntiManipulationFilter's dominant-seller damping (halved, not
+            // dropped, so a thin bucket doesn't lose the sample entirely) into the term that's
+            // most sensitive to a few repeated high-priced listings from one actor.
+            val weight = exp(-DECAY_LAMBDA * ageHours) * sample.weight
             weightedSum += sample.price * weight
             weightTotal += weight
         }

@@ -28,18 +28,30 @@ object AuctionHouseTax {
         else -> 0.01
     }
 
-    private fun claimTax(price: Double): Double {
+    /** Quadruples the effective claim-tax rate when Derpy is the active mayor — see [dev.saibon.market.MayorRepository]. */
+    private const val DERPY_CLAIM_TAX_MULTIPLIER = 4.0
+
+    private fun claimTax(price: Double, rate: Double = CLAIM_TAX_RATE): Double {
         if (price <= CLAIM_TAX_FLOOR) return 0.0
-        return (price * CLAIM_TAX_RATE).coerceAtMost(price - CLAIM_TAX_FLOOR)
+        return (price * rate).coerceAtMost(price - CLAIM_TAX_FLOOR)
     }
 
-    /** [overridePercent] > 0 replaces the bracket table with one flat percentage of [grossPrice]; 0 (the default) uses the real listing-fee + claim-tax model above. */
-    fun netOfTax(grossPrice: Double, overridePercent: Double = 0.0): Double {
+    /**
+     * [overridePercent] > 0 replaces the bracket table with one flat percentage of
+     * [grossPrice]; 0 (the default) uses the real listing-fee + claim-tax model above.
+     * [derpyActive] quadruples the claim-tax rate (this file's own doc comment already
+     * cites Hypixel's real Derpy-mayor tax quadrupling; see [dev.saibon.market.MayorRepository]
+     * for the live detection this is sourced from) — ignored when [overridePercent] is set,
+     * since that's a deliberate user override of the whole model. Defaults to `false` so every
+     * existing caller that doesn't pass it keeps behaving exactly as before.
+     */
+    fun netOfTax(grossPrice: Double, overridePercent: Double = 0.0, derpyActive: Boolean = false): Double {
         if (overridePercent > 0.0) {
             return grossPrice * (1.0 - (overridePercent / 100.0).coerceIn(0.0, 1.0))
         }
         val listingFee = grossPrice * listingFeeRate(grossPrice)
-        val claim = claimTax(grossPrice)
+        val claimTaxRate = if (derpyActive) CLAIM_TAX_RATE * DERPY_CLAIM_TAX_MULTIPLIER else CLAIM_TAX_RATE
+        val claim = claimTax(grossPrice, claimTaxRate)
         return (grossPrice - listingFee - claim).coerceAtLeast(0.0)
     }
 }

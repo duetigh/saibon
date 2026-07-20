@@ -54,7 +54,8 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
     private enum class SortMode(val label: String) {
         PROFIT("Sort: Max profit"),
         MARGIN("Sort: Margin %"),
-        CHEAPEST("Sort: Cheapest")
+        CHEAPEST("Sort: Cheapest"),
+        PROFIT_PER_HOUR("Sort: Profit/hour")
     }
 
     private data class DetailLabel(val x: Int, val y: Int, val text: String, val color: Int)
@@ -117,6 +118,9 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
             SortMode.PROFIT -> filtered.sortedByDescending { it.estimatedProfit }
             SortMode.MARGIN -> filtered.sortedByDescending { it.marginPercent }
             SortMode.CHEAPEST -> filtered.sortedBy { it.cost }
+            // Candidates with no profit/hour figure (everything but forge craft flips) sink to
+            // the bottom under this sort rather than being excluded or erroring.
+            SortMode.PROFIT_PER_HOUR -> filtered.sortedByDescending { it.profitPerHour ?: Double.NEGATIVE_INFINITY }
         }
 
         val columns = gridColumns()
@@ -174,7 +178,12 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
         detailLabels += DetailLabel(detailX, y, "Est. profit: ${format(candidate.estimatedProfit)} coins", profitColor)
         y += ROW_HEIGHT
         detailLabels += DetailLabel(detailX, y, "(${"%.1f".format(candidate.marginPercent)}% margin)", profitColor)
-        y += ROW_HEIGHT + MARGIN
+        y += ROW_HEIGHT
+        candidate.profitPerHour?.let { perHour ->
+            detailLabels += DetailLabel(detailX, y, "Profit/hour: ${format(perHour)} coins", profitColor)
+            y += ROW_HEIGHT
+        }
+        y += MARGIN
 
         detailLabels += DetailLabel(detailX, y, "Confidence: ${candidate.confidence}/100", MUTED_TEXT_COLOR)
         y += ROW_HEIGHT

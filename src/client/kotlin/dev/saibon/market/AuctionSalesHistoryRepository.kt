@@ -203,15 +203,19 @@ object AuctionSalesHistoryRepository {
             if (sale.price <= 0) continue
             val itemId = decoded.itemId.uppercase()
             val timestampMillis = if (sale.timestamp > 0) sale.timestamp else System.currentTimeMillis()
+            // Opaque identity hashes only — see AntiManipulationFilter, never resolved back to a name.
+            // An empty string (field absent/blank) hashes to 0, which already doubles as "unknown".
+            val sellerHash = sale.seller.hashCode()
+            val buyerHash = sale.buyer.hashCode()
 
             if (decoded.modifierSignature.isEmpty()) {
                 // Item-level bucket must stay reforge/star/enchant/recomb-free: a lowest-BIN
                 // listing is almost always a plain copy, so mixing god-rolled sale prices in
                 // here inflates the "fair price" far above what a plain copy actually sells for.
-                record(history, itemId, sale.price, timestampMillis, maxSamples)
+                record(history, itemId, sale.price, timestampMillis, maxSamples, sellerHash, buyerHash)
             } else {
-                record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, timestampMillis, maxSamples)
-                recordModifierDeltas(itemId, decoded.modifiers, sale.price, timestampMillis, maxSamples)
+                record(signatureHistory, "$itemId|${decoded.modifierSignature}", sale.price, timestampMillis, maxSamples, sellerHash, buyerHash)
+                recordModifierDeltas(itemId, decoded.modifiers, sale.price, timestampMillis, maxSamples, sellerHash, buyerHash)
             }
             newSamples++
         }
@@ -227,19 +231,19 @@ object AuctionSalesHistoryRepository {
      * Skipped if this item has no plain-price reference yet (nothing to
      * compute a delta against).
      */
-    private fun recordModifierDeltas(itemId: String, modifiers: List<ItemModifier>, price: Long, timestampMillis: Long, maxSamples: Int) {
+    private fun recordModifierDeltas(itemId: String, modifiers: List<ItemModifier>, price: Long, timestampMillis: Long, maxSamples: Int, sellerHash: Int, buyerHash: Int) {
         if (modifiers.isEmpty() || modifiers.size > 2) return
         val plain = fairPriceOf(history[itemId]) ?: return
         val delta = ((price - plain.fairPrice) / modifiers.size).toLong()
         for (modifier in modifiers) {
-            record(modifierDeltaHistory, modifier.poolKey, delta, timestampMillis, maxSamples)
+            record(modifierDeltaHistory, modifier.poolKey, delta, timestampMillis, maxSamples, sellerHash, buyerHash)
         }
     }
 
-    private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, timestampMillis: Long, maxSamples: Int) {
+    private fun record(bucket: ConcurrentHashMap<String, SaleHistory>, key: String, price: Long, timestampMillis: Long, maxSamples: Int, sellerHash: Int = 0, buyerHash: Int = 0) {
         val entry = bucket.computeIfAbsent(key) { SaleHistory() }
         synchronized(entry.samples) {
-            entry.samples.addLast(SaleSample(price, timestampMillis))
+            entry.samples.addLast(SaleSample(price, timestampMillis, sellerHash, buyerHash))
             val cutoff = System.currentTimeMillis() - MAX_SAMPLE_AGE_MILLIS
             while (entry.samples.isNotEmpty() && entry.samples.first().timestampMillis < cutoff) entry.samples.removeFirst()
             while (entry.samples.size > maxSamples) entry.samples.removeFirst()

@@ -214,10 +214,10 @@ class ItemListSidebarPanel(private val screen: Screen) {
 
     /** Recursive craft cost (buy-vs-craft per ingredient, see [CraftFlipRanking]), or null if [item] has no known recipe. */
     private fun craftCostOf(item: SkyblockItem): Double? {
-        DataRepository.recipesFor(item.id).firstOrNull() ?: return null
+        if (DataRepository.recipesFor(item.id).isEmpty()) return null
         return CraftFlipRanking.craftCostOf(
             item.id,
-            recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
+            recipesOf = DataRepository::recipesFor,
             marketCostOf = { id -> IngredientPriceResolver.costOf(id) }
         )
     }

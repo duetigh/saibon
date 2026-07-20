@@ -18,6 +18,7 @@ import dev.saibon.itemlist.ItemListMenuButton
 import dev.saibon.itemlist.ItemListScreen
 import dev.saibon.itemlist.ItemListSettings
 import dev.saibon.itemlist.ItemListSidebarOverlay
+import dev.saibon.market.AuctionBuyOrderRepository
 import dev.saibon.market.AuctionMenuSettings
 import dev.saibon.market.AuctionPriceRepository
 import dev.saibon.market.AuctionSalesHistoryRepository
@@ -25,6 +26,7 @@ import dev.saibon.market.BazaarMenuSettings
 import dev.saibon.market.FlipFinderSettings
 import dev.saibon.market.MarketPriceRepository
 import dev.saibon.market.MarketSettings
+import dev.saibon.market.MayorRepository
 import dev.saibon.market.flip.AhFlipChatNotifier
 import dev.saibon.market.flip.FlipEngine
 import dev.saibon.market.flip.FlipEngineSettings
@@ -82,8 +84,10 @@ object SaibonClient : ClientModInitializer {
         ItemListMenuButton.init()
         ItemListSidebarOverlay.init()
         MarketPriceRepository.init()
+        MayorRepository.init()
         AuctionPriceRepository.init()
         AuctionSalesHistoryRepository.init()
+        AuctionBuyOrderRepository.init()
         MarketMenuOverlay.init()
         BazaarActionNavigator.init()
         BazaarMenuOverlay.init()

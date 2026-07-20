@@ -7,6 +7,8 @@ import dev.saibon.market.AuctionHouseTax
 import dev.saibon.market.AuctionPriceRepository
 import dev.saibon.market.AuctionSalesHistoryRepository
 import dev.saibon.market.CraftFlipRanking
+import dev.saibon.market.InstasellPricing
+import dev.saibon.market.MayorRepository
 import dev.saibon.market.ModifierValueModel
 
 /**
@@ -35,11 +37,12 @@ object AuctionFlipFinder : FlipFinder {
      * used unchanged, same as before this cap existed.
      */
     private fun craftCostCeiling(itemId: String): Double? {
-        DataRepository.recipesFor(itemId).firstOrNull() ?: return null
+        if (DataRepository.recipesFor(itemId).isEmpty()) return null
         return CraftFlipRanking.craftCostOf(
             itemId,
-            recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
-            marketCostOf = { id -> IngredientPriceResolver.costOf(id) }
+            recipesOf = DataRepository::recipesFor,
+            marketCostOf = { id -> IngredientPriceResolver.costOf(id) },
+            marketCostOfQuantity = IngredientPriceResolver::costOfQuantity
         )
     }
 
@@ -47,6 +50,7 @@ object AuctionFlipFinder : FlipFinder {
         val marketConfig = Saibon.config.data.market
         val flipConfig = Saibon.config.data.flip
         val sellableItems = DataRepository.allItems().filter { !flipConfig.excludeSoulbound || !it.soulbound }
+        val derpyActive = MayorRepository.isDerpyActive()
 
         val itemLevel = AuctionFlipRanking.bestFlips(
             sellableItems,
@@ -57,23 +61,27 @@ object AuctionFlipFinder : FlipFinder {
         ).map { flip ->
             val ceiling = craftCostCeiling(flip.item.id)
             val rawFairPrice = flip.fairPrice.fairPrice
-            val fairPrice = if (ceiling != null) minOf(rawFairPrice, ceiling) else rawFairPrice
-            val netValue = AuctionHouseTax.netOfTax(fairPrice, marketConfig.ahTaxRatePercent)
+            val cappedFairPrice = if (ceiling != null) minOf(rawFairPrice, ceiling) else rawFairPrice
+            // Liquidity-scaled "sell it promptly" target, not the raw statistical fair price
+            // (doc §3.8) — a thin/illiquid item's estimated profit shouldn't assume a
+            // full-price instant resale.
+            val instasellTarget = InstasellPricing.instasellTarget(cappedFairPrice, flip.fairPrice.volumePerWeek)
+            val netValue = AuctionHouseTax.netOfTax(instasellTarget, marketConfig.ahTaxRatePercent, derpyActive)
             val profit = netValue - flip.lowestBin
             FlipCandidate(
                 item = flip.item,
                 modifierSignature = "",
                 cost = flip.lowestBin,
-                estimatedValue = fairPrice,
+                estimatedValue = instasellTarget,
                 estimatedProfit = profit,
                 marginPercent = profit / flip.lowestBin * 100.0,
                 confidence = flip.fairPrice.confidence,
                 volumePerWeek = flip.fairPrice.volumePerWeek,
                 sourceFinder = name,
-                reason = if (fairPrice < rawFairPrice)
+                reason = if (cappedFairPrice < rawFairPrice)
                     "capped at craft cost (${ceiling!!.toLong()}) — sales history alone suggested ${rawFairPrice.toLong()} from only ${flip.fairPrice.sampleCount} sales"
                 else
-                    "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()})",
+                    "fair price from ${flip.fairPrice.sampleCount} recent sales (median ${flip.fairPrice.median.toLong()}), instasell target ${instasellTarget.toLong()}",
                 auctionUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinUuid?.takeIf { it.isNotEmpty() },
                 sellerUuid = AuctionPriceRepository.lowestBin(flip.item.id)?.lowestBinSeller?.takeIf { it.isNotEmpty() }
             )
@@ -92,13 +100,14 @@ object AuctionFlipFinder : FlipFinder {
             val item = itemsById[itemId] ?: return@mapNotNull null // also excludes soulbound items, filtered out of sellableItems above
 
             exactMatchedKeys += key
-            val netValue = AuctionHouseTax.netOfTax(reference.fairPrice, marketConfig.ahTaxRatePercent)
+            val instasellTarget = InstasellPricing.instasellTarget(reference.fairPrice, reference.volumePerWeek)
+            val netValue = AuctionHouseTax.netOfTax(instasellTarget, marketConfig.ahTaxRatePercent, derpyActive)
             val profit = netValue - cost
             FlipCandidate(
                 item = item,
                 modifierSignature = signature,
                 cost = cost,
-                estimatedValue = reference.fairPrice,
+                estimatedValue = instasellTarget,
                 estimatedProfit = profit,
                 marginPercent = profit / cost * 100.0,
                 confidence = reference.confidence,
@@ -139,13 +148,14 @@ object AuctionFlipFinder : FlipFinder {
             )
             if (estimate.pricedCount == 0) return@mapNotNull null
 
-            val netValue = AuctionHouseTax.netOfTax(estimate.fairPrice, marketConfig.ahTaxRatePercent)
+            val instasellTarget = InstasellPricing.instasellTarget(estimate.fairPrice, plain.volumePerWeek)
+            val netValue = AuctionHouseTax.netOfTax(instasellTarget, marketConfig.ahTaxRatePercent, derpyActive)
             val profit = netValue - cost
             FlipCandidate(
                 item = item,
                 modifierSignature = key.substringAfter('|'),
                 cost = cost,
-                estimatedValue = estimate.fairPrice,
+                estimatedValue = instasellTarget,
                 estimatedProfit = profit,
                 marginPercent = profit / cost * 100.0,
                 confidence = estimate.confidence,

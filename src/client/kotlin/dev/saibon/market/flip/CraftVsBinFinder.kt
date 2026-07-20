@@ -27,14 +27,15 @@ object CraftVsBinFinder : FlipFinder {
 
         return AuctionPriceRepository.allLowestBins().mapNotNull { (itemId, lowestBin) ->
             val item = itemsById[itemId] ?: return@mapNotNull null
-            DataRepository.recipesFor(itemId).firstOrNull() ?: return@mapNotNull null // only real craftable items — a bare market price isn't a "craft" signal
+            if (DataRepository.recipesFor(itemId).isEmpty()) return@mapNotNull null // only real craftable items — a bare market price isn't a "craft" signal
             val cost = lowestBin.lowestBin.toDouble()
             if (cost <= 0) return@mapNotNull null
 
             val craftCost = CraftFlipRanking.craftCostOf(
                 itemId,
-                recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
-                marketCostOf = { id -> IngredientPriceResolver.costOf(id) }
+                recipesOf = DataRepository::recipesFor,
+                marketCostOf = { id -> IngredientPriceResolver.costOf(id) },
+                marketCostOfQuantity = IngredientPriceResolver::costOfQuantity
             ) ?: return@mapNotNull null
             if (craftCost <= 0) return@mapNotNull null
 

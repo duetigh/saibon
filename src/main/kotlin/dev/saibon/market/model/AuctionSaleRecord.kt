@@ -18,6 +18,8 @@ data class AuctionsEndedResponse(
 data class EndedAuctionEntry(
     val auction_id: String = "",
     val seller: String = "",
+    /** Winning bidder/BIN buyer's UUID — used only as an opaque identity hash by [dev.saibon.market.AntiManipulationFilter] (wash-trade/self-trade detection), never resolved to a name. */
+    val buyer: String = "",
     val timestamp: Long = 0,
     val price: Long = 0,
     val bin: Boolean = false,

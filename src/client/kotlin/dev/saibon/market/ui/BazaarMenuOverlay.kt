@@ -208,7 +208,7 @@ object BazaarMenuOverlay {
             VIEW_FLIPS_NPC -> BazaarFlipRanking.buyOrderNpcFlips(DataRepository.allItems(), ::sellPrice, config.buyOrderToNpcMinMarginPercent).map { it.item }
             VIEW_FLIPS_CRAFT -> CraftFlipRanking.bestFlips(
                 DataRepository.allItems(),
-                recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
+                recipesOf = DataRepository::recipesFor,
                 marketCostOf = { id -> DataRepository.item(id)?.let { buyPrice(it) } },
                 sellPriceOf = { item -> sellPrice(item) },
                 minMarginPercent = config.craftFlipMinMarginPercent
@@ -358,7 +358,7 @@ object BazaarMenuOverlay {
                 if (recipe != null) {
                     val cost = CraftFlipRanking.bestFlips(
                         listOf(item),
-                        recipeOf = { DataRepository.recipesFor(it).firstOrNull() },
+                        recipesOf = DataRepository::recipesFor,
                         marketCostOf = { id -> DataRepository.item(id)?.let { buyPrice(it) } },
                         sellPriceOf = { i -> sellPrice(i) },
                         minMarginPercent = Double.NEGATIVE_INFINITY

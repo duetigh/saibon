@@ -74,7 +74,10 @@ object MarketPriceRepository {
                             buyPrice = entry.quick_status.buyPrice,
                             sellPrice = entry.quick_status.sellPrice,
                             topBuyOrderPrice = entry.buy_summary.firstOrNull()?.pricePerUnit ?: 0.0,
-                            topSellOfferPrice = entry.sell_summary.firstOrNull()?.pricePerUnit ?: 0.0
+                            topSellOfferPrice = entry.sell_summary.firstOrNull()?.pricePerUnit ?: 0.0,
+                            sellOffers = entry.sell_summary,
+                            sellMovingWeek = entry.quick_status.sellMovingWeek,
+                            buyMovingWeek = entry.quick_status.buyMovingWeek
                         )
                     }
             }

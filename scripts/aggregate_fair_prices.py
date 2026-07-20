@@ -272,15 +272,102 @@ def _percentile(sorted_prices: list[int], pct: float) -> float:
     return sorted_prices[lower_index] + (sorted_prices[upper_index] - sorted_prices[lower_index]) * frac
 
 
-def _strip_outliers(samples: list[list[int]]) -> list[list[int]]:
-    if len(samples) < 4:
+def _pair_key(a: str, b: str) -> tuple[str, str]:
+    """Order-independent pairing key, mirrors AntiManipulationFilter.kt's `pairKey`."""
+    return (a, b) if a <= b else (b, a)
+
+
+def _drop_wash_trades(samples: list[list[Any]]) -> list[list[Any]]:
+    """Port of AntiManipulationFilter.dropWashTrades. `samples` entries: `[price, ts, seller, buyer, weight]`."""
+    identified = [s for s in samples if s[2] and s[3]]
+    if len(identified) < 2:
         return samples
-    sorted_prices = sorted(price for price, _ in samples)
-    q1 = _percentile(sorted_prices, 25.0)
-    q3 = _percentile(sorted_prices, 75.0)
-    iqr = q3 - q1
-    lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
-    kept = [s for s in samples if lower <= s[0] <= upper]
+
+    pair_counts: dict[tuple[str, str], int] = {}
+    for s in identified:
+        key = _pair_key(s[2], s[3])
+        pair_counts[key] = pair_counts.get(key, 0) + 1
+    wash_sellers = {s[2] for s in identified if pair_counts[_pair_key(s[2], s[3])] > 1}
+    if not wash_sellers:
+        return samples
+
+    kept = [s for s in samples if s[2] not in wash_sellers]
+    return kept or samples
+
+
+def _drop_underlistings(samples: list[list[Any]]) -> list[list[Any]]:
+    """Port of AntiManipulationFilter.dropUnderlistings."""
+    seller_ids = {s[2] for s in samples if s[2]}
+    buyer_ids = {s[3] for s in samples if s[3]}
+    self_traders = seller_ids & buyer_ids
+    if not self_traders:
+        return samples
+
+    to_drop: set[int] = set()
+    for i, hit in enumerate(samples):
+        if hit[2] not in self_traders:
+            continue
+        rest = [s for j, s in enumerate(samples) if j != i]
+        if not rest:
+            continue
+        avg_excluding_hit = sum(s[0] for s in rest) / len(rest)
+        if avg_excluding_hit < hit[0]:
+            continue  # hit is already on the pricier side — not a suspicious underlisting
+        to_drop.add(i)
+    if not to_drop:
+        return samples
+
+    kept = [s for i, s in enumerate(samples) if i not in to_drop]
+    return kept or samples
+
+
+def _dampen_dominant_seller(samples: list[list[Any]]) -> list[list[Any]]:
+    """Port of AntiManipulationFilter.dampenDominantSeller."""
+    top_half = sorted(samples, key=lambda s: -s[0])[: (len(samples) + 1) // 2]
+    top_half_with_seller = [s for s in top_half if s[2]]
+    if len(top_half_with_seller) < 3:
+        return samples
+
+    by_seller: dict[str, int] = {}
+    for s in top_half_with_seller:
+        by_seller[s[2]] = by_seller.get(s[2], 0) + 1
+    threshold = max(len(top_half_with_seller) // 3, 3)
+    dominant = {seller for seller, count in by_seller.items() if count >= threshold}
+    if not dominant:
+        return samples
+
+    return [[s[0], s[1], s[2], s[3], s[4] * 0.5] if s[2] in dominant else s for s in samples]
+
+
+def _apply_anti_manipulation(samples: list[list[Any]]) -> list[list[Any]]:
+    """Port of AntiManipulationFilter.apply (Kotlin) — keep the two in sync. `samples`
+    entries are raw `[price, ts, seller, buyer]`; returns `[price, ts, seller, buyer, weight]`
+    with weight computed fresh every call, never persisted (mirrors the transient
+    `SaleSample.weight`, always reset to 1.0 before AntiManipulationFilter's own rules run).
+    """
+    weighted = [[s[0], s[1], s[2], s[3], 1.0] for s in samples]
+    if len(weighted) < 3:
+        return weighted
+    weighted = _drop_wash_trades(weighted)
+    weighted = _drop_underlistings(weighted)
+    weighted = _dampen_dominant_seller(weighted)
+    return weighted
+
+
+def _strip_outliers(samples: list[list[Any]]) -> list[list[Any]]:
+    """Port of FairPriceCalculator.stripOutliers. `samples` entries: `[price, ts, seller, buyer, weight]`."""
+    if len(samples) < 3:
+        return samples
+    sorted_prices = sorted(s[0] for s in samples)
+    if len(samples) < 4:
+        med = _median(sorted_prices)
+        kept = [s for s in samples if med * 0.4 <= s[0] <= med * 2.5]
+    else:
+        q1 = _percentile(sorted_prices, 25.0)
+        q3 = _percentile(sorted_prices, 75.0)
+        iqr = q3 - q1
+        lower, upper = q1 - 1.5 * iqr, q3 + 1.5 * iqr
+        kept = [s for s in samples if lower <= s[0] <= upper]
     return kept or samples
 
 
@@ -291,16 +378,17 @@ def _median(sorted_prices: list[int]) -> float:
     return float(sorted_prices[mid])
 
 
-def _weighted_mean(samples: list[list[int]], now_ms: int) -> float:
+def _weighted_mean(samples: list[list[Any]], now_ms: int) -> float:
     weighted_sum, weight_total = 0.0, 0.0
-    for price, ts in samples:
+    for s in samples:
+        price, ts, weight = s[0], s[1], s[4]
         age_hours = max(now_ms - ts, 0) / 3_600_000.0
-        weight = math.exp(-_DECAY_LAMBDA * age_hours)
-        weighted_sum += price * weight
-        weight_total += weight
+        w = math.exp(-_DECAY_LAMBDA * age_hours) * weight
+        weighted_sum += price * w
+        weight_total += w
     if weight_total > 0:
         return weighted_sum / weight_total
-    return sum(price for price, _ in samples) / len(samples)
+    return sum(s[0] for s in samples) / len(samples)
 
 
 def _stddev(prices: list[int], mean: float) -> float:
@@ -310,35 +398,43 @@ def _stddev(prices: list[int], mean: float) -> float:
     return math.sqrt(variance)
 
 
-def compute_fair_price(samples: list[list[int]], now_ms: int) -> dict[str, Any] | None:
-    """Port of FairPriceCalculator.compute (Kotlin) — keep the two in sync."""
+def compute_fair_price(samples: list[list[Any]], now_ms: int) -> dict[str, Any] | None:
+    """Port of FairPriceCalculator.compute (Kotlin) — keep the two in sync. `samples`
+    entries are raw `[price, ts, seller, buyer]` (seller/buyer `""` when unknown).
+    """
     if not samples:
         return None
 
-    filtered = _strip_outliers(samples)
+    # Seller/buyer-identity-based screening runs first, ahead of the price-magnitude-only
+    # IQR strip below — see AntiManipulationFilter.
+    screened = _apply_anti_manipulation(samples)
+    filtered = _strip_outliers(screened)
     if not filtered:
         return None
 
-    sorted_prices = sorted(price for price, _ in filtered)
+    sorted_prices = sorted(s[0] for s in filtered)
     median_value = _median(sorted_prices)
     weighted_mean_value = _weighted_mean(filtered, now_ms)
     mean_value = sum(sorted_prices) / len(sorted_prices)
     sd = _stddev(sorted_prices, mean_value)
     cv = sd / mean_value if mean_value > 0 else 0.0
 
-    size_factor = min(max(len(filtered) / _TARGET_SAMPLE_SIZE, 0.5), 1.0)
+    # No lower floor: a thin sample leans on the median instead of the recency-weighted
+    # mean (mirrors FairPriceCalculator.kt's sizeFactor — previously had a stray 0.5 floor
+    # here that Kotlin's `.coerceIn(0.0, 1.0)` never had).
+    size_factor = min(max(len(filtered) / _TARGET_SAMPLE_SIZE, 0.0), 1.0)
     cv_factor = min(max(1.0 - cv, 0.0), 1.0)
     alpha = size_factor * cv_factor
     fair_price = alpha * weighted_mean_value + (1 - alpha) * median_value
 
     sample_term = min(max(len(filtered) / _TARGET_SAMPLE_SIZE, 0.0), 1.0) * 45.0
-    most_recent = max(ts for _, ts in samples)
+    most_recent = max(s[1] for s in samples)
     hours_since_last_sale = max(now_ms - most_recent, 0) / 3_600_000.0
     recency_term = min(max(1.0 - hours_since_last_sale / _STALENESS_CUTOFF_HOURS, 0.0), 1.0) * 35.0
     tightness_term = min(max(1.0 - cv, 0.0), 1.0) * 20.0
     confidence = int(min(max(sample_term + recency_term + tightness_term, 0.0), 100.0))
 
-    volume_per_week = sum(1 for _, ts in filtered if now_ms - ts <= _WEEK_MILLIS)
+    volume_per_week = sum(1 for s in filtered if now_ms - s[1] <= _WEEK_MILLIS)
 
     return {
         "fairPrice": fair_price,
@@ -358,15 +454,23 @@ def fetch_auctions_ended() -> dict[str, Any]:
         return json.loads(response.read())
 
 
-def load_raw_state(path: Path = RAW_STATE_PATH) -> dict[str, list[list[int]]]:
+def load_raw_state(path: Path = RAW_STATE_PATH) -> dict[str, list[list[Any]]]:
     if not path.exists():
         return {}
     with open(path, encoding="utf-8") as f:
-        return json.load(f)
+        raw: dict[str, list[list[Any]]] = json.load(f)
+    # Normalize legacy 2-element `[price, ts]` entries (committed before this script
+    # captured identity) to the current 4-element shape — `""` is the same "unknown
+    # identity" sentinel AntiManipulationFilter.kt uses for its `0` hash, so old
+    # samples just skip identity screening rather than needing a migration.
+    return {
+        key: [[s[0], s[1], s[2] if len(s) > 2 else "", s[3] if len(s) > 3 else ""] for s in samples]
+        for key, samples in raw.items()
+    }
 
 
 def apply_sales(
-    raw_state: dict[str, list[list[int]]], auctions: list[dict[str, Any]], now_ms: int
+    raw_state: dict[str, list[list[Any]]], auctions: list[dict[str, Any]], now_ms: int
 ) -> tuple[int, list[tuple[str, list[tuple[str, str]], int, int]]]:
     """Returns (applied count, modifier-bearing sales for `apply_modifier_deltas`)."""
     applied = 0
@@ -381,6 +485,9 @@ def apply_sales(
         item_id, signature, modifiers = decoded
         item_id = item_id.upper()
         timestamp = sale.get("timestamp") or now_ms
+        # Opaque identity strings only — see AntiManipulationFilter, never resolved to a name.
+        seller = sale.get("seller") or ""
+        buyer = sale.get("buyer") or ""
 
         # Item-level bucket must stay modifier-free (mirrors
         # AuctionSalesHistoryRepository.kt): a lowest-BIN listing is almost always a
@@ -388,9 +495,9 @@ def apply_sales(
         # prices in here inflates the fair price far above what a plain copy
         # actually sells for.
         if signature:
-            _record(raw_state, f"{item_id}|{signature}", price, timestamp)
+            _record(raw_state, f"{item_id}|{signature}", price, timestamp, seller, buyer)
         else:
-            _record(raw_state, item_id, price, timestamp)
+            _record(raw_state, item_id, price, timestamp, seller, buyer)
         if 1 <= len(modifiers) <= 2:
             modifier_sales.append((item_id, modifiers, price, timestamp))
         applied += 1
@@ -398,8 +505,8 @@ def apply_sales(
 
 
 def apply_modifier_deltas(
-    modifier_raw_state: dict[str, list[list[int]]],
-    raw_state: dict[str, list[list[int]]],
+    modifier_raw_state: dict[str, list[list[Any]]],
+    raw_state: dict[str, list[list[Any]]],
     modifier_sales: list[tuple[str, list[tuple[str, str]], int, int]],
 ) -> int:
     """Mirrors AuctionSalesHistoryRepository.recordModifierDeltas: for each 1-2-modifier
@@ -426,9 +533,11 @@ def apply_modifier_deltas(
     return applied
 
 
-def _record(raw_state: dict[str, list[list[int]]], key: str, price: int, timestamp: int) -> None:
+def _record(
+    raw_state: dict[str, list[list[Any]]], key: str, price: int, timestamp: int, seller: str = "", buyer: str = ""
+) -> None:
     samples = raw_state.setdefault(key, [])
-    samples.append([price, timestamp])
+    samples.append([price, timestamp, seller, buyer])
     cutoff = int(time.time() * 1000) - MAX_SAMPLE_AGE_MILLIS
     samples[:] = [s for s in samples if s[1] >= cutoff]
     if len(samples) > MAX_SAMPLES_PER_SKU:
@@ -437,7 +546,7 @@ def _record(raw_state: dict[str, list[list[int]]], key: str, price: int, timesta
         del raw_state[key]
 
 
-def compute_snapshot(raw_state: dict[str, list[list[int]]], now_ms: int) -> dict[str, Any]:
+def compute_snapshot(raw_state: dict[str, list[list[Any]]], now_ms: int) -> dict[str, Any]:
     snapshot = {}
     for key, samples in raw_state.items():
         result = compute_fair_price(samples, now_ms)

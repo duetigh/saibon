@@ -15,6 +15,61 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.0 - 2026-07-19
+
+### Added
+- Anti-manipulation sale filtering (`AntiManipulationFilter`, adapted from Coflnet SkySniper's
+  `ApplyAntiMarketManipulation`): wash trades (a seller/buyer pair transacting more than once),
+  self-trade underlistings, and one seller dominating the expensive half of a sale bucket are now
+  screened out (or weight-halved) before `FairPriceCalculator` computes an item's fair price —
+  both the client's live `AuctionSalesHistoryRepository` and the server-side
+  `scripts/aggregate_fair_prices.py` aggregator apply the same logic. New `seller`/`buyer`
+  identity hashes are tracked wherever a sale is recorded, never resolved to a name.
+- Instasell liquidity discount (`InstasellPricing`, adapted from Coflnet SkyBackendForFrontend's
+  `InstaSellPrice`): the Auction House and Craft flip finders now target a liquidity-scaled
+  "sell it promptly" price instead of the raw statistical fair/median price, so a cheap and/or
+  thin-volume item's estimated profit no longer assumes an instant full-price resale.
+- Quantity-aware "smart buyer" ingredient pricing (`IngredientPriceResolver.costOfQuantity`,
+  adapted from Coflnet RealisticCraft): craft-cost recursion now walks the Bazaar's live
+  sell-offer order-book depth and caps NPC-shop tranches at their real ~640-unit restock, instead
+  of multiplying one flat unit price by however many units a recipe needs, so a recipe needing
+  thousands of a thin ingredient no longer looks artificially cheap once cheap supply runs out.
+- `CraftFlipRanking` now prices every candidate recipe for an item and keeps the cheapest (e.g.
+  `ENCHANTED_GOLD` from ingots vs. from a block), batches ingredient quantities
+  (`ceil(needed / yield)`) instead of assuming one unit per craft, and applies a small
+  craft-step markup/flat fee plus a "must beat buying by 2%" preference margin so a trivially
+  cheaper craft doesn't win over a simple buy.
+- New `profitPerHour` figure for Craft Flip candidates backed by a Forge recipe with a known
+  duration (adapted from Coflnet `ForgeCraftService`); `FlipScreen` gained a "Sort: Profit/hour"
+  option and shows the figure in the flip detail panel.
+- Auction House buy-order price cache (`AuctionBuyOrderRepository`): passively reads the "Top
+  Orders" lore shown when a player manually opens an AH item's Create Buy Order screen (Hypixel
+  has no public API for this data), giving `IngredientPriceResolver` an AH-side equivalent of the
+  Bazaar's buy-order price for AH-only craft ingredients.
+- SkyBlock mayor tracking (`MayorRepository`, polls Hypixel's public, keyless
+  `/v2/resources/skyblock/election`): Auction House claim tax now quadruples while Derpy is the
+  active mayor, matching Hypixel's real perk instead of always using the base rate.
+- Estimated Item Value HUD breakdown redesigned to match SkyHanni's reference layout: gemstones,
+  ability scrolls, enchantments, and (new) craft-cost base-item part lines each render as a
+  colored group header with a subtotal and indented children instead of one flat list; a long
+  enchantment list now collapses past 6 entries into a single "N more enchantments" line. Reforge
+  lines split into separate "Stone" / "Apply cost" lines. All coin amounts (HUD and tooltip) now
+  use compact `8.2M`/`1.58B` formatting (`ValueFormat`) instead of full comma-grouped integers.
+- Estimated Item Value's base-item cost now goes through the same `min(buy, craft)` choice used
+  elsewhere instead of a flat market lookup: when crafting wins, a multi-stage Forge item (a
+  drill, Hyperion, ...) breaks its own top-level recipe into separate part lines (e.g. Engine and
+  Fuel Tank each shown separately) instead of one opaque "Base item" number.
+- Enchantment cost at level 5 (which rarely trades directly on the Bazaar) now falls back to the
+  highest directly-priced lower level's price times the number of books an anvil combine would
+  need, instead of dropping the line (and marking the total partial) whenever level 5 itself
+  isn't directly priced.
+
+### Changed
+- `FairPriceCalculator`'s outlier stripping now applies a looser median-ratio bound (0.4x-2.5x
+  the median) to 3-sample buckets instead of passing them through completely unfiltered, and its
+  sample-size confidence factor lost its 0.5 floor, so a very thin bucket (1-2 real sales) leans
+  more on the median than before instead of trusting a possibly-stale recency-weighted mean.
+
 ## v0.13.5 - 2026-07-19
 
 ### Added
