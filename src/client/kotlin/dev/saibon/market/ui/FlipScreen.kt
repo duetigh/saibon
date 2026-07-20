@@ -186,8 +186,11 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
 
         detailLabels += DetailLabel(detailX, y, "Why:", MUTED_TEXT_COLOR)
         y += ROW_HEIGHT
-        detailLabels += DetailLabel(detailX, y, candidate.reason, MUTED_TEXT_COLOR)
-        y += ROW_HEIGHT + MARGIN
+        wrapText(candidate.reason, DETAIL_WIDTH - MARGIN).forEach { line ->
+            detailLabels += DetailLabel(detailX, y, line, MUTED_TEXT_COLOR)
+            y += ROW_HEIGHT
+        }
+        y += MARGIN
 
         val sellerUuid = candidate.sellerUuid
         if (sellerUuid != null) {
@@ -223,6 +226,23 @@ class FlipScreen : Screen(Component.literal("Flip Finder")) {
     }
 
     private fun format(value: Double): String = "%,.1f".format(value)
+
+    /** Greedy word-wrap for the detail panel's "Why" text — vanilla `extractor.text` never wraps, so a long [FlipCandidate.reason] would otherwise run off the right edge of the panel. */
+    private fun wrapText(text: String, maxWidth: Int): List<String> {
+        val lines = mutableListOf<String>()
+        var current = StringBuilder()
+        for (word in text.split(" ")) {
+            val candidate = if (current.isEmpty()) word else "$current $word"
+            if (current.isNotEmpty() && ColorCodes.width(font, candidate) > maxWidth) {
+                lines += current.toString()
+                current = StringBuilder(word)
+            } else {
+                current = StringBuilder(candidate)
+            }
+        }
+        if (current.isNotEmpty()) lines += current.toString()
+        return lines
+    }
 
     override fun mouseScrolled(mouseX: Double, mouseY: Double, scrollX: Double, scrollY: Double): Boolean {
         if (mouseX < detailX && scrollY != 0.0) {

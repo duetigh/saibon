@@ -96,12 +96,17 @@ object AuctionItemDecoder {
         dungeonStarsModifier(extraAttributes)?.let { modifiers += it }
         modifiers += enchantModifiers(extraAttributes)
         modifiers += gemModifiers(extraAttributes)
+        modifiers += gemstoneSlotModifiers(extraAttributes, extraAttributes.getString("id").orElse(""))
         enrichmentModifier(extraAttributes)?.let { modifiers += it }
         modifiers += abilityScrollModifiers(extraAttributes)
         artOfWarModifier(extraAttributes)?.let { modifiers += it }
         artOfPeaceModifier(extraAttributes)?.let { modifiers += it }
         woodSingularityModifier(extraAttributes)?.let { modifiers += it }
         farmingForDummiesModifier(extraAttributes)?.let { modifiers += it }
+        bookOfStatsModifier(extraAttributes)?.let { modifiers += it }
+        etherwarpModifier(extraAttributes)?.let { modifiers += it }
+        transmissionTunerModifier(extraAttributes)?.let { modifiers += it }
+        modifiers += foragingBoosterModifiers(extraAttributes)
         return modifiers
     }
 
@@ -161,5 +166,35 @@ object AuctionItemDecoder {
     private fun farmingForDummiesModifier(extra: CompoundTag): ItemModifier? {
         val count = extra.getIntOr("farming_for_dummies_count", 0)
         return if (count > 0) ItemModifier("upgrade", "farming_for_dummies:$count") else null
+    }
+
+    /** `gems.unlocked_slots` is a string list of unlocked slot names (e.g. `"COMBAT_0"`) — cost is item-specific (see [dev.saibon.market.value.ModifierCostTables.gemstoneSlotUnlockCost]), so the key carries [itemId] alongside the slot name. */
+    private fun gemstoneSlotModifiers(extra: CompoundTag, itemId: String): List<ItemModifier> {
+        val slots = extra.getCompoundOrEmpty("gems").getListOrEmpty("unlocked_slots")
+        return (0 until slots.size).mapNotNull { i ->
+            slots.getString(i).orElse(null)?.let { ItemModifier("gem_slot", "$itemId:$it") }
+        }
+    }
+
+    /** `stats_book` holds the Book of Stats' tracked kill count once applied — its mere presence, not its value, is what signals the upgrade. Key verified against SkyHanni/NotEnoughUpdates/Coflnet's public source. */
+    private fun bookOfStatsModifier(extra: CompoundTag): ItemModifier? =
+        if (extra.contains("stats_book")) ItemModifier("book", "book_of_stats") else null
+
+    /** `ethermerge` is a byte flag (1 = applied) set once an Etherwarp Conduit + Merger have been combined onto an Aspect of the End/Void. Key verified against SkyHanni/NotEnoughUpdates/Skyblocker's public source. */
+    private fun etherwarpModifier(extra: CompoundTag): ItemModifier? =
+        if (extra.getIntOr("ethermerge", 0) > 0) ItemModifier("upgrade", "etherwarp") else null
+
+    /** `tuned_transmission` is the 0-4 count of Transmission Tuners applied. Key verified against SkyHanni/NotEnoughUpdates/Coflnet's public source. */
+    private fun transmissionTunerModifier(extra: CompoundTag): ItemModifier? {
+        val count = extra.getIntOr("tuned_transmission", 0)
+        return if (count > 0) ItemModifier("upgrade", "transmission_tuner:$count") else null
+    }
+
+    /** `boosters` is a shared string list (Foraging Fortune/Wisdom, Fighting, Sweep) — each entry is the booster's lowercase base name, reconstructed into an itemId as `"<NAME>_BOOSTER"`. Key/shape verified against SkyHanni/SkyHelper-Networth/SkyblockAPI's public source; the exact per-entry string casing wasn't confirmed against a raw NBT sample, so an entry that doesn't resolve to a real market itemId just prices as unresolved rather than wrong. */
+    private fun foragingBoosterModifiers(extra: CompoundTag): List<ItemModifier> {
+        val boosters = extra.getListOrEmpty("boosters")
+        return (0 until boosters.size).mapNotNull { i ->
+            boosters.getString(i).orElse(null)?.let { ItemModifier("upgrade", "booster:${it.uppercase()}_BOOSTER") }
+        }
     }
 }

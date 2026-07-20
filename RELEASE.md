@@ -15,6 +15,37 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.13.5 - 2026-07-19
+
+### Added
+- Estimated Item Value now prices several previously-unresolved modifiers:
+  gemstone slot unlocks (coins plus gem material cost, for a curated set of
+  high-value items — see `ModifierCostTables.gemstoneSlotUnlockCost`), Book
+  of Stats, Etherwarp (Conduit craft cost plus Merger market price),
+  Transmission Tuner, and Foraging boosters. `ModifierCostTables`'
+  reforge-stone coverage widened from armor only to sword/bow/mining/
+  fishing/equipment/vacuum/axe/hoe stones, and its essence star-cost table
+  gained Spider, Dragon, Diamond, and Ice essence armor lines (Undead/Gold
+  essence and tiered Perfect Armor remain uncovered gaps).
+- `FlipScreen`'s flip detail panel now word-wraps a long "Why" reason
+  instead of letting it run off the right edge of the panel.
+
+### Changed
+- Hot Potato/Fuming Potato Book cost now shows as two separate "HPB's
+  (n/10)" / "Fuming (n/5)" lines in the Estimated Item Value breakdown,
+  matching SkyHanni's reference layout, instead of one merged line.
+- `IngredientPriceResolver` (craft-cost recursion and Estimated Item Value
+  pricing) now prefers the Bazaar's top-of-book buy-order price over
+  `quick_status`'s instant-buy average, matching the pricing already used
+  for Bazaar margin flips, falling back to the instant-buy average only
+  when the order book has no buy order at all.
+
+### Fixed
+- Bazaar Margin flip finder's minimum margin threshold (`flipMinMarginPercent`)
+  dropped from 10% to 1%; real top-of-book Bazaar spreads are usually well
+  under 1-2%, so after v0.13.4's top-of-book pricing fix the 10% default
+  meant this finder never surfaced anything in practice.
+
 ## v0.13.4 - 2026-07-17
 
 ### Fixed

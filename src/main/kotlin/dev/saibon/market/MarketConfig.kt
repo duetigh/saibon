@@ -9,8 +9,8 @@ data class MarketConfig(
     var ahRefreshIntervalSeconds: Int = 120,
     /** Multiplier over the known lowest-BIN price above which a real AH listing is flagged as overpriced. */
     var overpayWarningThreshold: Double = 1.5,
-    /** Minimum buy-order/sell-offer margin (ask minus bid), as a percent of the bid, to surface as a flip suggestion. */
-    var flipMinMarginPercent: Double = 10.0,
+    /** Minimum buy-order/sell-offer margin (ask minus bid), as a percent of the bid, to surface as a flip suggestion. Real top-of-book Bazaar spreads are usually well under 1-2%, so this must stay low — it was 10.0 until v0.13.5, which (after the top-of-book pricing fix in 0.13.4) meant the Bazaar Margin finder never surfaced anything in practice. */
+    var flipMinMarginPercent: Double = 1.0,
     /** Render-only search/highlight overlay on the real Hypixel AH menu — see MarketMenuOverlay. Off by default, same as [ahOverlayPanelEnabled]/[ahRelayoutEnabled] — the AH menu gets no Saibon overlay at all unless explicitly opted into. */
     var menuOverlayEnabled: Boolean = false,
     /** The browse-all-items/category/flip panel drawn beside the real AH menu — see AuctionHouseListingPanel. Independent of [menuOverlayEnabled]/[ahAutoRefresh], which govern the underlying feed and the overpay-badge highlight, not this panel. Off by default — the real AH menu stays a plain highlight/dim overlay unless explicitly opted into. */
