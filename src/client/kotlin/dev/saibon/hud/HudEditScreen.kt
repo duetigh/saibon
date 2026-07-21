@@ -30,6 +30,13 @@ class HudEditScreen : Screen(Component.literal("HUD Locations")) {
     private var selectedId: String? = null
     private var draggingId: String? = null
 
+    // mouseDragged's dragX/dragY arrive as sub-pixel doubles (GUI-scale-dependent); truncating each
+    // event to Int on its own throws away any fractional part every time, so slow mouse movement (whose
+    // per-event delta is repeatedly < 1px) never accumulates and the box crawls at a fraction of real
+    // mouse speed instead of tracking it. These carry the truncated remainder to the next event instead.
+    private var dragRemainderX = 0.0
+    private var dragRemainderY = 0.0
+
     private val controlWidgets = mutableListOf<AbstractWidget>()
 
     override fun init() {
@@ -41,7 +48,7 @@ class HudEditScreen : Screen(Component.literal("HUD Locations")) {
         boxes.clear()
         for (module in HudEngine.allModules()) {
             val state = HudEngine.stateFor(module)
-            val size = module.measure()
+            val size = module.editorPreviewSize()
             val (x, y) = HudEngine.origin(state, width, height, size)
             boxes += Box(module, x, y, (size.width * state.scale).toInt().coerceAtLeast(8), (size.height * state.scale).toInt().coerceAtLeast(8))
         }
@@ -101,6 +108,8 @@ class HudEditScreen : Screen(Component.literal("HUD Locations")) {
         if (hit != null) {
             selectedId = hit.module.id
             draggingId = hit.module.id
+            dragRemainderX = 0.0
+            dragRemainderY = 0.0
             rebuildControls()
             return true
         }
@@ -124,8 +133,14 @@ class HudEditScreen : Screen(Component.literal("HUD Locations")) {
                     HudAnchor.BOTTOM_LEFT, HudAnchor.BOTTOM_CENTER, HudAnchor.BOTTOM_RIGHT -> -1
                     else -> 1
                 }
-                state.offsetX += xSign * dragX.toInt()
-                state.offsetY += ySign * dragY.toInt()
+                dragRemainderX += dragX
+                dragRemainderY += dragY
+                val wholeX = dragRemainderX.toInt()
+                val wholeY = dragRemainderY.toInt()
+                dragRemainderX -= wholeX
+                dragRemainderY -= wholeY
+                state.offsetX += xSign * wholeX
+                state.offsetY += ySign * wholeY
                 rebuildBoxes()
                 return true
             }

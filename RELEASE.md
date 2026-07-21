@@ -15,6 +15,40 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.5 - 2026-07-20
+
+### Added
+- Mining/Dwarven overlay (`NEU_FEATURE_PARITY.md` #4), first pass — six new
+  read-only HUD modules, each toggleable from HUD Locations: a commission
+  list (`MiningCommissionsHudModule`) and powder tracker (Mithril/Gemstone/
+  Glacite totals plus session gain and an hourly rate, `PowderTrackerHudModule`)
+  read off the tab list/scoreboard; forge slot and pickaxe ability cooldown
+  panels (`ForgeTrackerHudModule`/`PickaxeCooldownHudModule`) that mirror
+  Hypixel's own tab-list text verbatim rather than guessing an unconfirmed
+  per-line format; a drill fuel bar (`FuelTrackerHudModule`) read from the
+  held item's own NBT/lore; and a Heart of the Mountain perk preview
+  (`HotmPerkHudModule`) that reads the real HotM menu's slot lore (name,
+  level/max, locked state) while it's open and keeps showing the last-read
+  tree afterward. Crystal Hollows/Glacite waypoints and the chest highlighter
+  are still left for follow-up passes.
+- Slayer overlay (`NEU_FEATURE_PARITY.md` #4) — `SlayerHudModule`/
+  `SlayerTracker` show the active quest's boss/tier and phase (grinding,
+  boss spawned, boss slain) off the sidebar scoreboard and chat, plus a
+  few-second completed/failed toast when the quest ends (failure is inferred
+  from the sidebar quest block disappearing without Hypixel's completion
+  chat line, since Hypixel sends no dedicated "quest failed" message).
+
+### Fixed
+- `HudEditScreen` drag now accumulates the sub-pixel remainder of each
+  `mouseDragged` event instead of truncating it away every time, fixing slow
+  mouse movement (whose per-event delta is repeatedly under 1px) crawling a
+  module at a fraction of real mouse speed instead of tracking the cursor.
+- `HudModule` gained `editorPreviewSize()` (defaulting to `measure()`) so a
+  module whose real size depends on live data that isn't available in the
+  editor (no active commissions/HotM menu never opened, or Estimated Value's
+  full breakdown) shows an approximate real-world-sized box in HUD Locations
+  instead of collapsing to a barely-visible dot.
+
 ## v0.14.4 - 2026-07-20
 
 ### Changed

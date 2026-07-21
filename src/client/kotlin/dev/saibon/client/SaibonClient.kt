@@ -14,6 +14,13 @@ import dev.saibon.hud.ScoreboardReader
 import dev.saibon.hud.TabListReader
 import dev.saibon.hud.modules.EstimatedValueHudModule
 import dev.saibon.hud.modules.FlipAlertHudModule
+import dev.saibon.hud.modules.ForgeTrackerHudModule
+import dev.saibon.hud.modules.FuelTrackerHudModule
+import dev.saibon.hud.modules.HotmPerkHudModule
+import dev.saibon.hud.modules.MiningCommissionsHudModule
+import dev.saibon.hud.modules.PickaxeCooldownHudModule
+import dev.saibon.hud.modules.PowderTrackerHudModule
+import dev.saibon.hud.modules.SlayerHudModule
 import dev.saibon.itemlist.ItemListMenuButton
 import dev.saibon.itemlist.ItemListScreen
 import dev.saibon.itemlist.ItemListSettings
@@ -35,7 +42,14 @@ import dev.saibon.market.ui.BazaarMenuOverlay
 import dev.saibon.market.ui.FlipScreen
 import dev.saibon.market.ui.MarketMenuOverlay
 import dev.saibon.market.value.EstimatedValueTooltipAppender
+import dev.saibon.mining.CommissionTracker
+import dev.saibon.mining.ForgeTracker
+import dev.saibon.mining.FuelTracker
+import dev.saibon.mining.HotmPerkTracker
+import dev.saibon.mining.PickaxeCooldownTracker
+import dev.saibon.mining.PowderTracker
 import dev.saibon.search.SearchSettings
+import dev.saibon.slayer.SlayerTracker
 import dev.saibon.ui.overlay.InventorySearchOverlay
 import dev.saibon.ui.screen.ChangelogScreen
 import dev.saibon.ui.screen.SaibonScreen
@@ -97,6 +111,21 @@ object SaibonClient : ClientModInitializer {
         HudEngine.register(FlipAlertHudModule)
         EstimatedValueTooltipAppender.init()
         HudEngine.register(EstimatedValueHudModule)
+        SlayerTracker.init()
+        SlayerHudModule.init()
+        HudEngine.register(SlayerHudModule)
+        CommissionTracker.init()
+        HudEngine.register(MiningCommissionsHudModule)
+        PowderTracker.init()
+        HudEngine.register(PowderTrackerHudModule)
+        ForgeTracker.init()
+        HudEngine.register(ForgeTrackerHudModule)
+        FuelTracker.init()
+        HudEngine.register(FuelTrackerHudModule)
+        PickaxeCooldownTracker.init()
+        HudEngine.register(PickaxeCooldownHudModule)
+        HotmPerkTracker.init()
+        HudEngine.register(HotmPerkHudModule)
         MarketSettings.register()
         AuctionMenuSettings.register()
         FlipFinderSettings.register()

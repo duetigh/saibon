@@ -20,4 +20,15 @@ interface HudModule {
 
     fun measure(): HudSize
     fun render(extractor: GuiGraphicsExtractor, delta: DeltaTracker)
+
+    /**
+     * Size to show for this module's outline in `HudEditScreen` when there's
+     * no live data to size against (module not active right now, e.g. not on
+     * a mining island) — [measure] legitimately collapses to a near-zero
+     * placeholder in that case since there's nothing to render, which made
+     * the edit-mode box shrink to a dot instead of showing roughly what the
+     * module looks like when it's actually up. Defaults to [measure] for
+     * modules whose size never depends on live data.
+     */
+    fun editorPreviewSize(): HudSize = measure()
 }

@@ -96,6 +96,11 @@ object EstimatedValueHudModule : HudModule {
         return HudSize(lines.maxOf { font.width(it.first) } + PADDING * 2, lines.size * LINE_HEIGHT + PADDING * 2)
     }
 
+    // The real size depends on a full EstimatedValueResult (category breakdown, enchant lines, ...)
+    // that's only available while actually hovering a priced item, so there's no cheap way to fabricate
+    // one for the editor - just approximate the typical on-screen size of a several-category breakdown.
+    override fun editorPreviewSize(): HudSize = HudSize(180, 120)
+
     override fun render(extractor: GuiGraphicsExtractor, delta: DeltaTracker) {
         val result = currentlyVisible() ?: return
         val font = Minecraft.getInstance().font
