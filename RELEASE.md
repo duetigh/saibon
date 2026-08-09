@@ -15,6 +15,38 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.6 - 2026-08-09
+
+### Added
+- Voidgloom Seraph slayer helper, first pass (`NEU_FEATURE_PARITY.md` #4) — a deliberate
+  exception to Saibon's "never act without direct user input" rule, same category as the
+  opt-in Bazaar quick-action buttons: `VoidgloomMinibossAlert` posts a party-chat line with
+  the player's current sub-area and coordinates the first time one of the three known
+  miniboss nameplates appears while a Voidgloom Seraph quest is active, and
+  `VoidgloomBossOwnerTracker` reads the boss's own "Spawned by: `<name>`" hologram and, for
+  tracked party members, posts a running kill tally to party chat when their boss's health
+  hits zero. New `/saibonvoidgloom` command (bare, or `track`/`untrack`/`list`) and its GUI
+  equivalent (`VoidgloomTrackerScreen`) manage the tracked-player list; `/saibonvoidgloomscan`
+  is a one-time authoring aid for filling in the 5 arena sub-area bounding boxes. Both alerts
+  are on by default but independently toggleable from the new "Voidgloom Seraph Slayer"
+  settings section. Miniboss names, the owner-hologram text, and the 5 zone bounding boxes
+  are all sourced from SkyHanni's open-source implementation rather than a live Hypixel
+  session (none reachable from this sandbox) and still need in-game verification — the zone
+  boxes ship as placeholders that match no position until measured via
+  `/saibonvoidgloomscan`.
+
+### Changed
+- `HudEditScreen`'s window title now reads "Edit HUD Positions" instead of duplicating the
+  "HUD Locations" settings-section name, matching the "Edit HUD positions" button that opens
+  it.
+
+### Fixed
+- `TabListReader` now sorts tab-list entries by Hypixel's own `tabListOrder` (replicating
+  vanilla `PlayerTabOverlay`'s sort) instead of using `connection.listedOnlinePlayers`'
+  unspecified iteration order, fixing header-relative line lookups (`ForgeTracker`,
+  `CommissionTracker`, `PowderTracker`, and now `VoidgloomBossOwnerTracker`'s peers) that
+  could pick up unrelated tab-list lines sitting nearby only by iteration-order coincidence.
+
 ## v0.14.5 - 2026-07-20
 
 ### Added

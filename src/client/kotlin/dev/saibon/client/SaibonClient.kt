@@ -50,6 +50,10 @@ import dev.saibon.mining.PickaxeCooldownTracker
 import dev.saibon.mining.PowderTracker
 import dev.saibon.search.SearchSettings
 import dev.saibon.slayer.SlayerTracker
+import dev.saibon.slayer.voidgloom.VoidgloomBossOwnerTracker
+import dev.saibon.slayer.voidgloom.VoidgloomCommands
+import dev.saibon.slayer.voidgloom.VoidgloomMinibossAlert
+import dev.saibon.slayer.voidgloom.VoidgloomSettings
 import dev.saibon.ui.overlay.InventorySearchOverlay
 import dev.saibon.ui.screen.ChangelogScreen
 import dev.saibon.ui.screen.SaibonScreen
@@ -114,6 +118,9 @@ object SaibonClient : ClientModInitializer {
         SlayerTracker.init()
         SlayerHudModule.init()
         HudEngine.register(SlayerHudModule)
+        VoidgloomMinibossAlert.init()
+        VoidgloomBossOwnerTracker.init()
+        VoidgloomCommands.register()
         CommissionTracker.init()
         HudEngine.register(MiningCommissionsHudModule)
         PowderTracker.init()
@@ -133,6 +140,7 @@ object SaibonClient : ClientModInitializer {
         BazaarMenuSettings.register()
         AboutSettings.register()
         HudSettings.register()
+        VoidgloomSettings.register()
 
         Saibon.logger.info("Saibon client initialized")
     }

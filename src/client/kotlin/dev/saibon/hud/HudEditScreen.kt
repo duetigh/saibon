@@ -22,7 +22,7 @@ import net.minecraft.network.chat.Component
  * there's no corner-snap magnetism to get subtly wrong without a real
  * in-game session to verify it against.
  */
-class HudEditScreen : Screen(Component.literal("HUD Locations")) {
+class HudEditScreen : Screen(Component.literal("Edit HUD Positions")) {
 
     private data class Box(val module: HudModule, var x: Int, var y: Int, var w: Int, var h: Int)
 

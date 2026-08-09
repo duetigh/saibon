@@ -6,6 +6,7 @@ import dev.saibon.itemlist.ItemListConfig
 import dev.saibon.market.MarketConfig
 import dev.saibon.market.flip.FlipConfig
 import dev.saibon.search.SearchConfig
+import dev.saibon.slayer.VoidgloomConfig
 import dev.saibon.update.UpdateConfig
 
 /**
@@ -24,7 +25,8 @@ data class SaibonConfig(
     var itemList: ItemListConfig = ItemListConfig(),
     var market: MarketConfig = MarketConfig(),
     var hud: HudConfig = HudConfig(),
-    var flip: FlipConfig = FlipConfig()
+    var flip: FlipConfig = FlipConfig(),
+    var voidgloom: VoidgloomConfig = VoidgloomConfig()
 ) {
     companion object {
         const val CURRENT_SCHEMA_VERSION = 6
