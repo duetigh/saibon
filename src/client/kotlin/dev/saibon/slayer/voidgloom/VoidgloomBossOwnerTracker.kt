@@ -66,7 +66,7 @@ object VoidgloomBossOwnerTracker {
             if (entity.id in tracked) continue
             val name = entity.customName?.string ?: continue
             if (!name.contains(BOSS_NAME, ignoreCase = true)) continue
-            val owner = VoidgloomBossLookup.ownerOf(entity, entities) ?: continue
+            val owner = VoidgloomBossLookup.ownerOf(entity, level) ?: continue
             // The player's own boss is handled via SlayerTracker.onOutcome instead — tracking
             // it here too would double-count the same kill.
             if (owner.equals(myName, ignoreCase = true)) continue

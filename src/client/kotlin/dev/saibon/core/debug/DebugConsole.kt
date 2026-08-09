@@ -1,6 +1,7 @@
 package dev.saibon.core.debug
 
 import dev.saibon.core.Saibon
+import net.minecraft.client.Minecraft
 import java.awt.BorderLayout
 import java.awt.Dimension
 import java.awt.Font
@@ -8,6 +9,7 @@ import java.awt.Toolkit
 import java.awt.datatransfer.StringSelection
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
+import java.util.UUID
 import javax.swing.JButton
 import javax.swing.JFrame
 import javax.swing.JPanel
@@ -28,6 +30,13 @@ import javax.swing.WindowConstants
  * to summon via `/saibondebug` mid-bug-report — by the time something goes wrong it's already
  * there to copy from. `/saibondebug` still exists to reopen it if it gets closed.
  *
+ * Gated to [DEV_PLAYER_ID] — this is a debugging tool for one developer's own client, not a
+ * feature for the mod's general userbase (this project publishes public releases via GitHub
+ * Actions, per `RELEASE.md`), so [log] and [show] are silent no-ops for everyone else: no
+ * surprise Swing window for players who aren't the developer. Callers that also log to
+ * [Saibon.logger] alongside [log] (e.g. `VoidgloomMinibossAlert`) still write those lines to
+ * every player's `logs/latest.log` as normal — only the pop-up window itself is gated.
+ *
  * Deliberately separate from [Saibon.logger] rather than a log-appender/handler on it: this is
  * for a human to glance at and copy *right now*, not a permanent record, so callers opt in per
  * call instead of every log line in the mod showing up here.
@@ -39,11 +48,16 @@ import javax.swing.WindowConstants
 object DebugConsole {
     private const val MAX_LINES = 2000
     private val TIME_FORMAT = DateTimeFormatter.ofPattern("HH:mm:ss.SSS")
+    private val DEV_PLAYER_ID: UUID = UUID.fromString("2b61986c-184c-4a74-a0a4-a0bfded726ec")
 
     private var frame: JFrame? = null
     private var textArea: JTextArea? = null
 
+    private fun isEnabledForCurrentUser(): Boolean =
+        runCatching { Minecraft.getInstance().user.profileId == DEV_PLAYER_ID }.getOrDefault(false)
+
     fun log(message: String) {
+        if (!isEnabledForCurrentUser()) return
         val line = "[${LocalTime.now().format(TIME_FORMAT)}] $message"
         SwingUtilities.invokeLater {
             val area = ensureWindow()
@@ -54,6 +68,7 @@ object DebugConsole {
     }
 
     fun show() {
+        if (!isEnabledForCurrentUser()) return
         SwingUtilities.invokeLater { ensureWindow() }
     }
 

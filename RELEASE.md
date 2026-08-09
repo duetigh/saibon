@@ -15,6 +15,23 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.10 - 2026-08-09
+
+### Fixed
+- `VoidgloomMinibossAlert` still wasn't reliably firing for the player's own minibosses even
+  after v0.14.8's name-matching fix — owner resolution searched a several-block radius for a
+  "Spawned by: <name>" hologram, which live testing showed could take 7-30+ seconds to resolve,
+  long enough for a short-lived miniboss to die and disappear first. `VoidgloomBossLookup` now
+  looks the owner hologram up by entity ID offset (`id+1`/`id+2` from the detected mob, via
+  `Level.getEntity`) instead, the same technique confirmed in SkyHanni's open-source `Mob.kt` —
+  resolves the same tick the hologram exists rather than searching for it.
+
+### Changed
+- Debug Console (added in v0.14.9) is now gated to the developer's own player UUID — it no
+  longer opens or logs for other players running the mod. It was built to pull live diagnostic
+  output for this bug report and isn't meant to surprise the mod's general userbase with a
+  pop-up Swing window.
+
 ## v0.14.9 - 2026-08-09
 
 ### Added
