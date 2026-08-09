@@ -15,6 +15,19 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.9 - 2026-08-09
+
+### Added
+- Debug Console (`DebugConsole`), a separate Swing window (not the Minecraft/GLFW window)
+  that any part of the mod can log ad-hoc lines to, with a "Copy All" button — opens
+  unconditionally alongside the game on client init, and can be reopened with
+  `/saibondebug` if closed. Meant for pulling exact diagnostic output back from a bug
+  report in the moment rather than hunting through `logs/latest.log`; not tied to any one
+  feature. `VoidgloomMinibossAlert` is wired up as its first caller (temporary, tracking a
+  "no chat message on mini spawn" report) — logs each miniboss entity it detects, the
+  nearby entity names around it, and whether/what owner hologram it resolves, to help
+  confirm the real nameplate/hologram text from a live session instead of guessing.
+
 ## v0.14.8 - 2026-08-09
 
 ### Fixed

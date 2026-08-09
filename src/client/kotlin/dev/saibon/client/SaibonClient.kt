@@ -6,6 +6,7 @@ import dev.saibon.chat.ChatPatternRegistry
 import dev.saibon.client.chat.SaibonChat
 import dev.saibon.core.Saibon
 import dev.saibon.core.command.CommandRegistry
+import dev.saibon.core.debug.DebugConsole
 import dev.saibon.data.DataRepository
 import dev.saibon.data.DataSettings
 import dev.saibon.hud.HudEngine
@@ -86,6 +87,10 @@ object SaibonClient : ClientModInitializer {
         CommandRegistry.register { dispatcher ->
             dispatcher.register(literal("saibonflips").executes { openFlipScreen() })
         }
+        CommandRegistry.register { dispatcher ->
+            dispatcher.register(literal("saibondebug").executes { DebugConsole.show(); 1 })
+        }
+        DebugConsole.show()
 
         UpdateChecker.init()
         UpdateSettings.register()

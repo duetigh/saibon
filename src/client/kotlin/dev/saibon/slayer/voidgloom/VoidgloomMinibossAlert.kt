@@ -1,6 +1,7 @@
 package dev.saibon.slayer.voidgloom
 
 import dev.saibon.core.Saibon
+import dev.saibon.core.debug.DebugConsole
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
 import java.util.concurrent.atomic.AtomicBoolean
@@ -44,6 +45,13 @@ object VoidgloomMinibossAlert {
     private val initialized = AtomicBoolean(false)
     private val handledEntityIds = mutableSetOf<Int>()
 
+    // TEMPORARY diagnostic aid for the "no chat message on mini spawn" bug report — logs what
+    // this client actually sees around a detected miniboss so the real nameplate/hologram
+    // format can be confirmed from a live session instead of guessed at. Remove once the bug is
+    // confirmed fixed.
+    private val loggedDetectionIds = mutableSetOf<Int>()
+    private val loggedNoOwnerIds = mutableSetOf<Int>()
+
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
         ClientTickEvents.END_CLIENT_TICK.register(ClientTickEvents.EndTick { poll() })
@@ -65,8 +73,24 @@ object VoidgloomMinibossAlert {
             presentIds += entity.id
             if (entity.id in handledEntityIds) continue
 
-            val owner = VoidgloomBossLookup.ownerOf(entity, entities) ?: continue
+            if (loggedDetectionIds.add(entity.id)) {
+                val nearby = entities
+                    .filter { it.id != entity.id && it.position().distanceTo(entity.position()) <= 8.0 }
+                    .mapNotNull { it.customName?.string }
+                debugLog(
+                    "Miniboss detected: name=\"$name\" id=${entity.id} myName=$myName nearbyNames=$nearby",
+                )
+            }
+
+            val owner = VoidgloomBossLookup.ownerOf(entity, entities)
+            if (owner == null) {
+                if (loggedNoOwnerIds.add(entity.id)) {
+                    debugLog("No owner hologram resolved yet for id=${entity.id}, will keep retrying silently")
+                }
+                continue
+            }
             handledEntityIds += entity.id
+            debugLog("Owner resolved: \"$owner\" (mine=\"$myName\") for id=${entity.id}")
             if (!owner.equals(myName, ignoreCase = true)) continue
 
             val pos = player.blockPosition()
@@ -76,5 +100,12 @@ object VoidgloomMinibossAlert {
             }.onFailure { Saibon.logger.warn("Failed to send Voidgloom miniboss party chat alert", it) }
         }
         handledEntityIds.retainAll(presentIds)
+        loggedDetectionIds.retainAll(presentIds)
+        loggedNoOwnerIds.retainAll(presentIds)
+    }
+
+    private fun debugLog(message: String) {
+        Saibon.logger.info("[Voidgloom debug] $message")
+        DebugConsole.log("[Voidgloom] $message")
     }
 }
