@@ -16,13 +16,16 @@ import java.util.concurrent.atomic.AtomicBoolean
  * from the entity's own nameplate via a mixin'd spawn hook. This project avoids mixins, so
  * instead this polls loaded entities once per client tick (same no-mixin approach as
  * `ScoreboardReader`/`TabListReader`) and reacts the first time one of the three known
- * miniboss names appears nearby. Deliberately does NOT also require
- * `SlayerTracker.currentState()` to already know it's a Voidgloom quest — that state depends
- * on the sidebar boss/tier line having been parsed correctly first, which is one more thing
- * that can silently fail; the miniboss names alone are specific enough to be a reliable signal
- * on their own. The names themselves are copied from SkyHanni and have not been checked
- * against a live Hypixel session (no reachable server from this sandbox) — verify in-game and
- * adjust [MINIBOSS_NAMES] if Hypixel's actual nameplates differ.
+ * miniboss names appears nearby. Matched with `contains`, not exact equality — an earlier
+ * exact-match version of this check never alerted in real play (user-reported), because
+ * SkyHanni's own nameplate regex (`MobFilter.slayerNameFilter`) shows Hypixel appends a
+ * level/tier icon and a live health-count suffix to the mob's name on the same nametag line
+ * (e.g. `"✥ Voidling Devotee IV 15.2k❤"`), so the nametag is never exactly the bare name.
+ * [VoidgloomBossOwnerTracker] already used `contains` for the main boss for the same reason.
+ * Deliberately does NOT also require `SlayerTracker.currentState()` to already know it's a
+ * Voidgloom quest — that state depends on the sidebar boss/tier line having been parsed
+ * correctly first, which is one more thing that can silently fail; the miniboss names alone are
+ * specific enough to be a reliable signal on their own.
  *
  * **Own-miniboss-only filter**: in a party, everyone's minibosses are visible to everyone
  * nearby, so this only alerts for minibosses owned by the local player — resolved via
@@ -58,7 +61,7 @@ object VoidgloomMinibossAlert {
 
         for (entity in entities) {
             val name = entity.customName?.string ?: continue
-            if (name !in MINIBOSS_NAMES) continue
+            if (MINIBOSS_NAMES.none { name.contains(it, ignoreCase = true) }) continue
             presentIds += entity.id
             if (entity.id in handledEntityIds) continue
 

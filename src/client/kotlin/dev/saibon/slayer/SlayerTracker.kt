@@ -57,7 +57,7 @@ object SlayerTracker {
 
     @Volatile private var state = SlayerQuestState(active = false)
     private var sawCompletionChat = false
-    private var outcomeCallback: ((SlayerOutcome) -> Unit)? = null
+    private val outcomeListeners = mutableListOf<(SlayerOutcome) -> Unit>()
 
     fun init() {
         if (!initialized.compareAndSet(false, true)) return
@@ -68,9 +68,9 @@ object SlayerTracker {
 
     fun currentState(): SlayerQuestState = state
 
-    /** Registers the one callback fired when an active quest ends — [SlayerHudModule] uses this to drive its post-quest toast. Last registration wins, matching this codebase's single-consumer HUD module callbacks (e.g. `EstimatedValueHudModule.onHover`). */
+    /** Registers a callback fired every time an active quest ends — every registered listener runs (not last-wins), used by both [SlayerHudModule]'s post-quest toast and `dev.saibon.slayer.voidgloom.VoidgloomBossOwnerTracker`'s own-boss-kill detection. */
     fun onOutcome(callback: (SlayerOutcome) -> Unit) {
-        outcomeCallback = callback
+        outcomeListeners += callback
     }
 
     private fun onQuestStarted() {
@@ -82,7 +82,7 @@ object SlayerTracker {
         sawCompletionChat = true
         if (state.active) {
             state = state.copy(phase = SlayerPhase.BOSS_SLAIN)
-            outcomeCallback?.invoke(SlayerOutcome.COMPLETED)
+            outcomeListeners.forEach { it(SlayerOutcome.COMPLETED) }
         }
         state = SlayerQuestState(active = false)
     }
@@ -91,7 +91,7 @@ object SlayerTracker {
         val headerIndex = event.lines.indexOfFirst { it.trim() == "Slayer Quest" }
         if (headerIndex < 0) {
             if (state.active && !sawCompletionChat) {
-                outcomeCallback?.invoke(SlayerOutcome.FAILED)
+                outcomeListeners.forEach { it(SlayerOutcome.FAILED) }
             }
             state = SlayerQuestState(active = false)
             return

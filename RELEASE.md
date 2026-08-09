@@ -15,6 +15,25 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.8 - 2026-08-09
+
+### Fixed
+- `VoidgloomMinibossAlert` never fired in real play (user-reported) — Hypixel appends a level/
+  tier icon and a live health-count suffix to a miniboss's nametag (e.g. `"✥ Voidling Devotee
+  IV 15.2k❤"`, per SkyHanni's `MobFilter.slayerNameFilter`), so the exact-equality name check
+  against the bare miniboss names never matched; now matches via `contains`, same as
+  `VoidgloomBossOwnerTracker` already did for the main boss.
+- `VoidgloomBossOwnerTracker` never detected a kill — Hypixel's slayer bosses don't reliably
+  update the real vanilla entity health attribute (SkyBlock commonly renders "real" HP as
+  nametag text instead), so the previous `getHealth() <= 0` check never fired. The player's own
+  boss kill is now detected via `SlayerTracker.onOutcome`'s existing quest-completion signal
+  (the same one `SlayerHudModule`'s post-quest toast already relies on) instead; other players'
+  bosses (this client can't see their quest state) fall back to treating the boss entity
+  disappearing from render range as a kill — a deliberate approximation, since a teammate
+  abandoning/failing their quest and walking away would also (incorrectly) count. `SlayerTracker
+  .onOutcome` now supports multiple listeners instead of last-registration-wins, since both the
+  HUD toast and this tracker need to observe the same outcome.
+
 ## v0.14.7 - 2026-08-09
 
 ### Fixed
