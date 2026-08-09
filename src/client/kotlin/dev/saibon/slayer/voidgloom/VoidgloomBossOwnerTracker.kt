@@ -3,7 +3,6 @@ package dev.saibon.slayer.voidgloom
 import dev.saibon.core.Saibon
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents
 import net.minecraft.client.Minecraft
-import net.minecraft.world.entity.Entity
 import net.minecraft.world.entity.LivingEntity
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -14,16 +13,12 @@ import java.util.concurrent.atomic.AtomicBoolean
  * — approved explicitly by the user for this feature, same category as
  * [dev.saibon.slayer.voidgloom.VoidgloomMinibossAlert].
  *
- * Hypixel doesn't put the owner's name on the boss's own nameplate; it spawns a separate
- * nearby hologram (an invisible `ArmorStand` with text `Spawned by: <name>`) — confirmed
- * against SkyHanni's open-source `data/mob/Mob.kt`/`MobFilter.kt` (`summonOwnerPattern`), not
- * yet checked against a live Hypixel session (no reachable server from this sandbox). Verify
- * in-game and adjust [SPAWNED_BY] / [BOSS_NAME] if the real text differs.
+ * Owner resolution ([VoidgloomBossLookup]) is shared with [VoidgloomMinibossAlert] — same
+ * "Spawned by: <name>" hologram lookup, since Hypixel doesn't put the owner's name on the
+ * boss's own nameplate.
  */
 object VoidgloomBossOwnerTracker {
-    private val BOSS_NAME = "Voidgloom Seraph"
-    private val SPAWNED_BY = Regex("Spawned by: (?<name>.+)", RegexOption.IGNORE_CASE)
-    private const val OWNER_HOLOGRAM_RADIUS = 6.0
+    private const val BOSS_NAME = "Voidgloom Seraph"
 
     private class TrackedBoss(val ownerName: String, var lastHealth: Float)
 
@@ -44,7 +39,7 @@ object VoidgloomBossOwnerTracker {
             if (entity.id in tracked) continue
             val name = entity.customName?.string ?: continue
             if (!name.contains(BOSS_NAME, ignoreCase = true)) continue
-            val owner = findOwnerNearby(entity, entities) ?: continue
+            val owner = VoidgloomBossLookup.ownerOf(entity, entities) ?: continue
             val health = (entity as? LivingEntity)?.health ?: continue
             tracked[entity.id] = TrackedBoss(owner, health)
         }
@@ -67,18 +62,6 @@ object VoidgloomBossOwnerTracker {
             }
             boss.lastHealth = health
         }
-    }
-
-    private fun findOwnerNearby(boss: Entity, entities: List<Entity>): String? {
-        val bossPos = boss.position()
-        for (entity in entities) {
-            if (entity.id == boss.id) continue
-            val name = entity.customName?.string ?: continue
-            val match = SPAWNED_BY.matchEntire(name) ?: continue
-            if (entity.position().distanceTo(bossPos) > OWNER_HOLOGRAM_RADIUS) continue
-            return match.groups["name"]?.value?.trim()
-        }
-        return null
     }
 
     private fun onBossKilled(ownerName: String) {

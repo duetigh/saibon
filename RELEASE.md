@@ -15,6 +15,24 @@ Style guide for entries in this file (read this before adding a new one):
 
 ---
 
+## v0.14.7 - 2026-08-09
+
+### Fixed
+- `VoidgloomMinibossAlert` now only announces a miniboss owned by the local player instead of
+  every party member's — nearby minibosses are visible to everyone in a party, so it
+  previously fired once per player for the same spawn. Ownership is resolved via the same
+  "Spawned by: `<name>`" hologram lookup `VoidgloomBossOwnerTracker` already used, now shared
+  as `VoidgloomBossLookup`; if the hologram hasn't rendered yet on the tick a miniboss first
+  appears, that entity is retried on later ticks instead of being silently skipped.
+- `VoidgloomMinibossAlert` no longer gates on `SlayerTracker.currentState()` already knowing a
+  Voidgloom quest is active — that state depends on the sidebar boss/tier line having parsed
+  correctly first, an extra point of silent failure on top of the miniboss nameplate check,
+  which is specific enough to stand alone as the trigger.
+
+### Changed
+- `VoidgloomZones.zoneFor` returning null (bounding boxes still unset placeholders) now labels
+  the miniboss alert's area as `"blank"` instead of `"Unknown area"`.
+
 ## v0.14.6 - 2026-08-09
 
 ### Added
