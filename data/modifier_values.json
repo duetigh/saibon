@@ -8,6 +8,15 @@
     "volumePerWeek": 0,
     "weightedMean": 10493201.0
   },
+  "drill_part:upgrade_module:goblin_omelette_blue_cheese": {
+    "confidence": 57,
+    "fairPrice": 184959.0,
+    "median": 184959.0,
+    "sampleCount": 1,
+    "stddev": 0.0,
+    "volumePerWeek": 1,
+    "weightedMean": 184959.0
+  },
   "drill_part:upgrade_module:goblin_omelette_spicy": {
     "confidence": 24,
     "fairPrice": -5696322.064736621,
@@ -36,13 +45,13 @@
     "weightedMean": -2045000.0
   },
   "ench:arcane5": {
-    "confidence": 59,
+    "confidence": 58,
     "fairPrice": 132819.0,
     "median": 132819.0,
     "sampleCount": 15,
     "stddev": 224365.8329083305,
     "volumePerWeek": 10,
-    "weightedMean": 137179.0256949972
+    "weightedMean": 137179.02569499717
   },
   "ench:bane_of_arthropods5": {
     "confidence": 24,
@@ -63,7 +72,7 @@
     "weightedMean": -82940.0
   },
   "ench:cayenne4": {
-    "confidence": 44,
+    "confidence": 43,
     "fairPrice": 2875300.9999999995,
     "median": 2875301.0,
     "sampleCount": 1,
@@ -78,7 +87,7 @@
     "sampleCount": 2,
     "stddev": 390153.0,
     "volumePerWeek": 1,
-    "weightedMean": -502610.6972910209
+    "weightedMean": -502610.6972910208
   },
   "ench:critical5": {
     "confidence": 22,
@@ -108,13 +117,13 @@
     "weightedMean": -471505.0
   },
   "ench:depth_strider3": {
-    "confidence": 76,
+    "confidence": 75,
     "fairPrice": 256057.0,
     "median": 256057.0,
     "sampleCount": 25,
     "stddev": 2656928.180957655,
     "volumePerWeek": 19,
-    "weightedMean": 1489308.1695553628
+    "weightedMean": 1489308.1695553635
   },
   "ench:efficiency1": {
     "confidence": 26,
@@ -123,7 +132,7 @@
     "sampleCount": 3,
     "stddev": 58183.42923509713,
     "volumePerWeek": 2,
-    "weightedMean": 8181.307412798635
+    "weightedMean": 8181.307412798642
   },
   "ench:efficiency10": {
     "confidence": 26,
@@ -132,7 +141,7 @@
     "sampleCount": 5,
     "stddev": 184867.52013266148,
     "volumePerWeek": 0,
-    "weightedMean": 790240.373734307
+    "weightedMean": 790240.3737343071
   },
   "ench:efficiency2": {
     "confidence": 24,
@@ -141,10 +150,10 @@
     "sampleCount": 2,
     "stddev": 7019.5,
     "volumePerWeek": 0,
-    "weightedMean": -22631.96036963305
+    "weightedMean": -22631.960369633052
   },
   "ench:efficiency3": {
-    "confidence": 47,
+    "confidence": 46,
     "fairPrice": -27271.999999999996,
     "median": -27272.0,
     "sampleCount": 1,
@@ -162,7 +171,7 @@
     "weightedMean": -129241.0
   },
   "ench:efficiency5": {
-    "confidence": 79,
+    "confidence": 78,
     "fairPrice": 21198.0,
     "median": 21198.0,
     "sampleCount": 43,
@@ -186,7 +195,7 @@
     "sampleCount": 2,
     "stddev": 84241.5,
     "volumePerWeek": 0,
-    "weightedMean": -144429.67765055652
+    "weightedMean": -144429.67765055655
   },
   "ench:feather_falling5": {
     "confidence": 22,
@@ -195,7 +204,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 13488.000000000002
+    "weightedMean": 13488.0
   },
   "ench:fire_aspect1": {
     "confidence": 22,
@@ -207,13 +216,13 @@
     "weightedMean": 195390.0
   },
   "ench:fire_protection5": {
-    "confidence": 58,
+    "confidence": 57,
     "fairPrice": -34003.12913055316,
     "median": -36039.5,
     "sampleCount": 6,
     "stddev": 38555.09017302385,
     "volumePerWeek": 6,
-    "weightedMean": -29251.597101843876
+    "weightedMean": -29251.597101843872
   },
   "ench:forest_pledge3": {
     "confidence": 31,
@@ -222,7 +231,7 @@
     "sampleCount": 3,
     "stddev": 207820.9772151663,
     "volumePerWeek": 3,
-    "weightedMean": 468887.9876436072
+    "weightedMean": 468887.98764360725
   },
   "ench:forest_pledge4": {
     "confidence": 24,
@@ -231,7 +240,7 @@
     "sampleCount": 2,
     "stddev": 4732.0,
     "volumePerWeek": 0,
-    "weightedMean": 1840341.1493830045
+    "weightedMean": 1840341.1493830048
   },
   "ench:forest_pledge5": {
     "confidence": 79,
@@ -285,7 +294,7 @@
     "sampleCount": 3,
     "stddev": 579148.2169832597,
     "volumePerWeek": 1,
-    "weightedMean": 984312.2429911009
+    "weightedMean": 984312.2429911008
   },
   "ench:green_thumb2": {
     "confidence": 20,
@@ -294,7 +303,7 @@
     "sampleCount": 3,
     "stddev": 474933.8697154467,
     "volumePerWeek": 2,
-    "weightedMean": 1476263.133276461
+    "weightedMean": 1476263.1332764607
   },
   "ench:green_thumb3": {
     "confidence": 22,
@@ -315,13 +324,13 @@
     "weightedMean": 8255002.0
   },
   "ench:growth1": {
-    "confidence": 35,
+    "confidence": 34,
     "fairPrice": -190388.3157136964,
     "median": -190388.5,
     "sampleCount": 2,
     "stddev": 128521.5,
     "volumePerWeek": 2,
-    "weightedMean": -190386.65713696386
+    "weightedMean": -190386.65713696388
   },
   "ench:growth2": {
     "confidence": 21,
@@ -333,7 +342,7 @@
     "weightedMean": 11533.383003735735
   },
   "ench:growth3": {
-    "confidence": 18,
+    "confidence": 17,
     "fairPrice": -646.0,
     "median": -646.0,
     "sampleCount": 3,
@@ -352,12 +361,12 @@
   },
   "ench:growth5": {
     "confidence": 96,
-    "fairPrice": -3640.080514128914,
+    "fairPrice": -3640.0805141289184,
     "median": 1199.0,
     "sampleCount": 62,
     "stddev": 160593.02507856142,
     "volumePerWeek": 42,
-    "weightedMean": -3640.080514128914
+    "weightedMean": -3640.0805141289184
   },
   "ench:growth6": {
     "confidence": 18,
@@ -366,7 +375,7 @@
     "sampleCount": 2,
     "stddev": 126375.5,
     "volumePerWeek": 2,
-    "weightedMean": 403363.4700422689
+    "weightedMean": 403363.47004226904
   },
   "ench:harvesting5": {
     "confidence": 4,
@@ -387,13 +396,13 @@
     "weightedMean": 6224454.0
   },
   "ench:infinite_quiver10": {
-    "confidence": 39,
+    "confidence": 38,
     "fairPrice": -5701.0,
     "median": -5701.0,
     "sampleCount": 3,
     "stddev": 279936.7985651206,
     "volumePerWeek": 3,
-    "weightedMean": 35932.539766699694
+    "weightedMean": 35932.539766699716
   },
   "ench:knockback2": {
     "confidence": 22,
@@ -414,7 +423,7 @@
     "weightedMean": 692835.0
   },
   "ench:life_steal3": {
-    "confidence": 41,
+    "confidence": 40,
     "fairPrice": 105796.0,
     "median": 105796.0,
     "sampleCount": 1,
@@ -423,7 +432,7 @@
     "weightedMean": 105796.0
   },
   "ench:looting4": {
-    "confidence": 38,
+    "confidence": 37,
     "fairPrice": 309500.0,
     "median": 309500.0,
     "sampleCount": 1,
@@ -432,7 +441,7 @@
     "weightedMean": 309500.0
   },
   "ench:luck6": {
-    "confidence": 38,
+    "confidence": 37,
     "fairPrice": 309500.0,
     "median": 309500.0,
     "sampleCount": 1,
@@ -474,7 +483,7 @@
     "sampleCount": 4,
     "stddev": 136888.38309732496,
     "volumePerWeek": 0,
-    "weightedMean": -444085.5277098357
+    "weightedMean": -444085.52770983573
   },
   "ench:pesterminator2": {
     "confidence": 22,
@@ -510,7 +519,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 3475597.0000000005
+    "weightedMean": 3475597.0
   },
   "ench:piscary5": {
     "confidence": 22,
@@ -537,7 +546,7 @@
     "sampleCount": 3,
     "stddev": 474266.91463563003,
     "volumePerWeek": 2,
-    "weightedMean": -40036.22325625398
+    "weightedMean": -40036.223256254016
   },
   "ench:projectile_protection1": {
     "confidence": 22,
@@ -546,7 +555,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 122932.0
+    "weightedMean": 122932.00000000001
   },
   "ench:projectile_protection2": {
     "confidence": 22,
@@ -582,16 +591,16 @@
     "sampleCount": 2,
     "stddev": 1482997.5,
     "volumePerWeek": 1,
-    "weightedMean": -321537.67793854256
+    "weightedMean": -321537.6779385426
   },
   "ench:protection5": {
-    "confidence": 76,
-    "fairPrice": -9529.0,
-    "median": -9529.0,
+    "confidence": 79,
+    "fairPrice": -8499.0,
+    "median": -8499.0,
     "sampleCount": 119,
-    "stddev": 42469.005959150876,
-    "volumePerWeek": 78,
-    "weightedMean": -2011.7936408839487
+    "stddev": 40405.08816256983,
+    "volumePerWeek": 82,
+    "weightedMean": -1546.1258184334415
   },
   "ench:protection6": {
     "confidence": 11,
@@ -600,7 +609,7 @@
     "sampleCount": 5,
     "stddev": 666746.1149491312,
     "volumePerWeek": 3,
-    "weightedMean": -3097.5059764293055
+    "weightedMean": -3097.505976429431
   },
   "ench:quantum3": {
     "confidence": 22,
@@ -618,7 +627,7 @@
     "sampleCount": 2,
     "stddev": 1272999.5,
     "volumePerWeek": 0,
-    "weightedMean": 1664673.525946986
+    "weightedMean": 1664673.5259469857
   },
   "ench:respiration1": {
     "confidence": 24,
@@ -627,7 +636,7 @@
     "sampleCount": 2,
     "stddev": 113296.5,
     "volumePerWeek": 0,
-    "weightedMean": -195718.9410962705
+    "weightedMean": -195718.94109627046
   },
   "ench:respiration3": {
     "confidence": 31,
@@ -645,7 +654,7 @@
     "sampleCount": 2,
     "stddev": 2595522.0,
     "volumePerWeek": 2,
-    "weightedMean": 1087447.5697451269
+    "weightedMean": 1087447.5697451266
   },
   "ench:scavenger3": {
     "confidence": 22,
@@ -658,15 +667,15 @@
   },
   "ench:scuba1": {
     "confidence": 19,
-    "fairPrice": 2933141.472097289,
+    "fairPrice": 2933141.4720972884,
     "median": 2933142.5,
     "sampleCount": 2,
     "stddev": 712317.5,
     "volumePerWeek": 2,
-    "weightedMean": 2933128.92403103
+    "weightedMean": 2933128.9240310295
   },
   "ench:scuba2": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": -466281.6786210936,
     "median": -472082.0,
     "sampleCount": 3,
@@ -702,13 +711,13 @@
     "weightedMean": -163329.0
   },
   "ench:sharpness5": {
-    "confidence": 59,
-    "fairPrice": 3281.593081299876,
+    "confidence": 58,
+    "fairPrice": 3281.593081299872,
     "median": -24132.0,
     "sampleCount": 9,
     "stddev": 50711.299253229714,
     "volumePerWeek": 5,
-    "weightedMean": 36787.09573622195
+    "weightedMean": 36787.095736221934
   },
   "ench:sharpness6": {
     "confidence": 22,
@@ -735,7 +744,7 @@
     "sampleCount": 9,
     "stddev": 80702.79691070116,
     "volumePerWeek": 5,
-    "weightedMean": 77437.43008707537
+    "weightedMean": 77437.43008707535
   },
   "ench:smite5": {
     "confidence": 49,
@@ -756,7 +765,7 @@
     "weightedMean": 2059299.0
   },
   "ench:syphon3": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": -351859.0,
     "median": -351859.0,
     "sampleCount": 1,
@@ -798,7 +807,7 @@
     "sampleCount": 4,
     "stddev": 949107.0793042795,
     "volumePerWeek": 2,
-    "weightedMean": 1507838.0299410466
+    "weightedMean": 1507838.0299410468
   },
   "ench:ultimate_missile5": {
     "confidence": 22,
@@ -816,7 +825,7 @@
     "sampleCount": 7,
     "stddev": 483711.4062781987,
     "volumePerWeek": 5,
-    "weightedMean": 1234119.5518242316
+    "weightedMean": 1234119.551824232
   },
   "ench:ultimate_reiterate1": {
     "confidence": 24,
@@ -855,7 +864,7 @@
     "weightedMean": 8719340.0
   },
   "ench:ultimate_wisdom5": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": 1371752.995201785,
     "median": 1364029.0,
     "sampleCount": 7,
@@ -874,12 +883,12 @@
   },
   "ench:ultimate_wise5": {
     "confidence": 79,
-    "fairPrice": 643691.0,
-    "median": 643691.0,
-    "sampleCount": 55,
-    "stddev": 2815772.310631698,
+    "fairPrice": 511587.5,
+    "median": 511587.5,
+    "sampleCount": 54,
+    "stddev": 2592611.8283919003,
     "volumePerWeek": 38,
-    "weightedMean": 1142478.4762898227
+    "weightedMean": 483185.1873993755
   },
   "enrich:CRITICAL_CHANCE": {
     "confidence": 22,
@@ -900,13 +909,13 @@
     "weightedMean": -1607013.0
   },
   "enrich:attack_speed": {
-    "confidence": 19,
+    "confidence": 18,
     "fairPrice": 4624159.6518587405,
     "median": 4728219.5,
     "sampleCount": 2,
     "stddev": 1556046.5,
     "volumePerWeek": 1,
-    "weightedMean": 3177176.0885954457
+    "weightedMean": 3177176.088595446
   },
   "enrich:critical_chance": {
     "confidence": 40,
@@ -924,7 +933,7 @@
     "sampleCount": 5,
     "stddev": 3419011.0434715706,
     "volumePerWeek": 4,
-    "weightedMean": 326879.532169492
+    "weightedMean": 326879.53216949204
   },
   "enrich:ferocity": {
     "confidence": 23,
@@ -933,7 +942,7 @@
     "sampleCount": 3,
     "stddev": 992748.868576316,
     "volumePerWeek": 0,
-    "weightedMean": 5549664.595138377
+    "weightedMean": 5549664.595138376
   },
   "enrich:intelligence": {
     "confidence": 19,
@@ -942,7 +951,7 @@
     "sampleCount": 2,
     "stddev": 1035603.0,
     "volumePerWeek": 0,
-    "weightedMean": 3973463.4369696476
+    "weightedMean": 3973463.436969648
   },
   "enrich:magic_find": {
     "confidence": 81,
@@ -954,7 +963,7 @@
     "weightedMean": 4983559.653829536
   },
   "enrich:sea_creature_chance": {
-    "confidence": 53,
+    "confidence": 52,
     "fairPrice": 4033002.3365589036,
     "median": 3857391.0,
     "sampleCount": 7,
@@ -969,7 +978,7 @@
     "sampleCount": 2,
     "stddev": 1761502.0,
     "volumePerWeek": 1,
-    "weightedMean": 4491103.792786954
+    "weightedMean": 4491103.792786955
   },
   "enrich:walk_speed": {
     "confidence": 18,
@@ -982,21 +991,21 @@
   },
   "gem:AMBER_0:FINE": {
     "confidence": 38,
-    "fairPrice": -157713.59277260303,
+    "fairPrice": -157713.5927726031,
     "median": 15102.0,
     "sampleCount": 8,
     "stddev": 594413.2433981509,
     "volumePerWeek": 1,
-    "weightedMean": -416936.9819315076
+    "weightedMean": -416936.9819315077
   },
   "gem:AQUAMARINE_0:FINE": {
-    "confidence": 32,
+    "confidence": 31,
     "fairPrice": 381120.5,
     "median": 381120.5,
     "sampleCount": 6,
     "stddev": 652591.8497277903,
     "volumePerWeek": 6,
-    "weightedMean": 551926.0531841392
+    "weightedMean": 551926.0531841391
   },
   "gem:CHISEL_0:CITRINE:FINE": {
     "confidence": 35,
@@ -1026,13 +1035,13 @@
     "weightedMean": -3125000.0
   },
   "gem:CITRINE_0:FINE": {
-    "confidence": 15,
+    "confidence": 14,
     "fairPrice": 2352448.4579705186,
     "median": 2367846.0,
     "sampleCount": 2,
     "stddev": 1436667.0,
     "volumePerWeek": 2,
-    "weightedMean": 1976310.01922359
+    "weightedMean": 1976310.0192235897
   },
   "gem:COMBAT_0:ONYX:FINE": {
     "confidence": 35,
@@ -1054,12 +1063,12 @@
   },
   "gem:PERIDOT_0:FINE": {
     "confidence": 24,
-    "fairPrice": -595687.0834603027,
+    "fairPrice": -595687.0834603026,
     "median": -471712.5,
     "sampleCount": 2,
     "stddev": 1921454.5,
     "volumePerWeek": 1,
-    "weightedMean": -1711458.3346030263
+    "weightedMean": -1711458.334603026
   },
   "gem:PERIDOT_0:FLAWED": {
     "confidence": 22,
@@ -1071,13 +1080,13 @@
     "weightedMean": -9927.0
   },
   "gem:SAPPHIRE_0:FINE": {
-    "confidence": 25,
+    "confidence": 24,
     "fairPrice": 2342986.5,
     "median": 2342986.5,
     "sampleCount": 2,
     "stddev": 2419920.5,
     "volumePerWeek": 1,
-    "weightedMean": 4620334.4038008945
+    "weightedMean": 4620334.403800894
   },
   "gem:UNIVERSAL_0:AMBER:FINE": {
     "confidence": 22,
@@ -1095,7 +1104,7 @@
     "sampleCount": 4,
     "stddev": 526612.9020810733,
     "volumePerWeek": 3,
-    "weightedMean": 79742.40764301775
+    "weightedMean": 79742.40764301774
   },
   "potato:15": {
     "confidence": 14,
@@ -1108,21 +1117,21 @@
   },
   "recomb:applied": {
     "confidence": 87,
-    "fairPrice": 5632026.932983004,
-    "median": 5701432.0,
+    "fairPrice": 5687853.896765739,
+    "median": 5750000.0,
     "sampleCount": 283,
-    "stddev": 3453880.2768112174,
-    "volumePerWeek": 222,
-    "weightedMean": 5518422.014548479
+    "stddev": 3452306.289599127,
+    "volumePerWeek": 224,
+    "weightedMean": 5587772.0478255125
   },
   "reforge:ancient": {
-    "confidence": 57,
+    "confidence": 56,
     "fairPrice": 1004113.0,
     "median": 1004113.0,
     "sampleCount": 14,
     "stddev": 1065985.4916711617,
     "volumePerWeek": 10,
-    "weightedMean": 362853.30322547647
+    "weightedMean": 362853.3032254766
   },
   "reforge:aote_stone": {
     "confidence": 17,
@@ -1149,10 +1158,10 @@
     "sampleCount": 6,
     "stddev": 1565244.9218455309,
     "volumePerWeek": 5,
-    "weightedMean": 260461.36909910556
+    "weightedMean": 260461.36909910565
   },
   "reforge:bizarre": {
-    "confidence": 49,
+    "confidence": 48,
     "fairPrice": -549626.0247271376,
     "median": -591855.5,
     "sampleCount": 4,
@@ -1176,7 +1185,7 @@
     "sampleCount": 16,
     "stddev": 688285.5845266806,
     "volumePerWeek": 7,
-    "weightedMean": 71171.49794133734
+    "weightedMean": 71171.49794133742
   },
   "reforge:blood_soaked": {
     "confidence": 22,
@@ -1194,16 +1203,16 @@
     "sampleCount": 12,
     "stddev": 176022.62864052688,
     "volumePerWeek": 6,
-    "weightedMean": 73471.20454231721
+    "weightedMean": 73471.20454231722
   },
   "reforge:brilliant": {
-    "confidence": 72,
+    "confidence": 71,
     "fairPrice": 1271965.0,
     "median": 1271965.0,
     "sampleCount": 17,
     "stddev": 1299939.155178474,
     "volumePerWeek": 9,
-    "weightedMean": 428624.4784693432
+    "weightedMean": 428624.4784693431
   },
   "reforge:bustling": {
     "confidence": 67,
@@ -1215,7 +1224,7 @@
     "weightedMean": 79120.98285505422
   },
   "reforge:buzzing": {
-    "confidence": 24,
+    "confidence": 23,
     "fairPrice": -198012.0,
     "median": -198012.0,
     "sampleCount": 8,
@@ -1230,7 +1239,7 @@
     "sampleCount": 12,
     "stddev": 564825.9501404627,
     "volumePerWeek": 9,
-    "weightedMean": 341481.44486753707
+    "weightedMean": 341481.4448675371
   },
   "reforge:candied": {
     "confidence": 22,
@@ -1248,7 +1257,7 @@
     "sampleCount": 3,
     "stddev": 24845.592960433758,
     "volumePerWeek": 2,
-    "weightedMean": -11618.09712507669
+    "weightedMean": -11618.097125076687
   },
   "reforge:colossal": {
     "confidence": 9,
@@ -1257,7 +1266,7 @@
     "sampleCount": 2,
     "stddev": 1206021.5,
     "volumePerWeek": 1,
-    "weightedMean": 2346832.3771843454
+    "weightedMean": 2346832.377184345
   },
   "reforge:deadly": {
     "confidence": 22,
@@ -1266,7 +1275,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 437030.00000000006
+    "weightedMean": 437030.0
   },
   "reforge:demonic": {
     "confidence": 24,
@@ -1275,7 +1284,7 @@
     "sampleCount": 2,
     "stddev": 53668.5,
     "volumePerWeek": 0,
-    "weightedMean": -49334.06740330129
+    "weightedMean": -49334.06740330126
   },
   "reforge:dimensional": {
     "confidence": 50,
@@ -1287,7 +1296,7 @@
     "weightedMean": 878157.0211342978
   },
   "reforge:double_bit": {
-    "confidence": 47,
+    "confidence": 46,
     "fairPrice": -27271.999999999996,
     "median": -27272.0,
     "sampleCount": 1,
@@ -1302,7 +1311,7 @@
     "sampleCount": 2,
     "stddev": 5755556.5,
     "volumePerWeek": 1,
-    "weightedMean": 17851765.282932904
+    "weightedMean": 17851765.282932907
   },
   "reforge:excellent": {
     "confidence": 11,
@@ -1329,16 +1338,16 @@
     "sampleCount": 2,
     "stddev": 1192089.0,
     "volumePerWeek": 2,
-    "weightedMean": 515335.0882005535
+    "weightedMean": 515335.08820055355
   },
   "reforge:fierce": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": 24039.0,
     "median": 24039.0,
     "sampleCount": 17,
     "stddev": 70267.15882508329,
     "volumePerWeek": 6,
-    "weightedMean": 1949.5317702261152
+    "weightedMean": 1949.5317702261148
   },
   "reforge:fleet": {
     "confidence": 22,
@@ -1350,13 +1359,13 @@
     "weightedMean": -1284717.0
   },
   "reforge:forceful": {
-    "confidence": 37,
+    "confidence": 36,
     "fairPrice": 150137.1291058262,
     "median": 150129.5,
     "sampleCount": 2,
     "stddev": 354.5,
     "volumePerWeek": 0,
-    "weightedMean": 150205.97163032118
+    "weightedMean": 150205.97163032115
   },
   "reforge:fortified": {
     "confidence": 22,
@@ -1374,7 +1383,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": 246145.00000000003
+    "weightedMean": 246145.0
   },
   "reforge:fruitful": {
     "confidence": 46,
@@ -1428,7 +1437,7 @@
     "sampleCount": 7,
     "stddev": 762391.6927669939,
     "volumePerWeek": 5,
-    "weightedMean": 401755.867859317
+    "weightedMean": 401755.86785931693
   },
   "reforge:godly": {
     "confidence": 15,
@@ -1437,10 +1446,10 @@
     "sampleCount": 7,
     "stddev": 2184656.5582074206,
     "volumePerWeek": 1,
-    "weightedMean": 1288959.1013663688
+    "weightedMean": 1288959.1013663684
   },
   "reforge:great": {
-    "confidence": 33,
+    "confidence": 32,
     "fairPrice": -393225.99999999994,
     "median": -393226.0,
     "sampleCount": 1,
@@ -1455,7 +1464,7 @@
     "sampleCount": 30,
     "stddev": 1048418.4182616193,
     "volumePerWeek": 20,
-    "weightedMean": 846335.0960082691
+    "weightedMean": 846335.0960082689
   },
   "reforge:heavy": {
     "confidence": 24,
@@ -1464,7 +1473,7 @@
     "sampleCount": 2,
     "stddev": 20000.0,
     "volumePerWeek": 0,
-    "weightedMean": -60000.25292384387
+    "weightedMean": -60000.25292384389
   },
   "reforge:hefty": {
     "confidence": 22,
@@ -1482,16 +1491,16 @@
     "sampleCount": 29,
     "stddev": 865616.6636938454,
     "volumePerWeek": 25,
-    "weightedMean": -77995.49156242685
+    "weightedMean": -77995.49156242683
   },
   "reforge:honored": {
-    "confidence": 29,
+    "confidence": 28,
     "fairPrice": 205012.0,
     "median": 205012.0,
     "sampleCount": 8,
     "stddev": 769778.8504015191,
     "volumePerWeek": 3,
-    "weightedMean": 846043.6770725913
+    "weightedMean": 846043.677072591
   },
   "reforge:hurtful": {
     "confidence": 4,
@@ -1500,7 +1509,7 @@
     "sampleCount": 2,
     "stddev": 152297.0,
     "volumePerWeek": 1,
-    "weightedMean": -37474.02666776084
+    "weightedMean": -37474.02666776083
   },
   "reforge:itchy": {
     "confidence": 23,
@@ -1512,13 +1521,13 @@
     "weightedMean": 3352391.0
   },
   "reforge:jaded": {
-    "confidence": 77,
+    "confidence": 76,
     "fairPrice": 2858937.5,
     "median": 2858937.5,
     "sampleCount": 38,
     "stddev": 7888389.813850532,
     "volumePerWeek": 25,
-    "weightedMean": 4543082.973707306
+    "weightedMean": 4543082.973707305
   },
   "reforge:legendary": {
     "confidence": 5,
@@ -1530,13 +1539,13 @@
     "weightedMean": 1424575.5531879726
   },
   "reforge:light": {
-    "confidence": 38,
+    "confidence": 37,
     "fairPrice": -51170.49732539797,
     "median": -51239.0,
     "sampleCount": 7,
     "stddev": 45942.915839514746,
     "volumePerWeek": 3,
-    "weightedMean": -51043.27807256565
+    "weightedMean": -51043.278072565634
   },
   "reforge:loving": {
     "confidence": 50,
@@ -1548,22 +1557,22 @@
     "weightedMean": 1364029.0
   },
   "reforge:lumberjack": {
-    "confidence": 31,
+    "confidence": 30,
     "fairPrice": -2264.0,
     "median": -2264.0,
     "sampleCount": 4,
     "stddev": 23641.472209868825,
     "volumePerWeek": 4,
-    "weightedMean": -5581.413917458186
+    "weightedMean": -5581.413917458183
   },
   "reforge:lush": {
     "confidence": 48,
-    "fairPrice": 3768.9999999999995,
+    "fairPrice": 3769.0,
     "median": 3769.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 3769.0
+    "weightedMean": 3769.0000000000005
   },
   "reforge:magnetic": {
     "confidence": 20,
@@ -1572,25 +1581,25 @@
     "sampleCount": 9,
     "stddev": 186107.7138537695,
     "volumePerWeek": 2,
-    "weightedMean": -112889.21601241965
+    "weightedMean": -112889.21601241964
   },
   "reforge:mantid": {
-    "confidence": 50,
+    "confidence": 49,
     "fairPrice": 165991.0,
     "median": 165991.0,
     "sampleCount": 9,
     "stddev": 533264.191784504,
     "volumePerWeek": 4,
-    "weightedMean": 577874.8220244171
+    "weightedMean": 577874.822024417
   },
   "reforge:menacing": {
-    "confidence": 60,
+    "confidence": 59,
     "fairPrice": -35291.5,
     "median": -35291.5,
     "sampleCount": 16,
     "stddev": 496023.7913175724,
     "volumePerWeek": 7,
-    "weightedMean": 190528.84769974073
+    "weightedMean": 190528.84769974067
   },
   "reforge:mossy": {
     "confidence": 19,
@@ -1599,7 +1608,7 @@
     "sampleCount": 2,
     "stddev": 687436.0,
     "volumePerWeek": 2,
-    "weightedMean": 2788195.665329796
+    "weightedMean": 2788195.6653297953
   },
   "reforge:mythic": {
     "confidence": 53,
@@ -1608,7 +1617,7 @@
     "sampleCount": 4,
     "stddev": 48476.09633301242,
     "volumePerWeek": 2,
-    "weightedMean": -24104.743494467282
+    "weightedMean": -24104.743494467286
   },
   "reforge:necrotic": {
     "confidence": 55,
@@ -1621,12 +1630,12 @@
   },
   "reforge:none": {
     "confidence": 99,
-    "fairPrice": 139.5906805647873,
+    "fairPrice": 139.59068056479137,
     "median": -50103.0,
     "sampleCount": 39,
     "stddev": 185310.4357339932,
     "volumePerWeek": 25,
-    "weightedMean": 139.5906805647873
+    "weightedMean": 139.59068056479137
   },
   "reforge:odd_sword": {
     "confidence": 22,
@@ -1644,7 +1653,7 @@
     "sampleCount": 2,
     "stddev": 138618.5,
     "volumePerWeek": 0,
-    "weightedMean": 163197.30859979359
+    "weightedMean": 163197.30859979356
   },
   "reforge:pitchin": {
     "confidence": 24,
@@ -1662,7 +1671,7 @@
     "sampleCount": 2,
     "stddev": 70007.0,
     "volumePerWeek": 0,
-    "weightedMean": 42615.16344464136
+    "weightedMean": 42615.16344464135
   },
   "reforge:pure": {
     "confidence": 61,
@@ -1671,7 +1680,7 @@
     "sampleCount": 10,
     "stddev": 140931.18774848952,
     "volumePerWeek": 6,
-    "weightedMean": -24347.237555067943
+    "weightedMean": -24347.23755506794
   },
   "reforge:reinforced": {
     "confidence": 22,
@@ -1689,25 +1698,25 @@
     "sampleCount": 2,
     "stddev": 3040272.5,
     "volumePerWeek": 0,
-    "weightedMean": 5863136.884237555
+    "weightedMean": 5863136.884237554
   },
   "reforge:rooted": {
-    "confidence": 76,
+    "confidence": 75,
     "fairPrice": 1253931.6560137141,
     "median": 1244001.0,
     "sampleCount": 37,
     "stddev": 1651799.1445979672,
     "volumePerWeek": 26,
-    "weightedMean": 1476290.6253018484
+    "weightedMean": 1476290.6253018489
   },
   "reforge:royal": {
     "confidence": 90,
-    "fairPrice": 108020.68989001006,
+    "fairPrice": 108020.68989001008,
     "median": -105047.0,
     "sampleCount": 41,
     "stddev": 385981.16919564496,
     "volumePerWeek": 28,
-    "weightedMean": 108020.68989001006
+    "weightedMean": 108020.68989001008
   },
   "reforge:rugged": {
     "confidence": 22,
@@ -1719,13 +1728,13 @@
     "weightedMean": 58551.0
   },
   "reforge:shaded": {
-    "confidence": 65,
+    "confidence": 64,
     "fairPrice": -797443.0297490227,
     "median": -1122890.0,
     "sampleCount": 5,
     "stddev": 865089.1504175971,
     "volumePerWeek": 2,
-    "weightedMean": 178897.88100390922
+    "weightedMean": 178897.88100390907
   },
   "reforge:sharp": {
     "confidence": 9,
@@ -1734,10 +1743,10 @@
     "sampleCount": 4,
     "stddev": 508339.57735719095,
     "volumePerWeek": 3,
-    "weightedMean": 691137.9928148288
+    "weightedMean": 691137.9928148286
   },
   "reforge:smart": {
-    "confidence": 47,
+    "confidence": 46,
     "fairPrice": 72401.0,
     "median": 72401.0,
     "sampleCount": 1,
@@ -1746,13 +1755,13 @@
     "weightedMean": 72401.0
   },
   "reforge:snowy": {
-    "confidence": 79,
+    "confidence": 78,
     "fairPrice": 2185871.0,
     "median": 2185871.0,
     "sampleCount": 22,
     "stddev": 3264550.4184549274,
     "volumePerWeek": 15,
-    "weightedMean": 1624531.199442414
+    "weightedMean": 1624531.1994424139
   },
   "reforge:soft": {
     "confidence": 33,
@@ -1770,16 +1779,16 @@
     "sampleCount": 6,
     "stddev": 619348.7348284128,
     "volumePerWeek": 5,
-    "weightedMean": 512761.94022799534
+    "weightedMean": 512761.9402279954
   },
   "reforge:squeaky": {
-    "confidence": 67,
+    "confidence": 66,
     "fairPrice": 14855.0,
     "median": 14855.0,
     "sampleCount": 16,
     "stddev": 316053.9935034279,
     "volumePerWeek": 8,
-    "weightedMean": 150839.82320747196
+    "weightedMean": 150839.82320747199
   },
   "reforge:stained": {
     "confidence": 22,
@@ -1792,15 +1801,15 @@
   },
   "reforge:strange": {
     "confidence": 66,
-    "fairPrice": -267245.74288928416,
+    "fairPrice": -267245.7428892841,
     "median": -42035.0,
     "sampleCount": 6,
     "stddev": 812922.8333303776,
     "volumePerWeek": 2,
-    "weightedMean": -792737.4762976139
+    "weightedMean": -792737.4762976137
   },
   "reforge:strengthened": {
-    "confidence": 69,
+    "confidence": 68,
     "fairPrice": 324200.0,
     "median": 324200.0,
     "sampleCount": 17,
@@ -1810,12 +1819,12 @@
   },
   "reforge:strong": {
     "confidence": 29,
-    "fairPrice": -4742885.073373396,
+    "fairPrice": -4742885.073373397,
     "median": -4717059.5,
     "sampleCount": 4,
     "stddev": 7338795.247344668,
     "volumePerWeek": 4,
-    "weightedMean": -4846187.366866982
+    "weightedMean": -4846187.366866983
   },
   "reforge:sturdy": {
     "confidence": 22,
@@ -1833,25 +1842,25 @@
     "sampleCount": 3,
     "stddev": 244655.02942487996,
     "volumePerWeek": 0,
-    "weightedMean": 10348392.082282979
+    "weightedMean": 10348392.082282977
   },
   "reforge:sunny": {
     "confidence": 29,
-    "fairPrice": 75396.81502797829,
+    "fairPrice": 75396.81502797827,
     "median": 122571.5,
     "sampleCount": 4,
     "stddev": 308369.0009180357,
     "volumePerWeek": 3,
-    "weightedMean": -113301.92486010864
+    "weightedMean": -113301.92486010867
   },
   "reforge:superior": {
     "confidence": 26,
-    "fairPrice": -111573.03990771812,
+    "fairPrice": -111573.0399077181,
     "median": -114369.0,
     "sampleCount": 3,
     "stddev": 135717.14446925593,
     "volumePerWeek": 0,
-    "weightedMean": -95729.26605145415
+    "weightedMean": -95729.26605145409
   },
   "reforge:thorny": {
     "confidence": 22,
@@ -1863,13 +1872,13 @@
     "weightedMean": 4977704.0
   },
   "reforge:titanic": {
-    "confidence": 14,
+    "confidence": 13,
     "fairPrice": 11393.0,
     "median": 11393.0,
     "sampleCount": 5,
     "stddev": 428501.9806988061,
     "volumePerWeek": 3,
-    "weightedMean": 4791.3397189228635
+    "weightedMean": 4791.339718922864
   },
   "reforge:toil": {
     "confidence": 22,
@@ -1890,13 +1899,13 @@
     "weightedMean": -400000.0
   },
   "reforge:unpleasant": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": 60168.99999999999,
     "median": 60169.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 60168.99999999999
+    "weightedMean": 60169.0
   },
   "reforge:unyielding": {
     "confidence": 4,
@@ -1908,7 +1917,7 @@
     "weightedMean": -20173.087280665422
   },
   "reforge:warped": {
-    "confidence": 38,
+    "confidence": 37,
     "fairPrice": -25874.998831644803,
     "median": -25875.0,
     "sampleCount": 2,
@@ -1926,13 +1935,13 @@
     "weightedMean": 2483801.1112190937
   },
   "reforge:wise": {
-    "confidence": 96,
-    "fairPrice": 7750.07179854851,
+    "confidence": 95,
+    "fairPrice": 7750.07179854853,
     "median": -131096.0,
     "sampleCount": 33,
     "stddev": 369112.10162866884,
     "volumePerWeek": 17,
-    "weightedMean": 7750.07179854851
+    "weightedMean": 7750.07179854853
   },
   "reforge:withered": {
     "confidence": 18,
@@ -1950,19 +1959,19 @@
     "sampleCount": 2,
     "stddev": 2762.5,
     "volumePerWeek": 0,
-    "weightedMean": 51074.57870534054
+    "weightedMean": 51074.578705340544
   },
   "rune:AXE_FADING_BLUE:1": {
-    "confidence": 61,
-    "fairPrice": 290000.0,
-    "median": 290000.0,
-    "sampleCount": 19,
-    "stddev": 234121.2799686654,
-    "volumePerWeek": 19,
-    "weightedMean": 113262.37296117963
+    "confidence": 79,
+    "fairPrice": 215000.0,
+    "median": 215000.0,
+    "sampleCount": 20,
+    "stddev": 241889.00874179878,
+    "volumePerWeek": 20,
+    "weightedMean": 69181.75544649604
   },
   "rune:AXE_FADING_BLUE:2": {
-    "confidence": 51,
+    "confidence": 50,
     "fairPrice": 2549999.500000468,
     "median": 2549999.5,
     "sampleCount": 2,
@@ -1998,13 +2007,13 @@
     "weightedMean": 32811739.08003166
   },
   "rune:BITE:1": {
-    "confidence": 42,
+    "confidence": 41,
     "fairPrice": -416728.6527496462,
     "median": -422500.0,
     "sampleCount": 4,
     "stddev": 75859.6566034938,
     "volumePerWeek": 4,
-    "weightedMean": -393643.263748231
+    "weightedMean": -393643.26374823094
   },
   "rune:BITE:3": {
     "confidence": 35,
@@ -2013,7 +2022,7 @@
     "sampleCount": 2,
     "stddev": 49500.0,
     "volumePerWeek": 2,
-    "weightedMean": -296136.3720605755
+    "weightedMean": -296136.3720605756
   },
   "rune:BLAZING_SUN:3": {
     "confidence": 22,
@@ -2025,13 +2034,13 @@
     "weightedMean": -26868268.0
   },
   "rune:BLOOD_2:1": {
-    "confidence": 55,
-    "fairPrice": -444099.63640654046,
+    "confidence": 54,
+    "fairPrice": -444099.6364065405,
     "median": -444050.0,
     "sampleCount": 4,
     "stddev": 7239.163466002132,
     "volumePerWeek": 3,
-    "weightedMean": -444298.1820327024
+    "weightedMean": -444298.1820327025
   },
   "rune:BLOOD_2:2": {
     "confidence": 22,
@@ -2040,19 +2049,19 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": -430000.0
+    "weightedMean": -430000.00000000006
   },
   "rune:CLOUDS:1": {
     "confidence": 69,
-    "fairPrice": -427083.8710059589,
+    "fairPrice": -427083.8710059588,
     "median": -430000.0,
     "sampleCount": 8,
     "stddev": 17122.308189446157,
     "volumePerWeek": 6,
-    "weightedMean": -422709.6775148971
+    "weightedMean": -422709.677514897
   },
   "rune:CLOUDS:3": {
-    "confidence": 37,
+    "confidence": 36,
     "fairPrice": 754129.2124544339,
     "median": 772100.0,
     "sampleCount": 2,
@@ -2071,15 +2080,15 @@
   },
   "rune:CROWNED:3": {
     "confidence": 22,
-    "fairPrice": -31813267.999999996,
+    "fairPrice": -31813268.0,
     "median": -31813268.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": -31813268.0
+    "weightedMean": -31813268.000000004
   },
   "rune:DARKNESS_WITHIN:1": {
-    "confidence": 73,
+    "confidence": 72,
     "fairPrice": -352680.06396496296,
     "median": -355000.0,
     "sampleCount": 10,
@@ -2097,31 +2106,31 @@
     "weightedMean": -330455.22844157217
   },
   "rune:DRAGON:3": {
-    "confidence": 46,
+    "confidence": 45,
     "fairPrice": 4317107.845632816,
     "median": 4550000.0,
     "sampleCount": 3,
     "stddev": 1312334.6456686351,
     "volumePerWeek": 2,
-    "weightedMean": 2204872.7401403016
+    "weightedMean": 2204872.740140301
   },
   "rune:ENCHANT:1": {
-    "confidence": 41,
+    "confidence": 40,
     "fairPrice": 2776248.6316559706,
     "median": 2550000.0,
     "sampleCount": 7,
     "stddev": 1124489.9070335883,
     "volumePerWeek": 7,
-    "weightedMean": 3547133.6447248138
+    "weightedMean": 3547133.644724814
   },
   "rune:ENCHANT:2": {
     "confidence": 22,
-    "fairPrice": 15800002.468680263,
+    "fairPrice": 15800002.46868026,
     "median": 15799999.5,
     "sampleCount": 2,
     "stddev": 1249999.5,
     "volumePerWeek": 2,
-    "weightedMean": 15800031.73721419
+    "weightedMean": 15800031.737214185
   },
   "rune:ENDERSNAKE:1": {
     "confidence": 52,
@@ -2130,7 +2139,7 @@
     "sampleCount": 4,
     "stddev": 22822.62441498567,
     "volumePerWeek": 2,
-    "weightedMean": -407382.3364358828
+    "weightedMean": -407382.33643588284
   },
   "rune:ENDERSNAKE:3": {
     "confidence": 35,
@@ -2157,10 +2166,10 @@
     "sampleCount": 11,
     "stddev": 68076.11722692632,
     "volumePerWeek": 2,
-    "weightedMean": -223801.07292837772
+    "weightedMean": -223801.07292837775
   },
   "rune:FIRE_SPIRAL:2": {
-    "confidence": 44,
+    "confidence": 43,
     "fairPrice": 550000.0,
     "median": 550000.0,
     "sampleCount": 1,
@@ -2184,7 +2193,7 @@
     "sampleCount": 10,
     "stddev": 1534.6244784962867,
     "volumePerWeek": 9,
-    "weightedMean": -448393.08230170584
+    "weightedMean": -448393.0823017058
   },
   "rune:GEM:3": {
     "confidence": 22,
@@ -2229,7 +2238,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": 26311732.0
+    "weightedMean": 26311731.999999996
   },
   "rune:HEARTS:1": {
     "confidence": 38,
@@ -2238,7 +2247,7 @@
     "sampleCount": 7,
     "stddev": 2372.36665610955,
     "volumePerWeek": 5,
-    "weightedMean": -447792.6633805639
+    "weightedMean": -447792.66338056396
   },
   "rune:HEARTS:3": {
     "confidence": 4,
@@ -2247,7 +2256,7 @@
     "sampleCount": 2,
     "stddev": 25000.0,
     "volumePerWeek": 1,
-    "weightedMean": 49919.16183702193
+    "weightedMean": 49919.16183702194
   },
   "rune:HEARTSPLOSION:3": {
     "confidence": 22,
@@ -2259,22 +2268,22 @@
     "weightedMean": -4688268.0
   },
   "rune:HOT:1": {
-    "confidence": 55,
+    "confidence": 54,
     "fairPrice": -449580.9498526589,
     "median": -449550.0,
     "sampleCount": 6,
     "stddev": 947.5305477338917,
     "volumePerWeek": 4,
-    "weightedMean": -449653.1661755297
+    "weightedMean": -449653.1661755298
   },
   "rune:ICE:1": {
     "confidence": 53,
-    "fairPrice": -447160.60849179345,
+    "fairPrice": -447160.6084917935,
     "median": -447497.0,
     "sampleCount": 4,
     "stddev": 9129.549098942402,
     "volumePerWeek": 2,
-    "weightedMean": -445815.04245896713
+    "weightedMean": -445815.0424589672
   },
   "rune:ICE:3": {
     "confidence": 22,
@@ -2292,7 +2301,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": 249000.00000000003
+    "weightedMean": 249000.0
   },
   "rune:LAVA:1": {
     "confidence": 52,
@@ -2301,16 +2310,16 @@
     "sampleCount": 5,
     "stddev": 232.79226791283256,
     "volumePerWeek": 4,
-    "weightedMean": -449676.94665905595
+    "weightedMean": -449676.946659056
   },
   "rune:LIGHTNING:1": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": -440000.0,
     "median": -440000.0,
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": -440000.0
+    "weightedMean": -440000.00000000006
   },
   "rune:LIGHTNING:3": {
     "confidence": 23,
@@ -2319,7 +2328,7 @@
     "sampleCount": 2,
     "stddev": 50000.0,
     "volumePerWeek": 1,
-    "weightedMean": 1299517.4777624435
+    "weightedMean": 1299517.4777624437
   },
   "rune:MAGIC:1": {
     "confidence": 62,
@@ -2340,13 +2349,13 @@
     "weightedMean": -326666.44861587556
   },
   "rune:MUSIC:1": {
-    "confidence": 86,
-    "fairPrice": 3985410.0858270414,
+    "confidence": 85,
+    "fairPrice": 3985410.085827042,
     "median": 4250000.0,
     "sampleCount": 30,
     "stddev": 1023789.5689961927,
     "volumePerWeek": 15,
-    "weightedMean": 3905839.020107904
+    "weightedMean": 3905839.0201079044
   },
   "rune:MUSIC:2": {
     "confidence": 24,
@@ -2355,7 +2364,7 @@
     "sampleCount": 2,
     "stddev": 400000.0,
     "volumePerWeek": 0,
-    "weightedMean": 18950023.442922212
+    "weightedMean": 18950023.44292221
   },
   "rune:MUSIC:3": {
     "confidence": 25,
@@ -2364,7 +2373,7 @@
     "sampleCount": 3,
     "stddev": 2449944.026571673,
     "volumePerWeek": 3,
-    "weightedMean": 47048820.06123488
+    "weightedMean": 47048820.06123487
   },
   "rune:PEAFOWL:3": {
     "confidence": 24,
@@ -2377,12 +2386,12 @@
   },
   "rune:RAINBOW:1": {
     "confidence": 88,
-    "fairPrice": -396161.390070731,
+    "fairPrice": -396161.39007073094,
     "median": -400001.0,
     "sampleCount": 15,
     "stddev": 26816.41825747801,
     "volumePerWeek": 12,
-    "weightedMean": -394881.520094308
+    "weightedMean": -394881.52009430795
   },
   "rune:RAINBOW:2": {
     "confidence": 47,
@@ -2391,7 +2400,7 @@
     "sampleCount": 2,
     "stddev": 100000.0,
     "volumePerWeek": 2,
-    "weightedMean": -321894.62399834924
+    "weightedMean": -321894.6239983493
   },
   "rune:RAINBOW:3": {
     "confidence": 22,
@@ -2436,37 +2445,37 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": -438889.0
+    "weightedMean": -438888.99999999994
   },
   "rune:SNOW:1": {
-    "confidence": 64,
-    "fairPrice": -448704.636767472,
+    "confidence": 63,
+    "fairPrice": -448704.63676747197,
     "median": -448750.0,
     "sampleCount": 10,
     "stddev": 1268.3731509299619,
     "volumePerWeek": 8,
-    "weightedMean": -448659.273534944
+    "weightedMean": -448659.27353494393
   },
   "rune:SOULTWIST:1": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": -301189.6920391219,
     "median": -275000.5,
     "sampleCount": 6,
     "stddev": 75784.71481861557,
     "volumePerWeek": 2,
-    "weightedMean": -362297.80679707293
+    "weightedMean": -362297.806797073
   },
   "rune:SPARKLING:1": {
-    "confidence": 58,
-    "fairPrice": -443308.287542161,
+    "confidence": 57,
+    "fairPrice": -443308.28754216107,
     "median": -446250.0,
     "sampleCount": 6,
     "stddev": 41273.013783894625,
     "volumePerWeek": 6,
-    "weightedMean": -436444.2918072034
+    "weightedMean": -436444.2918072035
   },
   "rune:SPIRIT:1": {
-    "confidence": 30,
+    "confidence": 29,
     "fairPrice": -435514.82447240426,
     "median": -435000.0,
     "sampleCount": 4,
@@ -2490,7 +2499,7 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": 250000.0
+    "weightedMean": 249999.99999999997
   },
   "rune:SUNNY_SPIRAL:3": {
     "confidence": 24,
@@ -2499,7 +2508,7 @@
     "sampleCount": 2,
     "stddev": 1149999.5,
     "volumePerWeek": 1,
-    "weightedMean": -30610657.670308843
+    "weightedMean": -30610657.67030884
   },
   "rune:TIDAL:1": {
     "confidence": 22,
@@ -2526,19 +2535,19 @@
     "sampleCount": 12,
     "stddev": 171499.45270472683,
     "volumePerWeek": 6,
-    "weightedMean": -49468.83311526585
+    "weightedMean": -49468.833115265836
   },
   "rune:WAKE:3": {
-    "confidence": 26,
+    "confidence": 25,
     "fairPrice": 1799918.6259075839,
     "median": 1844998.5,
     "sampleCount": 2,
     "stddev": 795000.5,
     "volumePerWeek": 1,
-    "weightedMean": 1052879.8475768834
+    "weightedMean": 1052879.8475768836
   },
   "rune:WHITE_SPIRAL:1": {
-    "confidence": 48,
+    "confidence": 47,
     "fairPrice": -449671.290905518,
     "median": -449700.0,
     "sampleCount": 3,
@@ -2548,12 +2557,12 @@
   },
   "rune:WHITE_SPIRAL:3": {
     "confidence": 24,
-    "fairPrice": -273473.18112487125,
+    "fairPrice": -273473.1811248713,
     "median": -265000.0,
     "sampleCount": 2,
     "stddev": 85000.0,
     "volumePerWeek": 0,
-    "weightedMean": -349731.81124871277
+    "weightedMean": -349731.8112487128
   },
   "rune:ZAP:1": {
     "confidence": 74,
@@ -2580,7 +2589,7 @@
     "sampleCount": 3,
     "stddev": 0.0,
     "volumePerWeek": 0,
-    "weightedMean": -420000.0
+    "weightedMean": -420000.00000000006
   },
   "skin:SORROW_PALADIN": {
     "confidence": 22,
@@ -2589,10 +2598,10 @@
     "sampleCount": 1,
     "stddev": 0.0,
     "volumePerWeek": 1,
-    "weightedMean": -1026658.0
+    "weightedMean": -1026658.0000000001
   },
   "skin:YOG_ABLAZE": {
-    "confidence": 24,
+    "confidence": 23,
     "fairPrice": 1590015.0,
     "median": 1590015.0,
     "sampleCount": 1,
